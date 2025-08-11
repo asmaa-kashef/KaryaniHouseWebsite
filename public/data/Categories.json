@@ -1,0 +1,81 @@
+[
+    {
+        "img": "/images/gallery/1.png",
+        "classes": "project-block all mix Repair  col-lg-4 col-md-6 col-sm-12"
+          
+    },
+    {
+        "img": "/images/gallery/2.png",
+        "classes": "project-block all mix  Repair col-lg-8 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/11.webp",
+        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/3.png",
+        "classes": "project-block all mix  Repair col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/12.webp",
+        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/13.webp",
+        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/4.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/4.png",
+        "classes": "project-block all mix Repair  col-lg-4 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/5.png",
+        "classes": "project-block all mix  Repair col-lg-8 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/5.webp",
+        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/6.png",
+        "classes": "project-block all mix  Repair col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/15.webp",
+        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/14.webp",
+        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12",
+        "slug": "shamkha-abu-dhabi-villa-construction"
+    },
+    {
+        "img": "/images/gallery/6.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/1.png",
+        "classes": "project-block all mix Repair  col-lg-4 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/2.png",
+        "classes": "project-block all mix  Repair col-lg-8 col-md-6 col-sm-12"
+    },
+
+    {
+        "img": "/images/gallery/1.webp",
+        "classes": "project-block all mix Cladding  col-lg-4 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/2.webp",
+        "classes": "project-block all mix Cladding  col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/3.webp",
+        "classes": "project-block all mix Cladding  col-lg-4 col-md-6 col-sm-12"
+    }
+]

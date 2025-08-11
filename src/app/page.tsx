@@ -1,0 +1,263 @@
+﻿import React from "react";
+import Header from "./components/HomeHeader";
+import Footer from "./components/HomeFooter";
+import ProjectsComponent from './components/ProjectsComponent';
+import NewsSection from "./components/NewsSection";
+import ProjectsSection from "./components/ProjectsSection";
+
+export default function HomePage() {
+    return (
+        <>
+            <Header />
+            <main>
+                {/* Banner Section */}
+                <section className="banner-section-two">
+                    <div className="banner-carousel owl-carousel owl-theme">
+                        <div className="slide-item" style={{ backgroundImage: "url(/images/main-slider/construction.webp)" }}>
+                            <div className="auto-container">
+                                <div className="content-box">
+                                    <span className="title">Our Specilization</span>
+                                    <h2>Villa Construction <br />Structure Repair<br />Cladding</h2>
+                                    <div className="video-link">
+                                        <a href="https://www.youtube.com/watch?v=Fvae8nxzVz4" data-fancybox="gallery">
+                                            <i className="icon fa fa-play" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="slide-item" style={{ backgroundImage: "url(/images/main-slider/VillaConstruction.webp)" }}>
+                            <div className="auto-container">
+                                <div className="content-box">
+                                    <span className="title">Our Specialization</span>
+                                    <h2>Villa Construction <br />Structure Repair<br />Cladding</h2>
+                                    <div className="video-link">
+                                        <a href="https://www.youtube.com/watch?v=Fvae8nxzVz4" data-fancybox="gallery">
+                                            <i className="icon fa fa-play" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="slide-item" style={{ backgroundImage: "url(/images/main-slider/villa.webp)" }}>
+                            <div className="auto-container">
+                                <div className="content-box">
+                                    <span className="title">Our Specialization</span>
+                                    <h2>Villa Construction <br />Structure Repair<br />Cladding</h2>
+                                    <div className="video-link">
+                                        <a href="https://www.youtube.com/watch?v=Fvae8nxzVz4" data-fancybox="gallery">
+                                            <i className="icon fa fa-play" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Specialize Section */}
+                <section className="specialize-section">
+                    <div className="auto-container">
+                        <div className="sec-title">
+                            <span className="float-text">Specilization</span>
+                            <h2>Our Specilization</h2>
+                        </div>
+
+                        <div className="services-carousel-two owl-carousel owl-theme">
+                            {[
+                                { img: "/images/resource/VillaConstruction.webp", title: "Villa Construction", link: "services.html" },
+                                { img: "/images/resource/StructureRepair.webp", title: "Structure Repair", link: "services.html" },
+                                { img: "/images/resource/cladding.webp", title: "Cladding", link: "Cladding" },
+                                { img: "/images/resource/Alumnum.webp", title: "Alumnium And Glass", link: "services.html" },
+                                { img: "/images/resource/Interiordesign.webp", title: "Interior Design", link: "services.html" },
+                            ].map((service, idx) => (
+                                <div key={idx} className="service-block-two">
+                                    <div className="inner-box">
+                                        <div className="image-box">
+                                            <figure className="image">
+                                                <a href={service.link}>
+                                                    <img src={service.img} alt={service.title} style={{ width: "300px", height: "300px", objectFit: "cover", display: "block" }} />
+                                                </a>
+                                            </figure>
+                                        </div>
+                                        <div className="caption-box">
+                                            <h3><a href={service.link}>{service.title}</a></h3>
+                                            <div className="link-box">
+                                                <a href="service-detail.html">
+                                                    Read More <i className="fa fa-angle-double-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ✅ About Section */}
+                <section className="about-section" style={{ backgroundImage: "url(/images/background/1.jpg)" }}>
+                    <div className="auto-container">
+                        <div className="row no-gutters">
+                            <div className="image-column col-lg-6 col-md-12 col-sm-12">
+                                <div className="inner-column">
+                                    <div className="title-box wow fadeInLeft" data-wow-delay="1200ms">
+                                        <h2>ABOUT <br /> US</h2>
+                                    </div>
+                                    <div className="image-box">
+                                        <figure className="alphabet-img wow fadeInRight">
+                                            <img src="/images/resource/alphabet-image.png" alt="" />
+                                        </figure>
+                                        <figure className="image wow fadeInRight" data-wow-delay="600ms">
+                                            <img src="/images/resource/image-1.webp" alt="" />
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="content-column col-lg-6 col-md-12 col-sm-12">
+                                <div className="inner-column wow fadeInLeft">
+                                    <div className="content-box">
+                                        <div className="title">
+                                            <h2>Any Project <br />For Any Scale</h2>
+                                        </div>
+                                        <div className="text">
+                                            Karyani House has many years of experience and specializes in designing, building, renovating, and maintaining villas, residential buildings, and commercial spaces. We provide expert services in structural repair, cladding, aluminum and glass works, interior finishing, and custom construction solutions across Abu Dhabi and the UAE.
+                                        </div>
+                                        <div className="link-box">
+                                            <a href="about.html" className="theme-btn btn-style-one">About Us</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Fun Fact And Features */}
+                <section className="fun-fact-and-features" style={{ backgroundImage: "url(/images/background/3.jpg)" }}>
+                    <div className="outer-box">
+                        <div className="auto-container">
+                            <div className="fact-counter">
+                                <div className="row">
+                                    {[
+                                        { stop: 14, title: "Years of Experience" },
+                                        { stop: 237, title: "Project Taken" },
+                                        { stop: 237, title: "Twitter Follower" },
+                                        { stop: 12, title: "Awards won" },
+                                    ].map((item, idx) => (
+                                        <div key={idx} className="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay={`${idx * 400}ms`}>
+                                            <div className="count-box">
+                                                <div className="count">
+                                                    <span className="count-text" data-speed="5000" data-stop={item.stop}>0</span>
+                                                </div>
+                                                <h4 className="counter-title">{item.title}</h4>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Features */}
+                            <div className="features">
+                                <div className="row">
+                                    {[
+                                        { icon: "flaticon-decorating", title: "Perfect Design", text: "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart." },
+                                        { icon: "flaticon-plan", title: "Carefully Planned", text: "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart." },
+                                        { icon: "flaticon-sketch-3", title: "Smartly Execute", text: "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart." },
+                                    ].map((feature, idx) => (
+                                        <div key={idx} className="feature-block col-lg-4 col-md-6 col-sm-12">
+                                            <div className="inner-box">
+                                                <div className="icon-box">
+                                                    <span className={`icon ${feature.icon}`}></span>
+                                                </div>
+                                                <h3><a href="service-detail.html">{feature.title}</a></h3>
+                                                <div className="text">{feature.text}</div>
+                                                <div className="link-box"><a href="service-detail.html">Read More</a></div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Projects Section Two */}
+                <ProjectsComponent />
+
+                {/* Offer Section */}
+                <section className="offer-section" style={{ backgroundImage: "url(/images/background/6.jpg)" }}>
+                    <div className="auto-container">
+                        <div className="row">
+                            <div className="content-column col-lg-6 col-md-12 col-sm-12">
+                                <div className="inner-column">
+                                    <span className="title"> Book your free consultation now</span>
+                                    <h2><span>Want to get in touch? </span><br /> Fill out the form </h2>
+                                    <br />
+                                    <div className="text"><h2> and we will call you back </h2></div>
+                                    <br />
+                                    <span className="discount">Soon!</span>
+                                    <span className="title"><h2>+9710506607159</h2></span>
+                                </div>
+                            </div>
+
+                            <div className="form-column order-last col-lg-6 col-md-12 col-sm-12">
+                                <div className="inner-column">
+                                    <div className="discount-form">
+                                        <form method="post" action="#">
+                                            <div className="row">
+                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                    <input type="text" name="username" placeholder="Name" required />
+                                                </div>
+                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                    <input type="email" name="email" placeholder="Email" required />
+                                                </div>
+                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                    <input type="text" name="phone" placeholder="Phone" required />
+                                                </div>
+                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                    <textarea name="message" placeholder="Message"></textarea>
+                                                </div>
+                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group text-center">
+                                                    <button className="theme-btn btn-style-one" type="submit" name="submit-form">send Now</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Projects Section */}
+                <ProjectsSection />
+
+                {/* Clients Section */}
+                <section className="clients-section style-two" style={{ backgroundImage: "url(/images/background/7.jpg)" }}>
+                    <div className="auto-container">
+                        <div className="sponsors-outer">
+                            <ul className="sponsors-carousel owl-carousel owl-theme">
+                                {[1, 2, 3, 4, 5, 6, 7].map((num, idx) => (
+                                    <li key={idx} className="slide-item">
+                                        <figure className="image-box">
+                                            <a href="#">
+                                                <img src={`/images/clients/${num}.webp`} alt={`Client ${num}`} style={{ width: "150px", height: "90px", objectFit: "contain", display: "block", margin: "0 auto" }} />
+                                            </a>
+                                        </figure>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                {/* News Section */}
+                <NewsSection />
+            </main>
+            <Footer />
+        </>
+    );
+}

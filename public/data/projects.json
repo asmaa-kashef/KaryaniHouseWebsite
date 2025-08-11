@@ -1,0 +1,20 @@
+[
+    {
+        "img": "/images/resource/project-3.webp",
+        "title": "RESIDENTIAL",
+        "name": "VILLA CONSTRUCTION",
+        "text": "A luxurious villa built with precision, featuring modern design and high-quality finishes for refined living."
+    },
+    {
+        "img": "/images/resource/project-2.webp",
+        "title": "RESIDENTIAL",
+        "name": "STRUCTURE REPAIR",
+        "text": "Expert structural restoration ensuring long-lasting durability and safety for residential buildings."
+    },
+    {
+        "img": "/images/resource/project-1.webp",
+        "title": "RESIDENTIAL",
+        "name": "CLADDING",
+        "text": "High-performance cladding installation that enhances aesthetic appeal and protects against the elements."
+    }
+]

@@ -1,0 +1,56 @@
+{
+    "villaConstruction": {
+        "title": "Villa Construction",
+        "mainImage": "/images/resource/service-detail.webp",
+        "mainImageAlt": "Villa Construction",
+        "introStrong": "Your Dream Villa Built with Precision and Excellence",
+        "introParagraph": "At Karyani House, we specialize in comprehensive villa construction services in Abu Dhabi. From initial architectural design to the final finishing touches, we turn your vision into reality with expert craftsmanship and quality materials.",
+        "strategyTitle": "Our Strategy",
+        "strategyParagraph": "We follow a well-planned, client-focused strategy combining innovative design, efficient project management, and skilled labor. Every phase is carefully supervised to ensure timely delivery and exceptional quality.",
+        "featuresTitle": "Our Key Features",
+        "featuresList": [
+            "Custom Architectural Design and 3D Visualization",
+            "Foundation and Structural Engineering",
+            "Complete Electrical and Plumbing Installation",
+            "High-quality Interior Finishing and Fit-Out",
+            "Modern Facade Cladding and Exterior Works",
+            "Dedicated Project Management and Supervision"
+        ],
+        "featureImage": "/images/resource/news-2.jpg",
+        "featureImageAlt": "Villa Interior",
+        "quote": "\"Karyani House built our villa with outstanding attention to detail and professionalism. The team made the entire process smooth and stress-free.\"",
+        "quoteAuthor": "Ahmed Al Mansoori, Abu Dhabi",
+        "tabs": {
+            "precautions": "We ensure all construction follows strict safety protocols and adheres to Abu Dhabi building codes and regulations. Regular site inspections and quality checks are conducted throughout the project.",
+            "intelligence": "Our team integrates the latest construction technologies, sustainable materials, and energy-efficient systems to deliver villas that are not only beautiful but also environmentally responsible.",
+            "specializations": "We specialize in villa construction including architectural design, structural engineering, interior finishing, facade cladding, and smart home system integration to meet all your villa building needs."
+        }
+    },
+    "structureRepair": {
+        "title": "Structure Repair",
+        "mainImage": "/images/resource/struct.png",
+        "mainImageAlt": "Structure Repair",
+        "introStrong": "Reliable and Expert Structural Repairs",
+        "introParagraph": "Our structure repair services cover a wide range of solutions to strengthen and restore the integrity of your building. We use modern techniques and materials to ensure safety and durability.",
+        "strategyTitle": "Our Approach",
+        "strategyParagraph": "We carefully assess every structure to diagnose problems and implement tailored repair plans. Our team guarantees minimal disruption and lasting results.",
+        "featuresTitle": "Key Services",
+        "featuresList": [
+            "Crack Repair and Waterproofing",
+            "Concrete Restoration",
+            "Structural Strengthening and Reinforcement",
+            "Corrosion Protection",
+            "Foundation Stabilization",
+            "Professional Inspection and Consultation"
+        ],
+        "featureImage": "/images/resource/repair.png",
+        "featureImageAlt": "Structure Repair Work",
+        "quote": "\"Thanks to Karyani House, our building is safe and stable again. Their team was professional and efficient.\"",
+        "quoteAuthor": "Fatima Al Nahyan, Abu Dhabi",
+        "tabs": {
+            "precautions": "All repair work follows strict safety and quality standards, meeting local regulations and codes.",
+            "intelligence": "We apply advanced repair technologies and sustainable materials for effective and long-lasting repairs.",
+            "specializations": "Our specialization includes crack repair, concrete restoration, corrosion protection, and foundation stabilization."
+        }
+    }
+}
