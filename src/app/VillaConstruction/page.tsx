@@ -1,8 +1,8 @@
 ﻿// app/blog/page.tsx
 import React from "react";
+import Link from "next/link"; // استيراد Link
 import Header from "../components/Header";
 import Footer from "../components/HomeFooter";
-
 
 type Post = {
     id: number;
@@ -18,12 +18,11 @@ type Post = {
     };
 };
 
-// ✅ غيّري الرابط هنا إلى رابط موقع WordPress الخاص بك
 const WORDPRESS_API_URL = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2/posts?_embed";
 
 const getPosts = async (): Promise<Post[]> => {
     const res = await fetch(WORDPRESS_API_URL, {
-        next: { revalidate: 60 }, // تفعيل التخزين المؤقت لمدة 60 ثانية
+        next: { revalidate: 60 },
     });
 
     if (!res.ok) {
@@ -52,7 +51,7 @@ export default async function BlogPage() {
                         </div>
                         <ul className="bread-crumb clearfix">
                             <li>
-                                <a href="/">Home</a>
+                                <Link href="/">Home</Link> {/* استبدال <a> بـ <Link> */}
                             </li>
                             <li>Blog Detail</li>
                         </ul>
@@ -88,16 +87,16 @@ export default async function BlogPage() {
                                                 />
                                             </figure>
                                             <div className="overlay-box">
-                                                <a href={`/blog/${post.slug}`}>
+                                                <Link href={`/blog/${post.slug}`}>
                                                     <i className="fa fa-link"></i>
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
 
                                         <div
                                             className="caption-box"
                                             style={{
-                                                minHeight: "180px",            // Ensures all caption-boxes are equal
+                                                minHeight: "180px",
                                                 display: "flex",
                                                 flexDirection: "column",
                                                 justifyContent: "space-between",
@@ -106,14 +105,14 @@ export default async function BlogPage() {
                                         >
                                             <div className="inner">
                                                 <h3>
-                                                    <a
-                                                        href={`/VillaConstruction/${post.slug}`}
-                                                        dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                                                    />
+                                                    <Link href={`/VillaConstruction/${post.slug}`}>
+                                                        <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                                                    </Link>
                                                 </h3>
                                                 <ul className="info" style={{ marginTop: "10px" }}>
                                                     <li>{new Date(post.date).toLocaleDateString()}</li>
                                                     <li>
+                                                        {/* Author link لو داخلي استخدم Link، لو خارجي اترك <a> */}
                                                         <a href="#">Author #{post.author}</a>
                                                     </li>
                                                     <li>
@@ -130,8 +129,7 @@ export default async function BlogPage() {
                     </div>
                 </div>
             </section>
-            <Footer/>
-            
+            <Footer />
         </>
     );
 }

@@ -1,8 +1,11 @@
-﻿import React from "react";
+﻿'use client';
+
+import React from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
 import parse, { HTMLReactParserOptions } from "html-react-parser";
 import { Element } from "htmlparser2";
+import Link from "next/link";
 
 type Post = {
     id: number;
@@ -128,7 +131,7 @@ export default async function NewsDetail({
                         </div>
                         <ul className="bread-crumb clearfix">
                             <li>
-                                <a href="/">Home</a>
+                                <Link href="/">Home</Link>
                             </li>
                             <li>Blog Detail</li>
                         </ul>
@@ -200,7 +203,6 @@ export default async function NewsDetail({
                                                             ))}
                                                         </ul>
                                                     </nav>
-
                                                 )}
 
                                                 <div className="entry-content">{parsedContent}</div>
@@ -330,14 +332,14 @@ export default async function NewsDetail({
                                         050 660 7159
                                     </p>
 
-                                    <a
+                                    <Link
                                         href="/contact"
                                         className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
                                         style={{ backgroundColor: "#545454" }}
                                     >
                                         <span className="text-yellow-400">⚒️</span> Request a
                                         Consultation
-                                    </a>
+                                    </Link>
                                 </div>
 
                                 {/* Categories */}
@@ -347,19 +349,19 @@ export default async function NewsDetail({
                                     </div>
                                     <ul className="cat-list">
                                         <li>
-                                            <a href="#">Villa Construction</a>
+                                            <Link href="#">Villa Construction</Link>
                                         </li>
                                         <li>
-                                            <a href="#">Structure Repair</a>
+                                            <Link href="#">Structure Repair</Link>
                                         </li>
                                         <li className="active">
-                                            <a href="#">Cladding</a>
+                                            <Link href="#">Cladding</Link>
                                         </li>
                                         <li>
-                                            <a href="#">Interior Works</a>
+                                            <Link href="#">Interior Works</Link>
                                         </li>
                                         <li>
-                                            <a href="#">Alumnium and Glass</a>
+                                            <Link href="#">Alumnium and Glass</Link>
                                         </li>
                                     </ul>
                                 </div>
@@ -413,12 +415,12 @@ export default async function NewsDetail({
                                             return (
                                                 <article className="post" key={recent.id}>
                                                     <div className="post-thumb">
-                                                        <a href={`/VillaConstruction/${recent.slug}`}>
+                                                        <Link href={`/VillaConstruction/${recent.slug}`}>
                                                             <img src={recentImage} alt={recent.title.rendered} />
-                                                        </a>
+                                                        </Link>
                                                     </div>
                                                     <h3>
-                                                        <a
+                                                        <Link
                                                             href={`/VillaConstruction/${recent.slug}`}
                                                             dangerouslySetInnerHTML={{
                                                                 __html: recent.title.rendered,
@@ -459,7 +461,7 @@ export default async function NewsDetail({
                                             "Crane Services",
                                         ].map((tag) => (
                                             <li key={tag}>
-                                                <a
+                                                <Link
                                                     href="#"
                                                     style={{
                                                         color: "black",
@@ -470,7 +472,7 @@ export default async function NewsDetail({
                                                     }}
                                                 >
                                                     {tag}
-                                                </a>
+                                                </Link>
                                             </li>
                                         ))}
                                     </ul>
@@ -480,6 +482,8 @@ export default async function NewsDetail({
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </>
     );
 }

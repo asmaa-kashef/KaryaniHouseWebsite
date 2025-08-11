@@ -11,7 +11,10 @@ export default function Header() {
                     <div className="top-right">
                         <ul className="contact-info">
                             <li><span>PHONE :</span> (+971) 050-660-71593</li>
-                            <li><span>EMAIL :</span> <a href="mailto:info@karyani-house.com">info@karyani-house.com</a></li>
+                            <li>
+                                <span>EMAIL :</span>
+                                <a href="mailto:info@karyani-house.com">info@karyani-house.com</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -20,6 +23,7 @@ export default function Header() {
             <div className="header-lower">
                 <div className="auto-container">
                     <div className="main-box clearfix">
+
                         {/* Logo Box */}
                         <div className="logo-box">
                             <div className="logo">
@@ -50,7 +54,6 @@ export default function Header() {
 
                                 <div className="collapse navbar-collapse clearfix" id="navbarSupportedContent">
                                     <ul className="navigation clearfix">
-
                                         <li>
                                             <Link href="/" legacyBehavior>
                                                 <a>Home</a>
@@ -81,7 +84,7 @@ export default function Header() {
                                         </li>
 
                                         <li className="dropdown">
-                                            {/* For dropdown titles with no real page, استخدمي a عادي */}
+                                            {/* Dropdown title without real page, <a> normal here */}
                                             <a href="#" role="button" aria-haspopup="true" aria-expanded="false">Services</a>
                                             <ul>
                                                 <li>
@@ -151,7 +154,6 @@ export default function Header() {
                                                 <a>Contact</a>
                                             </Link>
                                         </li>
-
                                     </ul>
                                 </div>
                             </nav>

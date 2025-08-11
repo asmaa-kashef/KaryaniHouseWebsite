@@ -1,14 +1,16 @@
+﻿
 'use client'
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import FooterRecentPosts from "./FooterRecentPosts";
 
 const Footer = () => {
     return (
         <footer
             className="main-footer alternate"
-            style={{ backgroundImage: 'url(images/background/5.jpg)' }}
+            style={{ backgroundImage: 'url(/images/background/5.jpg)' }} // أضفت / في بداية الرابط
         >
             <div className="auto-container">
                 {/* Widgets Section */}
@@ -24,11 +26,12 @@ const Footer = () => {
                                             <figure>
                                                 <Link href="/" legacyBehavior>
                                                     <a>
-                                                        <img
+                                                        <Image
                                                             src="/images/logo.png"
                                                             alt="Logo"
                                                             title="Logo"
-                                                            style={{ height: '160px' }}
+                                                            width={160} // بدل ال height حدد width & height 
+                                                            height={160}
                                                         />
                                                     </a>
                                                 </Link>
@@ -54,21 +57,11 @@ const Footer = () => {
                                         <h2 className="widget-title">Useful links</h2>
                                         <div className="widget-content">
                                             <ul className="list">
-                                                <li>
-                                                    <Link href="/about" legacyBehavior><a>About</a></Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/services" legacyBehavior><a>Services</a></Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/projects" legacyBehavior><a>Project</a></Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/news" legacyBehavior><a>News</a></Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/contact" legacyBehavior><a>Contact Us</a></Link>
-                                                </li>
+                                                <li><Link href="/about" legacyBehavior><a>About</a></Link></li>
+                                                <li><Link href="/services" legacyBehavior><a>Services</a></Link></li>
+                                                <li><Link href="/projects" legacyBehavior><a>Project</a></Link></li>
+                                                <li><Link href="/news" legacyBehavior><a>News</a></Link></li>
+                                                <li><Link href="/contact" legacyBehavior><a>Contact Us</a></Link></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -82,13 +75,15 @@ const Footer = () => {
                                                 {[1, 2, 3, 4, 5, 6].map((num) => (
                                                     <figure className="image" key={num}>
                                                         <a
-                                                            href={`images/gallery/${num}.webp`}
+                                                            href={`/images/gallery/${num}.webp`}
                                                             className="lightbox-image"
                                                             title="Image Title Here"
                                                         >
-                                                            <img
-                                                                src={`images/gallery/${num}.webp`}
+                                                            <Image
+                                                                src={`/images/gallery/${num}.webp`}
                                                                 alt={`Gallery Image ${num}`}
+                                                                width={100}  // حدد العرض والارتفاع المناسبين لك
+                                                                height={100}
                                                             />
                                                         </a>
                                                     </figure>
@@ -109,35 +104,19 @@ const Footer = () => {
                     <div className="inner-container clearfix">
                         <div className="social-links">
                             <ul className="social-icon-two">
-                                <li>
-                                    <a href="#" aria-label="Facebook">
-                                        <i className="fa fa-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" aria-label="Twitter">
-                                        <i className="fa fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" aria-label="Google Plus">
-                                        <i className="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" aria-label="Instagram">
-                                        <i className="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" aria-label="Whatsapp">
-                                        <i className="fa fa-whatsapp"></i>
-                                    </a>
-                                </li>
+                                <li><a href="#" aria-label="Facebook"><i className="fa fa-facebook"></i></a></li>
+                                <li><a href="#" aria-label="Twitter"><i className="fa fa-twitter"></i></a></li>
+                                <li><a href="#" aria-label="Google Plus"><i className="fa fa-google-plus"></i></a></li>
+                                <li><a href="#" aria-label="Instagram"><i className="fa fa-instagram"></i></a></li>
+                                <li><a href="#" aria-label="Whatsapp"><i className="fa fa-whatsapp"></i></a></li>
                             </ul>
                         </div>
                         <div className="copyright-text">
-                            <a href="https://karyanihouse.github.io/Catalogue" target="_blank" rel="noopener noreferrer">
+                            <a
+                                href="https://karyanihouse.github.io/Catalogue"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 Karyani House
                             </a>
                         </div>
