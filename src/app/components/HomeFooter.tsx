@@ -1,7 +1,9 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import FooterRecentPosts from "./FooterRecentPosts";
+
 const Footer = () => {
     return (
         <footer
@@ -20,16 +22,16 @@ const Footer = () => {
                                     <div className="footer-widget about-widget">
                                         <div className="footer-logo">
                                             <figure>
-                                                <a href="index.html">
-                                                    <img
-                                                        src="/images/logo.png"
-                                                        alt="Logo"
-                                                        title="Logo"
-                                                        style={{ height: '160px' }}
-                                                    />
-                                                </a>
-                                                
-                                              
+                                                <Link href="/" legacyBehavior>
+                                                    <a>
+                                                        <img
+                                                            src="/images/logo.png"
+                                                            alt="Logo"
+                                                            title="Logo"
+                                                            style={{ height: '160px' }}
+                                                        />
+                                                    </a>
+                                                </Link>
                                             </figure>
                                         </div>
                                         <div className="widget-content">
@@ -40,7 +42,6 @@ const Footer = () => {
                                     </div>
                                 </div>
                                 {/* Recent Posts */}
-                                
                                 <FooterRecentPosts />
                             </div>
                         </div>
@@ -54,19 +55,19 @@ const Footer = () => {
                                         <div className="widget-content">
                                             <ul className="list">
                                                 <li>
-                                                    <a href="about.html">About</a>
+                                                    <Link href="/about" legacyBehavior><a>About</a></Link>
                                                 </li>
                                                 <li>
-                                                    <a href="services.html">Services</a>
+                                                    <Link href="/services" legacyBehavior><a>Services</a></Link>
                                                 </li>
                                                 <li>
-                                                    <a href="/projects">Project</a>
+                                                    <Link href="/projects" legacyBehavior><a>Project</a></Link>
                                                 </li>
                                                 <li>
-                                                    <a href="blog-classic.html">News</a>
+                                                    <Link href="/news" legacyBehavior><a>News</a></Link>
                                                 </li>
                                                 <li>
-                                                    <a href="contact.html">Contact Us</a>
+                                                    <Link href="/contact" legacyBehavior><a>Contact Us</a></Link>
                                                 </li>
                                             </ul>
                                         </div>
@@ -87,7 +88,7 @@ const Footer = () => {
                                                         >
                                                             <img
                                                                 src={`images/gallery/${num}.webp`}
-                                                                alt=""
+                                                                alt={`Gallery Image ${num}`}
                                                             />
                                                         </a>
                                                     </figure>
@@ -109,35 +110,35 @@ const Footer = () => {
                         <div className="social-links">
                             <ul className="social-icon-two">
                                 <li>
-                                    <a href="#">
+                                    <a href="#" aria-label="Facebook">
                                         <i className="fa fa-facebook"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#" aria-label="Twitter">
                                         <i className="fa fa-twitter"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#" aria-label="Google Plus">
                                         <i className="fa fa-google-plus"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#" aria-label="Instagram">
                                         <i className="fa fa-instagram"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#" aria-label="Whatsapp">
                                         <i className="fa fa-whatsapp"></i>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         <div className="copyright-text">
-                            <a href="https://karyanihouse.github.io/Catalogue" target="_blank">
-                               Karyani House
+                            <a href="https://karyanihouse.github.io/Catalogue" target="_blank" rel="noopener noreferrer">
+                                Karyani House
                             </a>
                         </div>
                     </div>
