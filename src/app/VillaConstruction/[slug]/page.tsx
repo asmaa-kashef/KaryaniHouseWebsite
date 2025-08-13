@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
 import parse, { HTMLReactParserOptions } from "html-react-parser";
@@ -30,24 +30,19 @@ type HeadingItem = {
 
 const WORDPRESS_API_BASE = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2";
 
-async function getPostBySlug(slug: string): Promise<Post | null> {
-    const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`, {
-        next: { revalidate: 60 },
-    });
+async function fetchPostBySlug(slug: string): Promise<Post | null> {
+    const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`);
     if (!res.ok) return null;
     const data = await res.json();
     return data[0] || null;
 }
 
-async function getRecentPosts(): Promise<Post[]> {
-    const res = await fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`, {
-        next: { revalidate: 60 },
-    });
+async function fetchRecentPosts(): Promise<Post[]> {
+    const res = await fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`);
     if (!res.ok) return [];
     return await res.json();
 }
 
-// Recursively extract text from htmlparser2 children
 function getTextFromChildren(children: Element["children"]): string {
     return children
         .map((child) => {
@@ -70,7 +65,6 @@ function extractHeadings(html: string): HeadingItem[] {
             if (domNode.type === "tag" && /^h[1-6]$/.test(domNode.name)) {
                 const element = domNode as Element;
                 const level = parseInt(domNode.name.slice(1), 10);
-
                 const text = getTextFromChildren(element.children);
 
                 const id = text
@@ -92,16 +86,29 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
-export default async function NewsDetail({
-    params,
-}: {
-    params: Promise<{ slug: string }>;
-}) {
-    const { slug } = await params;
+export default function NewsDetail({ params }: { params: { slug: string } }) {
+    const [post, setPost] = useState<Post | null>(null);
+    const [recentPosts, setRecentPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const post = await getPostBySlug(slug);
-    const recentPosts = await getRecentPosts();
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const postData = await fetchPostBySlug(params.slug);
+                setPost(postData);
 
+                const recentData = await fetchRecentPosts();
+                setRecentPosts(recentData);
+            } catch (error) {
+                console.error("Error fetching posts:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, [params.slug]);
+
+    if (loading) return <p>Loading...</p>;
     if (!post) return <p>Post not found</p>;
 
     const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
@@ -173,7 +180,6 @@ export default async function NewsDetail({
                                                     <li>{category}</li>
                                                 </ul>
 
-                                                {/* Table of Contents */}
                                                 {headings.length > 0 && (
                                                     <nav
                                                         className="toc"
@@ -218,13 +224,7 @@ export default async function NewsDetail({
                                 <div className="sidebar-widget search-box">
                                     <form method="post" action="#">
                                         <div className="form-group">
-                                            <input
-                                                type="search"
-                                                name="search-field"
-                                                defaultValue=""
-                                                placeholder="Search....."
-                                                required
-                                            />
+                                            <input type="search" name="search-field" defaultValue="" placeholder="Search....." required />
                                             <button type="submit">
                                                 <span className="icon fa fa-search"></span>
                                             </button>
@@ -242,10 +242,7 @@ export default async function NewsDetail({
                                         marginBottom: "55px",
                                     }}
                                 >
-                                    <h3
-                                        className="text-lg md:text-xl font-bold mb-2 leading-snug"
-                                        style={{ color: "black" }}
-                                    >
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>Schedule a Site Visit</strong>
                                     </h3>
 
@@ -294,10 +291,7 @@ export default async function NewsDetail({
                                         marginBottom: "55px",
                                     }}
                                 >
-                                    <h3
-                                        className="text-lg md:text-xl font-bold mb-2 leading-snug"
-                                        style={{ color: "black" }}
-                                    >
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>
                                             Do You Need the Best <br /> Construction Company in Abu Dhabi?
                                         </strong>
@@ -310,10 +304,7 @@ export default async function NewsDetail({
                                         From villa construction to finishing works – your place is with us.
                                     </p>
 
-                                    <p
-                                        className="text-sm text-gray-800 font-medium mb-4 flex items-center justify-center gap-1"
-                                        style={{ color: "black" }}
-                                    >
+                                    <p className="text-sm text-gray-800 font-medium mb-4 flex items-center justify-center gap-1" style={{ color: "black" }}>
                                         <span className="text-pink-600 text-lg">📞</span> Call us today: 050 660 7159
                                     </p>
 
@@ -332,21 +323,11 @@ export default async function NewsDetail({
                                         <h3>Our Company Service</h3>
                                     </div>
                                     <ul className="cat-list">
-                                        <li>
-                                            <Link href="#">Villa Construction</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">Structure Repair</Link>
-                                        </li>
-                                        <li className="active">
-                                            <Link href="#">Cladding</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">Interior Works</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">Alumnium and Glass</Link>
-                                        </li>
+                                        <li><Link href="#">Villa Construction</Link></li>
+                                        <li><Link href="#">Structure Repair</Link></li>
+                                        <li className="active"><Link href="#">Cladding</Link></li>
+                                        <li><Link href="#">Interior Works</Link></li>
+                                        <li><Link href="#">Alumnium and Glass</Link></li>
                                     </ul>
                                 </div>
 
@@ -360,10 +341,7 @@ export default async function NewsDetail({
                                         marginBottom: "55px",
                                     }}
                                 >
-                                    <h3
-                                        className="text-lg md:text-xl font-bold mb-2 leading-snug"
-                                        style={{ color: "black" }}
-                                    >
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>Get a Free Quote</strong>
                                     </h3>
                                     <a
@@ -390,8 +368,7 @@ export default async function NewsDetail({
                                     <div className="widget-content">
                                         {recentPosts.length === 0 && <p>No recent posts found.</p>}
                                         {recentPosts.map((recent) => {
-                                            const recentImage =
-                                                recent._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-news.jpg";
+                                            const recentImage = recent._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-news.jpg";
                                             const recentAuthor = recent._embedded?.author?.[0]?.name || "Unknown author";
                                             return (
                                                 <article className="post" key={recent.id}>
@@ -433,14 +410,7 @@ export default async function NewsDetail({
                                         <h3>Our Construction Services</h3>
                                     </div>
                                     <ul className="tag-list clearfix" style={{ color: "black" }}>
-                                        {[
-                                            "Landing Mining",
-                                            "Building Staff",
-                                            "Material Supply",
-                                            "Consultancy",
-                                            "Architecture",
-                                            "Crane Services",
-                                        ].map((tag) => (
+                                        {["Landing Mining", "Building Staff", "Material Supply", "Consultancy", "Architecture", "Crane Services"].map(tag => (
                                             <li key={tag}>
                                                 <Link
                                                     href="#"
