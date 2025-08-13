@@ -1,5 +1,7 @@
 ﻿"use client";
+
 import React from "react";
+import Link from "next/link";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -7,25 +9,19 @@ import Header from "../components/HomeHeader";
 import Footer from "../components/HomeFooter";
 import ClientsAndVideoSection from "../components/ClientsAndVideoSection";
 
-const PrevArrow = (props) => {
-    const { onClick } = props;
-    return (
-        <div className="slick-prev custom-arrow" onClick={onClick}>
-            ‹
-        </div>
-    );
-};
+const PrevArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
+    <div className="slick-prev custom-arrow" onClick={onClick}>
+        ‹
+    </div>
+);
 
-const NextArrow = (props) => {
-    const { onClick } = props;
-    return (
-        <div className="slick-next custom-arrow" onClick={onClick}>
-            ›
-        </div>
-    );
-};
+const NextArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
+    <div className="slick-next custom-arrow" onClick={onClick}>
+        ›
+    </div>
+);
 
-export default function HomePage() {
+export default function AboutPage() {
     const testimonialData = [
         {
             name: "Elena Gomes",
@@ -80,10 +76,44 @@ export default function HomePage() {
         },
     ];
 
+    const faqData = [
+        {
+            question: "Do you do the design and the execution yourselves?",
+            answer:
+                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+            active: false,
+        },
+        {
+            question: "Do you give Contra and After sales service?",
+            answer:
+                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+            active: true,
+        },
+        {
+            question: "Will you be able to give a quote, if given the floor plan?",
+            answer:
+                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+            active: false,
+        },
+        {
+            question: "At what stage an interior designing work could be started?",
+            answer:
+                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+            active: false,
+        },
+        {
+            question: "Do you charge for giving a Proposal?",
+            answer:
+                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+            active: false,
+        },
+    ];
+
     return (
-        <>
+    <>
             <Header />
             <main>
+                {/* Page Title */}
                 <section
                     className="page-title"
                     style={{ backgroundImage: "url(/images/background/10.webp)" }}
@@ -96,7 +126,7 @@ export default function HomePage() {
                             </div>
                             <ul className="bread-crumb clearfix">
                                 <li>
-                                    <a href="/">Home</a>
+                                    <Link href="/">Home</Link>
                                 </li>
                                 <li>About us</li>
                             </ul>
@@ -104,6 +134,7 @@ export default function HomePage() {
                     </div>
                 </section>
 
+                {/* About Section */}
                 <section
                     className="about-section"
                     style={{ backgroundImage: "url(/images/background/1.jpg)" }}
@@ -112,7 +143,10 @@ export default function HomePage() {
                         <div className="row no-gutters">
                             <div className="image-column col-lg-6 col-md-12 col-sm-12">
                                 <div className="inner-column">
-                                    <div className="title-box wow fadeInLeft" data-wow-delay="1200ms">
+                                    <div
+                                        className="title-box wow fadeInLeft"
+                                        data-wow-delay="1200ms"
+                                    >
                                         <h2>
                                             ABOUT <br />
                                             US
@@ -120,17 +154,21 @@ export default function HomePage() {
                                     </div>
                                     <div className="image-box">
                                         <figure className="alphabet-img wow fadeInRight">
-                                            <img src="/images/resource/alphabet-image.png" alt="" />
+                                            <img
+                                                src="/images/resource/alphabet-image.png"
+                                                alt="Alphabet"
+                                            />
                                         </figure>
                                         <figure
                                             className="image wow fadeInRight"
                                             data-wow-delay="600ms"
                                         >
-                                            <img src="/images/resource/image-2.png" alt="" />
+                                            <img src="/images/resource/image-2.png" alt="About Image" />
                                         </figure>
                                     </div>
                                 </div>
                             </div>
+
                             <div className="content-column col-lg-6 col-md-12 col-sm-12">
                                 <div className="inner-column wow fadeInLeft">
                                     <div className="content-box">
@@ -145,13 +183,13 @@ export default function HomePage() {
                                             in designing, building, renovating, and maintaining villas,
                                             residential buildings, and commercial spaces. We provide
                                             expert services in structural repair, cladding, aluminum
-                                            and glass works, interior finishing, and custom
-                                            construction solutions across Abu Dhabi and the UAE.
+                                            and glass works, interior finishing, and custom construction
+                                            solutions across Abu Dhabi and the UAE.
                                         </div>
                                         <div className="link-box">
-                                            <a href="about.html" className="theme-btn btn-style-one">
+                                            <Link href="/about" className="theme-btn btn-style-one">
                                                 About Us
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -160,6 +198,7 @@ export default function HomePage() {
                     </div>
                 </section>
 
+                {/* Process Section */}
                 <section
                     className="process-section"
                     style={{ backgroundImage: "url(/images/background/8.jpg)" }}
@@ -171,15 +210,18 @@ export default function HomePage() {
                         </div>
                         <div className="row">
                             {processSteps.map((step, idx) => (
-                                <div key={idx} className="process-block col-lg-3 col-md-6 col-sm-12">
+                                <div
+                                    key={idx}
+                                    className="process-block col-lg-3 col-md-6 col-sm-12"
+                                >
                                     <div className="inner-box">
                                         <span className="count">{`0${idx + 1}`}</span>
                                         <h4>
-                                            <a href="service-detail.html">{step.title}</a>
+                                            <Link href="/service-detail">{step.title}</Link>
                                         </h4>
                                         <div className="text">{step.desc}</div>
                                         <div className="link-box">
-                                            <a href="service-detail.html">Read More</a>
+                                            <Link href="/service-detail">Read More</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -188,6 +230,7 @@ export default function HomePage() {
                     </div>
                 </section>
 
+                {/* Testimonial Section */}
                 <section className="testimonial-section-two">
                     <div className="auto-container">
                         <div className="sec-title">
@@ -213,23 +256,23 @@ export default function HomePage() {
                     </div>
                 </section>
 
+                {/* Clients & Video Section */}
                 <ClientsAndVideoSection />
 
+                {/* FAQ Section */}
                 <section className="faq-section">
                     <div className="auto-container">
                         <div className="row">
-                            {/* Image Column */}
                             <div className="image-column col-lg-6 col-md-12 col-sm-12">
                                 <div className="inner-column">
                                     <div className="image-box">
                                         <figure className="image">
-                                            <img src="images/resource/faq-img.png" alt="FAQ Image" />
+                                            <img src="/images/resource/faq-img.png" alt="FAQ Image" />
                                         </figure>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Accordion Column */}
                             <div className="accordion-column col-lg-6 col-md-12 col-sm-12">
                                 <div className="inner-column">
                                     <div className="sec-title">
@@ -237,38 +280,7 @@ export default function HomePage() {
                                         <h2>Frequently Asked Questions</h2>
                                     </div>
                                     <ul className="accordion-box">
-                                        {[
-                                            {
-                                                question: "Do you do the design and the execution yourselves?",
-                                                answer:
-                                                    "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-                                                active: false,
-                                            },
-                                            {
-                                                question: "Do you give Contra and After sales service?",
-                                                answer:
-                                                    "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-                                                active: true,
-                                            },
-                                            {
-                                                question: "Will you be able to give a quote, if given the floor plan?",
-                                                answer:
-                                                    "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-                                                active: false,
-                                            },
-                                            {
-                                                question: "At what stage an interior designing work could be started?",
-                                                answer:
-                                                    "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-                                                active: false,
-                                            },
-                                            {
-                                                question: "Do you charge for giving a Proposal?",
-                                                answer:
-                                                    "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-                                                active: false,
-                                            },
-                                        ].map(({ question, answer, active }, idx) => (
+                                        {faqData.map(({ question, answer, active }, idx) => (
                                             <li
                                                 key={idx}
                                                 className={`accordion block${active ? " active-block" : ""}`}
@@ -296,7 +308,6 @@ export default function HomePage() {
                     <div className="outer-box">
                         <div className="auto-container">
                             <div className="row">
-                                {/* Title Column */}
                                 <div className="title-column col-lg-4 col-md-12 col-sm-12">
                                     <div className="inner-column">
                                         <h1>
@@ -306,7 +317,6 @@ export default function HomePage() {
                                     </div>
                                 </div>
 
-                                {/* Image Column */}
                                 <div className="image-column col-lg-4 col-md-12 col-sm-12">
                                     <div className="inner-column">
                                         <div className="image-box wow zoomInLeft">
@@ -317,7 +327,6 @@ export default function HomePage() {
                                     </div>
                                 </div>
 
-                                {/* Content Column */}
                                 <div className="content-column col-lg-4 col-md-12 col-sm-12">
                                     <div className="inner-column">
                                         <h3>Karyani House <br /> delivers expert construction</h3>
@@ -336,7 +345,6 @@ export default function HomePage() {
                 <section className="specialize-section-two">
                     <div className="auto-container">
                         <div className="row">
-                            {/* Title Column */}
                             <div className="title-column col-xl-5 col-lg-12 col-md-12 col-sm-12">
                                 <div className="inner-column">
                                     <div className="sec-title">
@@ -360,60 +368,43 @@ export default function HomePage() {
                                         </p>
                                     </div>
                                     <div className="link-box">
-                                        <a href="#">
+                                        <Link href="#">
                                             Read More <i className="fa fa-angle-double-right"></i>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Carousel Column */}
                             <div className="carousel-column col-xl-7 col-lg-12 col-md-12 col-sm-12">
                                 <div className="inner-column">
                                     <div className="carousel-outer">
                                         <ul className="image-carousel owl-carousel owl-theme">
                                             <li>
-                                                <a
-                                                    href="images/resource/ENGG12.png"
-                                                    className="lightbox-image"
-                                                    title="Image Caption Here"
-                                                >
-                                                    <img src="images/resource/ENGG12.png" alt="" />
-                                                </a>
+                                                <Link href="/images/resource/ENGG12.png" className="lightbox-image" title="Image Caption Here">
+                                                    <img src="/images/resource/ENGG12.png" alt="" />
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="images/resource/Eng1.png"
-                                                    className="lightbox-image"
-                                                    title="Image Caption Here"
-                                                >
-                                                    <img src="images/resource/Eng1.png" alt="" />
-                                                </a>
+                                                <Link href="/images/resource/Eng1.png" className="lightbox-image" title="Image Caption Here">
+                                                    <img src="/images/resource/Eng1.png" alt="" />
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="images/resource/special-4.jpg"
-                                                    className="lightbox-image"
-                                                    title="Image Caption Here"
-                                                >
-                                                    <img src="images/resource/special-4.jpg" alt="" />
-                                                </a>
+                                                <Link href="/images/resource/special-4.jpg" className="lightbox-image" title="Image Caption Here">
+                                                    <img src="/images/resource/special-4.jpg" alt="" />
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a
-                                                    href="images/resource/ENGG122.png"
-                                                    className="lightbox-image"
-                                                    title="Image Caption Here"
-                                                >
-                                                    <img src="images/resource/ENGG12.png" alt="" />
-                                                </a>
+                                                <Link href="/images/resource/ENGG122.png" className="lightbox-image" title="Image Caption Here">
+                                                    <img src="/images/resource/ENGG12.png" alt="" />
+                                                </Link>
                                             </li>
                                         </ul>
 
                                         <ul className="thumbs-carousel owl-carousel owl-theme">
                                             <li className="thumb-box">
                                                 <figure>
-                                                    <img src="images/resource/Eng12.png" alt="" />
+                                                    <img src="/images/resource/Eng12.png" alt="" />
                                                 </figure>
                                                 <div className="overlay">
                                                     <span className="icon fa fa-arrows-alt"></span>
@@ -421,7 +412,7 @@ export default function HomePage() {
                                             </li>
                                             <li className="thumb-box">
                                                 <figure>
-                                                    <img src="images/resource/ENG.png" alt="" />
+                                                    <img src="/images/resource/ENG.png" alt="" />
                                                 </figure>
                                                 <div className="overlay">
                                                     <span className="icon fa fa-arrows-alt"></span>
@@ -429,7 +420,7 @@ export default function HomePage() {
                                             </li>
                                             <li className="thumb-box">
                                                 <figure>
-                                                    <img src="images/resource/Eng12.png" alt="" />
+                                                    <img src="/images/resource/Eng12.png" alt="" />
                                                 </figure>
                                                 <div className="overlay">
                                                     <span className="icon fa fa-arrows-alt"></span>
@@ -447,3 +438,4 @@ export default function HomePage() {
         </>
     );
 }
+

@@ -8,7 +8,7 @@ import Footer from "../components/HomeFooter";
 
 interface Project {
     img: string;
-    classes: string; // kept for filtering
+    classes: string;
     slug: string;
 }
 
@@ -247,8 +247,8 @@ export default function ProjectsPage() {
 
             {/* Extra style for overlay hover */}
             <style>{`
-                a:hover .overlay,
-                a:focus .overlay {
+                [role="link"]:hover .overlay,
+                [role="link"]:focus .overlay {
                   opacity: 1;
                 }
             `}</style>

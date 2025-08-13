@@ -1,16 +1,36 @@
 ﻿'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ReactElement } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
-import ImageGallery from "react-image-gallery";
+import ImageGallery, { GalleryItem } from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
+// TypeScript type for project data
+interface Project {
+    title: string;
+    images?: string[];
+    architectImages?: string[];
+    villaDescription: string;
+    zone: string;
+    location: string;
+    mapEmbedUrl?: string;
+    projectName: string;
+    permitNumber?: string;
+    firstIssueDate?: string;
+    sector?: string;
+    plotNumber?: string;
+    landUse?: string;
+    plotArea?: string;
+    designerAndSupervisor?: string;
+    contractor?: string;
+}
+
 export default function ProjectDetail() {
-    const [project, setProject] = useState<any>(null);
+    const [project, setProject] = useState<Project | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -20,8 +40,8 @@ export default function ProjectDetail() {
                 if (!res.ok) throw new Error("Network response was not ok");
                 return res.json();
             })
-            .then((data) => {
-                setProject(data[0]); // Adjust if selecting by slug
+            .then((data: Project[]) => {
+                setProject(data[0]); // Replace with slug-based selection if needed
                 setLoading(false);
             })
             .catch(() => {
@@ -30,32 +50,22 @@ export default function ProjectDetail() {
             });
     }, []);
 
-    if (error) {
+    if (error)
         return <p style={{ textAlign: "center", color: "red", marginTop: 30 }}>{error}</p>;
-    }
-
-    if (loading) {
+    if (loading)
         return (
             <p style={{ textAlign: "center", fontWeight: "bold", fontSize: 18, marginTop: 30 }}>
                 Loading project...
             </p>
         );
-    }
 
-    const mainImages = (project.images || []).map((img: string) => ({
-        original: img,
-        thumbnail: img,
-    }));
+    const mainImages = (project?.images || []).map((img) => ({ original: img, thumbnail: img }));
+    const architectImages = (project?.architectImages || []).map((img) => ({ original: img, thumbnail: img }));
 
-    const architectImages = (project.architectImages || []).map((img: string) => ({
-        original: img,
-        thumbnail: img,
-    }));
-
-    const renderImageItem = (item: any) => (
+    const renderImageItem = (item: GalleryItem): ReactElement => (
         <Image
             src={item.original}
-            alt={item.originalAlt || project.title || "Project Image"}
+            alt={item.originalAlt || project?.title || "Project Image"}
             width={800}
             height={500}
             style={{
@@ -71,7 +81,8 @@ export default function ProjectDetail() {
     return (
         <>
             <Head>
-                <title>{project.title} | Karyani House</title>
+                <title>{project?.title} | Karyani House</title>
+                <meta name="description" content={project?.villaDescription} />
             </Head>
 
             <Header />
@@ -116,10 +127,7 @@ export default function ProjectDetail() {
                         />
                     </div>
 
-                    <div
-                        className="lower-content"
-                        style={{ display: "flex", gap: 40, flexWrap: "wrap" }}
-                    >
+                    <div className="lower-content" style={{ display: "flex", gap: 40, flexWrap: "wrap" }}>
                         {/* Left Content */}
                         <div
                             className="content-column"
@@ -133,7 +141,7 @@ export default function ProjectDetail() {
                             }}
                         >
                             <h2 style={{ marginBottom: 20 }}>Project Description</h2>
-                            <p style={{ lineHeight: 1.6 }}>{project.villaDescription}</p>
+                            <p style={{ lineHeight: 1.6 }}>{project?.villaDescription}</p>
 
                             <h4 style={{ marginTop: 30 }}>Project Challenge</h4>
                             <p>
@@ -141,10 +149,7 @@ export default function ProjectDetail() {
                                 deadlines, and implementing smart systems integration.
                             </p>
 
-                            <ul
-                                className="list-style-one"
-                                style={{ marginTop: 15, paddingLeft: 20 }}
-                            >
+                            <ul style={{ marginTop: 15, paddingLeft: 20 }}>
                                 <li>Full construction from foundation to finish</li>
                                 <li>Installation of smart systems</li>
                                 <li>Advanced aluminum and ceramic work</li>
@@ -197,62 +202,52 @@ export default function ProjectDetail() {
                             <p style={{ marginBottom: 15, color: "#555" }}>
                                 Details of the construction project handled by Karyani House.
                             </p>
-                            <ul
-                                style={{
-                                    listStyle: "none",
-                                    padding: 0,
-                                    color: "#333",
-                                    lineHeight: 1.7,
-                                }}
-                            >
+                            <ul style={{ listStyle: "none", padding: 0, color: "#333", lineHeight: 1.7 }}>
                                 <li>
-                                    <strong>Zone:</strong> {project.zone}
+                                    <strong>Zone:</strong> {project?.zone}
                                 </li>
                                 <li>
                                     <strong>Location:</strong>{" "}
-                                    {project.mapEmbedUrl ? (
+                                    {project?.mapEmbedUrl ? (
                                         <a
                                             href={project.mapEmbedUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            style={{
-                                                color: "#0077cc",
-                                                textDecoration: "underline",
-                                            }}
+                                            style={{ color: "#0077cc", textDecoration: "underline" }}
                                         >
                                             {project.location}
                                         </a>
                                     ) : (
-                                        project.location
+                                        project?.location
                                     )}
                                 </li>
                                 <li>
-                                    <strong>Project Name:</strong> {project.projectName}
+                                    <strong>Project Name:</strong> {project?.projectName}
                                 </li>
                                 <li>
-                                    <strong>Permit Number:</strong> {project.permitNumber}
+                                    <strong>Permit Number:</strong> {project?.permitNumber}
                                 </li>
                                 <li>
-                                    <strong>First Issue Date:</strong> {project.firstIssueDate}
+                                    <strong>First Issue Date:</strong> {project?.firstIssueDate}
                                 </li>
                                 <li>
-                                    <strong>Sector:</strong> {project.sector}
+                                    <strong>Sector:</strong> {project?.sector}
                                 </li>
                                 <li>
-                                    <strong>Plot Number:</strong> {project.plotNumber}
+                                    <strong>Plot Number:</strong> {project?.plotNumber}
                                 </li>
                                 <li>
-                                    <strong>Land Use:</strong> {project.landUse}
+                                    <strong>Land Use:</strong> {project?.landUse}
                                 </li>
                                 <li>
-                                    <strong>Plot Area (m²):</strong> {project.plotArea}
+                                    <strong>Plot Area (m²):</strong> {project?.plotArea}
                                 </li>
                                 <li>
                                     <strong>Designer and Supervisor:</strong>{" "}
-                                    {project.designerAndSupervisor}
+                                    {project?.designerAndSupervisor}
                                 </li>
                                 <li>
-                                    <strong>Contractor:</strong> {project.contractor}
+                                    <strong>Contractor:</strong> {project?.contractor}
                                 </li>
                             </ul>
 
@@ -267,14 +262,7 @@ export default function ProjectDetail() {
                                     textAlign: "center",
                                 }}
                             >
-                                <span
-                                    style={{
-                                        fontWeight: "700",
-                                        fontSize: 18,
-                                        display: "block",
-                                        marginBottom: 10,
-                                    }}
-                                >
+                                <span style={{ fontWeight: "700", fontSize: 18, display: "block", marginBottom: 10 }}>
                                     Quick Contact
                                 </span>
                                 <h2 style={{ marginBottom: 10 }}>Get Solution</h2>
@@ -293,12 +281,8 @@ export default function ProjectDetail() {
                                         textDecoration: "none",
                                         transition: "background-color 0.3s ease",
                                     }}
-                                    onMouseEnter={(e) =>
-                                        (e.currentTarget.style.backgroundColor = "#0056b3")
-                                    }
-                                    onMouseLeave={(e) =>
-                                        (e.currentTarget.style.backgroundColor = "#007bff")
-                                    }
+                                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#0056b3")}
+                                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#007bff")}
                                 >
                                     Contact
                                 </Link>
