@@ -1,6 +1,6 @@
-﻿// app/blog/page.tsx
-import React from "react";
-import Link from "next/link"; // استيراد Link
+﻿import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 import Header from "../components/Header";
 import Footer from "../components/HomeFooter";
 
@@ -18,18 +18,16 @@ type Post = {
     };
 };
 
-const WORDPRESS_API_URL = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2/posts?_embed";
+const WORDPRESS_API_URL =
+    "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2/posts?_embed";
 
+// تعريف الدالة هنا
 const getPosts = async (): Promise<Post[]> => {
-    const res = await fetch(WORDPRESS_API_URL, {
-        next: { revalidate: 60 },
-    });
-
+    const res = await fetch(WORDPRESS_API_URL, { next: { revalidate: 60 } });
     if (!res.ok) {
         throw new Error("Failed to fetch posts");
     }
-
-    return await res.json();
+    return res.json();
 };
 
 export default async function BlogPage() {
@@ -38,7 +36,6 @@ export default async function BlogPage() {
     return (
         <>
             <Header />
-            {/* Page Title */}
             <section
                 className="page-title"
                 style={{ backgroundImage: "url(/images/background/construction.webp)" }}
@@ -51,7 +48,7 @@ export default async function BlogPage() {
                         </div>
                         <ul className="bread-crumb clearfix">
                             <li>
-                                <Link href="/">Home</Link> {/* استبدال <a> بـ <Link> */}
+                                <Link href="/">Home</Link>
                             </li>
                             <li>Blog Detail</li>
                         </ul>
@@ -59,7 +56,6 @@ export default async function BlogPage() {
                 </div>
             </section>
 
-            {/* Blog Posts Section */}
             <section className="blog-section">
                 <div className="auto-container">
                     <div className="row">
@@ -69,30 +65,34 @@ export default async function BlogPage() {
                                 "/images/default-news.jpg";
 
                             return (
-                                <div key={post.id} className="news-block-two col-lg-6 col-md-12 col-sm-12">
+                                <div
+                                    key={post.id}
+                                    className="news-block-two col-lg-6 col-md-12 col-sm-12"
+                                >
                                     <div className="inner-box">
-
-                                        <div className="image-box">
-                                            <figure className="image">
-                                                <img
-                                                    src={featuredImage}
-                                                    alt={post.title.rendered}
-                                                    style={{
-                                                        width: "100%",
-                                                        height: "300px",
-                                                        objectFit: "cover",
-                                                        display: "block",
-                                                        borderRadius: "8px"
-                                                    }}
-                                                />
-                                            </figure>
-                                            <div className="overlay-box">
-                                                <Link href={`/blog/${post.slug}`}>
-                                                    <i className="fa fa-link"></i>
-                                                </Link>
-                                            </div>
+                                        <div
+                                            className="image-box"
+                                            style={{
+                                                position: "relative",
+                                                width: "100%",
+                                                height: "300px",
+                                                borderRadius: "8px",
+                                                overflow: "hidden",
+                                            }}
+                                        >
+                                            <Image
+                                                src={featuredImage}
+                                                alt={post.title.rendered}
+                                                fill
+                                                style={{ objectFit: "cover" }}
+                                                sizes="(max-width: 768px) 100vw, 600px"
+                                            />
                                         </div>
-
+                                        <div className="overlay-box">
+                                            <Link href={`/blog/${post.slug}`}>
+                                                <i className="fa fa-link"></i>
+                                            </Link>
+                                        </div>
                                         <div
                                             className="caption-box"
                                             style={{
@@ -100,19 +100,20 @@ export default async function BlogPage() {
                                                 display: "flex",
                                                 flexDirection: "column",
                                                 justifyContent: "space-between",
-                                                padding: "15px"
+                                                padding: "15px",
                                             }}
                                         >
                                             <div className="inner">
                                                 <h3>
                                                     <Link href={`/VillaConstruction/${post.slug}`}>
-                                                        <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                                                        <span
+                                                            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                                                        />
                                                     </Link>
                                                 </h3>
                                                 <ul className="info" style={{ marginTop: "10px" }}>
                                                     <li>{new Date(post.date).toLocaleDateString()}</li>
                                                     <li>
-                                                        {/* Author link لو داخلي استخدم Link، لو خارجي اترك <a> */}
                                                         <a href="#">Author #{post.author}</a>
                                                     </li>
                                                     <li>
@@ -121,7 +122,6 @@ export default async function BlogPage() {
                                                 </ul>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             );

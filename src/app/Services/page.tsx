@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/HomeFooter";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
+import Image from "next/image";
 
 type ServiceData = {
     title: string;
@@ -51,7 +52,6 @@ export default function ServicesPage() {
             });
     }, []);
 
-    // Redirect if invalid service after data loads
     useEffect(() => {
         if (servicesData && !(selectedService in servicesData)) {
             router.replace(`/Services?service=${defaultService}`);
@@ -63,7 +63,6 @@ export default function ServicesPage() {
     }
 
     if (!(selectedService in servicesData)) {
-        // Show nothing while redirect happens
         return null;
     }
 
@@ -81,7 +80,6 @@ export default function ServicesPage() {
 
             <Header />
 
-            {/* Page Title */}
             <section className="page-title" style={{ backgroundImage: "url(/images/background/cons.jpg)" }}>
                 <div className="auto-container">
                     <div className="inner-container clearfix">
@@ -99,14 +97,11 @@ export default function ServicesPage() {
                 </div>
             </section>
 
-            {/* Sidebar Page Container */}
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
-                        {/* Sidebar */}
                         <div className="sidebar-side col-lg-4 col-md-12 col-sm-12">
                             <aside className="sidebar services-sidebar">
-                                {/* Blog Category Widget */}
                                 <div className="sidebar-widget sidebar-blog-category">
                                     <ul className="blog-cat">
                                         {Object.keys(servicesData).map((key) => (
@@ -117,7 +112,6 @@ export default function ServicesPage() {
                                     </ul>
                                 </div>
 
-                                {/* Brochures */}
                                 <div className="sidebar-widget brochure-widget">
                                     <h3 className="sidebar-title">Download Brochures</h3>
                                     <div className="brochure-box">
@@ -143,7 +137,6 @@ export default function ServicesPage() {
                                     </div>
                                 </div>
 
-                                {/* Help Box */}
                                 <div
                                     className="help-box"
                                     style={{ backgroundImage: "url(/images/resource/brochure-bg.jpg)" }}
@@ -152,8 +145,7 @@ export default function ServicesPage() {
                                         <span className="title">Quick Contact</span>
                                         <h2>Get Solution</h2>
                                         <div className="text">
-                                            Contact us at the Interior office nearest to you or submit a business inquiry
-                                            online.
+                                            Contact us at the Interior office nearest to you or submit a business inquiry online.
                                         </div>
                                         <Link className="theme-btn btn-style-three" href="/contact">
                                             Contact
@@ -163,13 +155,18 @@ export default function ServicesPage() {
                             </aside>
                         </div>
 
-                        {/* Content Side */}
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             <div className="service-detail">
                                 <div className="inner-box">
                                     <div className="image-box">
                                         <figure className="image">
-                                            <img src={data.mainImage} alt={data.mainImageAlt} />
+                                            <Image
+                                                src={data.mainImage}
+                                                alt={data.mainImageAlt}
+                                                width={800}
+                                                height={500}
+                                                style={{ width: "100%", height: "auto" }}
+                                            />
                                         </figure>
                                     </div>
                                     <h2>{data.title}</h2>
@@ -191,7 +188,13 @@ export default function ServicesPage() {
                                             </div>
                                             <div className="column col-lg-6 col-md-6 col-sm-12">
                                                 <div className="image">
-                                                    <img src={data.featureImage} alt={data.featureImageAlt} />
+                                                    <Image
+                                                        src={data.featureImage}
+                                                        alt={data.featureImageAlt}
+                                                        width={500}
+                                                        height={300}
+                                                        style={{ width: "100%", height: "auto" }}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -203,7 +206,6 @@ export default function ServicesPage() {
                                     </div>
                                 </div>
 
-                                {/* Product Info Tabs */}
                                 <div className="product-info-tabs">
                                     <div className="prod-tabs tabs-box">
                                         <ul className="tab-btns tab-buttons clearfix">
@@ -254,7 +256,6 @@ export default function ServicesPage() {
                                         </div>
                                     </div>
                                 </div>
-                                {/* End Product Info Tabs */}
                             </div>
                         </div>
                     </div>

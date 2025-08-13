@@ -27,16 +27,13 @@ export default function Header() {
                         {/* Logo Box */}
                         <div className="logo-box">
                             <div className="logo">
-                                <Link href="/" legacyBehavior>
-                                    <a>
-                                        <Image src="/images/logo.png" alt="Logo" width={150} height={80} />
-                                    </a>
+                                <Link href="/">
+                                    <Image src="/images/logo.png" alt="Logo" width={150} height={80} />
                                 </Link>
                             </div>
                         </div>
 
                         <div className="nav-outer">
-                            {/* Navigation */}
                             <nav className="main-menu navbar-expand-md">
                                 <div className="navbar-header">
                                     <button
@@ -54,106 +51,41 @@ export default function Header() {
 
                                 <div className="collapse navbar-collapse clearfix" id="navbarSupportedContent">
                                     <ul className="navigation clearfix">
-                                        <li>
-                                            <Link href="/" legacyBehavior>
-                                                <a>Home</a>
-                                            </Link>
-                                        </li>
+                                        <li><Link href="/">Home</Link></li>
 
                                         <li>
-                                            <Link href="/about" legacyBehavior>
-                                                <a>About</a>
-                                            </Link>
+                                            <Link href="/about">About</Link>
                                             <ul>
-                                                <li>
-                                                    <Link href="/about" legacyBehavior>
-                                                        <a>About Us</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/team" legacyBehavior>
-                                                        <a>Our Team</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/coming-soon" legacyBehavior>
-                                                        <a>Coming Soon</a>
-                                                    </Link>
-                                                </li>
+                                                <li><Link href="/about">About Us</Link></li>
+                                                <li><Link href="/team">Our Team</Link></li>
+                                                <li><Link href="/coming-soon">Coming Soon</Link></li>
                                             </ul>
                                         </li>
 
                                         <li className="dropdown">
-                                            {/* Dropdown title without real page, <a> normal here */}
+                                            {/* Dropdown title, keep <a> since it's not a real page */}
                                             <a href="#" role="button" aria-haspopup="true" aria-expanded="false">Services</a>
                                             <ul>
-                                                <li>
-                                                    <Link href="/services" legacyBehavior>
-                                                        <a>All Services</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/service-detail" legacyBehavior>
-                                                        <a>Commercial Design</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/service-detail" legacyBehavior>
-                                                        <a>Landescape Design</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/service-detail" legacyBehavior>
-                                                        <a>Interior Design</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/service-detail" legacyBehavior>
-                                                        <a>Complete Interior</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/service-detail" legacyBehavior>
-                                                        <a>House Interior</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/service-detail" legacyBehavior>
-                                                        <a>Service Detail</a>
-                                                    </Link>
-                                                </li>
+                                                <li><Link href="/services">All Services</Link></li>
+                                                <li><Link href="/service-detail">Commercial Design</Link></li>
+                                                <li><Link href="/service-detail">Landescape Design</Link></li>
+                                                <li><Link href="/service-detail">Interior Design</Link></li>
+                                                <li><Link href="/service-detail">Complete Interior</Link></li>
+                                                <li><Link href="/service-detail">House Interior</Link></li>
+                                                <li><Link href="/service-detail">Service Detail</Link></li>
                                             </ul>
                                         </li>
 
                                         <li>
-                                            <Link href="/projects" legacyBehavior>
-                                                <a>Projects</a>
-                                            </Link>
+                                            <Link href="/projects">Projects</Link>
                                             <ul>
-                                                <li>
-                                                    <Link href="/projects" legacyBehavior>
-                                                        <a>Projects</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/project-detail" legacyBehavior>
-                                                        <a>Project Detail</a>
-                                                    </Link>
-                                                </li>
+                                                <li><Link href="/projects">Projects</Link></li>
+                                                <li><Link href="/project-detail">Project Detail</Link></li>
                                             </ul>
                                         </li>
 
-                                        <li>
-                                            <Link href="/VillaConstruction" legacyBehavior>
-                                                <a>Blog</a>
-                                            </Link>
-                                        </li>
-
-                                        <li>
-                                            <Link href="/contact" legacyBehavior>
-                                                <a>Contact</a>
-                                            </Link>
-                                        </li>
+                                        <li><Link href="/VillaConstruction">Blog</Link></li>
+                                        <li><Link href="/contact">Contact</Link></li>
                                     </ul>
                                 </div>
                             </nav>

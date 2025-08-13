@@ -1,12 +1,14 @@
 ﻿'use client';
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
 import Header from "../components/Header";
 import Footer from "../components/HomeFooter";
 
 interface Project {
     img: string;
-    classes: string;
+    classes: string; // kept for filtering
     slug: string;
 }
 
@@ -22,7 +24,6 @@ export default function ProjectsPage() {
             .then((data) => setProjects(data));
     }, []);
 
-    // Filter projects by category
     const filteredProjects = projects.filter((p) =>
         filter === "all" ? true : p.classes.includes(filter)
     );
@@ -62,7 +63,9 @@ export default function ProjectsPage() {
                             <span className="title">The Interior speaks for itself</span>
                         </div>
                         <ul className="bread-crumb clearfix">
-                            <li><a href="/">Home</a></li>
+                            <li>
+                                <Link href="/">Home</Link>
+                            </li>
                             <li>Project Detail</li>
                         </ul>
                     </div>
@@ -114,9 +117,10 @@ export default function ProjectsPage() {
                             No projects found for selected category.
                         </p>
                     ) : (
-                        paginatedProjects.map(({ img, classes, slug }, index) => (
-                            <div
+                        paginatedProjects.map(({ img, slug }, index) => (
+                            <Link
                                 key={index}
+                                href={`/ProjectDetails/${slug}`}
                                 style={{
                                     flex: "1 1 calc(33.333% - 24px)",
                                     maxWidth: "calc(33.333% - 24px)",
@@ -127,18 +131,15 @@ export default function ProjectsPage() {
                                     cursor: "pointer",
                                     backgroundColor: "#fff",
                                     transition: "transform 0.3s",
+                                    textDecoration: "none",
+                                    color: "inherit",
                                 }}
-                                onClick={() => window.location.href = `/projectdetails/${slug}`}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') window.location.href = `/projectdetails/${slug}`;
-                                }}
-                                role="link"
-                                tabIndex={0}
-                                aria-label={`View details for project ${index + 1}`}
                             >
-                                <img
+                                <Image
                                     src={img}
                                     alt={`Project ${index + 1}`}
+                                    width={400}
+                                    height={220}
                                     style={{ width: "100%", height: 220, objectFit: "cover", display: "block" }}
                                 />
                                 <div
@@ -146,7 +147,7 @@ export default function ProjectsPage() {
                                         padding: "15px",
                                         fontWeight: "600",
                                         fontSize: "1.1rem",
-                                        color: "chocolate",  // <-- Changed here to chocolate color
+                                        color: "chocolate",
                                         textAlign: "center",
                                         backgroundColor: "#f9f9f9",
                                     }}
@@ -175,7 +176,7 @@ export default function ProjectsPage() {
                                 >
                                     <p>View Details</p>
                                 </div>
-                            </div>
+                            </Link>
                         ))
                     )}
                 </div>
@@ -226,9 +227,7 @@ export default function ProjectsPage() {
                         ))}
 
                         <button
-                            onClick={() =>
-                                currentPage < totalPages && handlePageChange(currentPage + 1)
-                            }
+                            onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
                             style={{
                                 padding: "8px 14px",
@@ -248,8 +247,8 @@ export default function ProjectsPage() {
 
             {/* Extra style for overlay hover */}
             <style>{`
-                div[role="link"]:hover .overlay,
-                div[role="link"]:focus .overlay {
+                a:hover .overlay,
+                a:focus .overlay {
                   opacity: 1;
                 }
             `}</style>

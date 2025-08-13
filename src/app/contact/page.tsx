@@ -1,17 +1,18 @@
-﻿// app/blog/page.tsx
+﻿// app/contact/page.tsx
+'use client';
+
 import React from "react";
+import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-
 import ContactSection from "../components/ContactSection";
 import ClientsSection from "../components/ClientsSection";
 
-export default async function Contact() {
-    
-
+export default function Contact() {
     return (
         <>
             <Header />
+
             {/* Page Title */}
             <section
                 className="page-title"
@@ -25,17 +26,17 @@ export default async function Contact() {
                         </div>
                         <ul className="bread-crumb clearfix">
                             <li>
-                                <a href="/">Home</a>
+                                <Link href="/">Home</Link>
                             </li>
                             <li>Blog Detail</li>
                         </ul>
                     </div>
                 </div>
             </section>
-            <ContactSection />
-            <ClientsSection/>
-            <Footer />
 
+            <ContactSection />
+            <ClientsSection />
+            <Footer />
         </>
     );
 }
