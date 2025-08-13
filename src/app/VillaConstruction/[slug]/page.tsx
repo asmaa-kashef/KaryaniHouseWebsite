@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
 import parse, { HTMLReactParserOptions } from "html-react-parser";
-import { Element } from "htmlparser2";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
