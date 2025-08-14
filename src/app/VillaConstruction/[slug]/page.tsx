@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
-import parse, { HTMLReactParserOptions } from "html-react-parser";
+import parse, { HTMLReactParserOptions, DomNode, Element } from "html-react-parser";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -28,10 +28,9 @@ type HeadingItem = {
     level: number;
 };
 
-const WORDPRESS_API_BASE =
-    "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2";
+const WORDPRESS_API_BASE = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2";
 
-function getTextFromChildren(children: Element["children"]): string {
+function getTextFromChildren(children: DomNode[]): string {
     return children
         .map((child) => {
             if (child.type === "text") return child.data;
@@ -54,10 +53,7 @@ function extractHeadings(html: string): HeadingItem[] {
                 const level = parseInt(domNode.name.slice(1), 10);
                 const text = getTextFromChildren(element.children);
 
-                const id = text
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")
-                    .replace(/[^\w\-]+/g, "");
+                const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "");
 
                 if (text.toLowerCase().includes("frequently asked questions")) {
                     stopCollecting = true;
@@ -142,10 +138,7 @@ export default function NewsDetail() {
                         {/* Main Content */}
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             {image && (
-                                <div
-                                    className="image-box"
-                                    style={{ position: "relative", width: "100%", height: "400px" }}
-                                >
+                                <div className="image-box" style={{ position: "relative", width: "100%", height: "400px" }}>
                                     <Image
                                         src={image}
                                         alt={post.title.rendered}
@@ -175,8 +168,7 @@ export default function NewsDetail() {
                                                         className="toc"
                                                         aria-label="Table of Contents"
                                                         style={{
-                                                            background:
-                                                                "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
+                                                            background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                                             borderRadius: "23px",
                                                             padding: "28px",
                                                             marginBottom: "55px",
@@ -187,17 +179,10 @@ export default function NewsDetail() {
                                                         <h3>Table of Contents</h3>
                                                         <ul>
                                                             {headings.map(({ id, text, level }) => (
-                                                                <li
-                                                                    key={id}
-                                                                    style={{ marginLeft: `${(level - 2) * 20}px` }}
-                                                                >
+                                                                <li key={id} style={{ marginLeft: `${(level - 2) * 20}px` }}>
                                                                     <a
                                                                         href={`#${id}`}
-                                                                        style={{
-                                                                            textDecoration: "none",
-                                                                            cursor: "pointer",
-                                                                            color: "black",
-                                                                        }}
+                                                                        style={{ textDecoration: "none", cursor: "pointer", color: "black" }}
                                                                     >
                                                                         {text}
                                                                     </a>
@@ -222,13 +207,7 @@ export default function NewsDetail() {
                                 <div className="sidebar-widget search-box">
                                     <form method="post" action="#">
                                         <div className="form-group">
-                                            <input
-                                                type="search"
-                                                name="search-field"
-                                                defaultValue=""
-                                                placeholder="Search....."
-                                                required
-                                            />
+                                            <input type="search" name="search-field" placeholder="Search....." required />
                                             <button type="submit">
                                                 <span className="icon fa fa-search"></span>
                                             </button>
@@ -240,105 +219,67 @@ export default function NewsDetail() {
                                 <div
                                     className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{
-                                        background:
-                                            "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
+                                        background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                         borderRadius: "23px",
                                         padding: "28px",
                                         marginBottom: "55px",
                                     }}
                                 >
-                                    <h3
-                                        className="text-lg md:text-xl font-bold mb-2 leading-snug"
-                                        style={{ color: "black" }}
-                                    >
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>Schedule a Site Visit</strong>
                                     </h3>
 
-                                    <video
-                                        controls
-                                        style={{
-                                            marginTop: "30px",
-                                            borderRadius: "23px",
-                                            maxWidth: "100%",
-                                            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-                                            border: "2px solid #db2777",
-                                            background:
-                                                "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
-                                            padding: "10px",
-                                        }}
-                                        src="/video/final2.mp4"
-                                        type="video/mp4"
-                                    >
-                                        Your browser does not support the video tag.
-                                    </video>
-
-                                    <video
-                                        controls
-                                        style={{
-                                            marginTop: "30px",
-                                            borderRadius: "23px",
-                                            maxWidth: "100%",
-                                            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-                                            border: "2px solid #db2777",
-                                            background:
-                                                "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
-                                            padding: "10px",
-                                        }}
-                                        src="/video/final.mp4"
-                                        type="video/mp4"
-                                    >
-                                        Your browser does not support the video tag.
-                                    </video>
+                                    {["/video/final2.mp4", "/video/final.mp4"].map((src) => (
+                                        <video
+                                            key={src}
+                                            controls
+                                            style={{
+                                                marginTop: "30px",
+                                                borderRadius: "23px",
+                                                maxWidth: "100%",
+                                                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                                                border: "2px solid #db2777",
+                                                background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
+                                                padding: "10px",
+                                            }}
+                                            src={src}
+                                            type="video/mp4"
+                                        >
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    ))}
                                 </div>
 
                                 {/* Best Construction Company */}
                                 <div
                                     className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{
-                                        background:
-                                            "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
+                                        background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                         borderRadius: "23px",
                                         padding: "28px",
                                         marginBottom: "55px",
                                     }}
                                 >
-                                    <h3
-                                        className="text-lg md:text-xl font-bold mb-2 leading-snug"
-                                        style={{ color: "black" }}
-                                    >
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>
-                                            Do You Need the Best <br /> Construction Company in Abu
-                                            Dhabi?
+                                            Do You Need the Best <br /> Construction Company in Abu Dhabi?
                                         </strong>
                                     </h3>
-                                    <p
-                                        className="text-sm text-black-700 mb-2"
-                                        style={{ color: "black" }}
-                                    >
-                                        <strong>Karyani House</strong> is the leading construction
-                                        company in Abu Dhabi.
+                                    <p className="text-sm text-black-700 mb-2" style={{ color: "black" }}>
+                                        <strong>Karyani House</strong> is the leading construction company in Abu Dhabi.
                                     </p>
-                                    <p
-                                        className="text-sm text-gray-700 mb-4"
-                                        style={{ color: "black" }}
-                                    >
-                                        From villa construction to finishing works – your place is
-                                        with us.
+                                    <p className="text-sm text-gray-700 mb-4" style={{ color: "black" }}>
+                                        From villa construction to finishing works – your place is with us.
                                     </p>
-                                    <p
-                                        className="text-sm text-gray-800 font-medium mb-4 flex items-center justify-center gap-1"
-                                        style={{ color: "black" }}
-                                    >
-                                        <span className="text-pink-600 text-lg">📞</span> Call us
-                                        today: 050 660 7159
+                                    <p className="text-sm text-gray-800 font-medium mb-4 flex items-center justify-center gap-1" style={{ color: "black" }}>
+                                        <span className="text-pink-600 text-lg">📞</span> Call us today: 050 660 7159
                                     </p>
                                     <Link
                                         href="/contact"
                                         className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
                                         style={{ backgroundColor: "#545454" }}
                                     >
-                                        <span className="text-yellow-400">⚒️</span> Request a
-                                        Consultation
+                                        <span className="text-yellow-400">⚒️</span> Request a Consultation
                                     </Link>
                                 </div>
 
@@ -348,21 +289,11 @@ export default function NewsDetail() {
                                         <h3>Our Company Service</h3>
                                     </div>
                                     <ul className="cat-list">
-                                        <li>
-                                            <Link href="#">Villa Construction</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">Structure Repair</Link>
-                                        </li>
-                                        <li className="active">
-                                            <Link href="#">Cladding</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">Interior Works</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">Alumnium and Glass</Link>
-                                        </li>
+                                        {["Villa Construction", "Structure Repair", "Cladding", "Interior Works", "Alumnium and Glass"].map((cat) => (
+                                            <li key={cat} className={cat === "Cladding" ? "active" : ""}>
+                                                <Link href="#">{cat}</Link>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
 
@@ -370,17 +301,13 @@ export default function NewsDetail() {
                                 <div
                                     className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{
-                                        background:
-                                            "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
+                                        background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                         borderRadius: "23px",
                                         padding: "12px",
                                         marginBottom: "55px",
                                     }}
                                 >
-                                    <h3
-                                        className="text-lg md:text-xl font-bold mb-2 leading-snug"
-                                        style={{ color: "black" }}
-                                    >
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>Get a Free Quote</strong>
                                     </h3>
                                     <a
@@ -407,21 +334,11 @@ export default function NewsDetail() {
                                     <div className="widget-content">
                                         {recentPosts.length === 0 && <p>No recent posts found.</p>}
                                         {recentPosts.map((recent) => {
-                                            const recentImage =
-                                                recent._embedded?.["wp:featuredmedia"]?.[0]
-                                                    ?.source_url || "/images/default-news.jpg";
-                                            const recentAuthor =
-                                                recent._embedded?.author?.[0]?.name || "Unknown author";
+                                            const recentImage = recent._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-news.jpg";
+                                            const recentAuthor = recent._embedded?.author?.[0]?.name || "Unknown author";
                                             return (
                                                 <article className="post" key={recent.id}>
-                                                    <div
-                                                        className="post-thumb"
-                                                        style={{
-                                                            position: "relative",
-                                                            width: "100%",
-                                                            height: "80px",
-                                                        }}
-                                                    >
+                                                    <div className="post-thumb" style={{ position: "relative", width: "100%", height: "80px" }}>
                                                         <Link href={`/VillaConstruction/${recent.slug}`}>
                                                             <Image
                                                                 src={recentImage}
@@ -429,20 +346,12 @@ export default function NewsDetail() {
                                                                 fill
                                                                 sizes="80px"
                                                                 style={{ objectFit: "cover", borderRadius: "5px" }}
-                                                                priority={false}
                                                             />
                                                         </Link>
                                                     </div>
                                                     <h3>
-                                                        <Link
-                                                            href={`/VillaConstruction/${recent.slug}`}
-                                                            className="post-title-link"
-                                                        >
-                                                            <span
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: recent.title.rendered,
-                                                                }}
-                                                            />
+                                                        <Link href={`/VillaConstruction/${recent.slug}`} className="post-title-link">
+                                                            <span dangerouslySetInnerHTML={{ __html: recent.title.rendered }} />
                                                         </Link>
                                                     </h3>
                                                     <div className="post-info">by {recentAuthor}</div>
@@ -455,37 +364,15 @@ export default function NewsDetail() {
                                 {/* Tags */}
                                 <div
                                     className="sidebar-widget tags"
-                                    style={{
-                                        background:
-                                            "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
-                                        borderRadius: "23px",
-                                        padding: "28px",
-                                        marginBottom: "55px",
-                                    }}
+                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}
                                 >
                                     <div className="sidebar-title">
                                         <h3>Our Construction Services</h3>
                                     </div>
                                     <ul className="tag-list clearfix" style={{ color: "black" }}>
-                                        {[
-                                            "Landing Mining",
-                                            "Building Staff",
-                                            "Material Supply",
-                                            "Consultancy",
-                                            "Architecture",
-                                            "Crane Services",
-                                        ].map((tag) => (
+                                        {["Landing Mining", "Building Staff", "Material Supply", "Consultancy", "Architecture", "Crane Services"].map((tag) => (
                                             <li key={tag}>
-                                                <Link
-                                                    href="#"
-                                                    style={{
-                                                        color: "black",
-                                                        border: "1px solid black",
-                                                        padding: "4px 8px",
-                                                        borderRadius: "6px",
-                                                        display: "inline-block",
-                                                    }}
-                                                >
+                                                <Link href="#" style={{ color: "black", border: "1px solid black", padding: "4px 8px", borderRadius: "6px", display: "inline-block" }}>
                                                     {tag}
                                                 </Link>
                                             </li>
