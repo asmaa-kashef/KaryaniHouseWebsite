@@ -169,8 +169,8 @@ export default function VillaConstructionDetail() {
                                                         }}>
                                                         <h3>Table of Contents</h3>
                                                         <ul>
-                                                            {headings.map(({ id, text, level }) => (
-                                                                <li key={id} style={{ marginLeft: `${(level - 2) * 20}px` }}>
+                                                            {headings.map(({ id, text, level }, index) => (
+                                                                <li key={`${id}-${index}`} style={{ marginLeft: `${(level - 2) * 20}px` }}>
                                                                     <a href={`#${id}`} style={{ textDecoration: "none", cursor: "pointer", color: "black" }}>
                                                                         {text}
                                                                     </a>
@@ -208,9 +208,9 @@ export default function VillaConstructionDetail() {
                                     <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>Schedule a Site Visit</strong>
                                     </h3>
-                                    {["/video/final2.mp4", "/video/final.mp4"].map((src) => (
+                                    {["/video/final2.mp4", "/video/final.mp4"].map((src, index) => (
                                         <video
-                                            key={src}
+                                            key={`video-${index}`}
                                             controls
                                             style={{
                                                 marginTop: "30px",
@@ -258,8 +258,10 @@ export default function VillaConstructionDetail() {
                                         <h3>Our Company Service</h3>
                                     </div>
                                     <ul className="cat-list">
-                                        {["Villa Construction", "Structure Repair", "Cladding", "Interior Works", "Alumnium and Glass"].map((cat) => (
-                                            <li key={cat} className={cat === "Cladding" ? "active" : ""}><Link href="#">{cat}</Link></li>
+                                        {["Villa Construction", "Structure Repair", "Cladding", "Interior Works", "Alumnium and Glass"].map((cat, index) => (
+                                            <li key={`cat-${index}`} className={cat === "Cladding" ? "active" : ""}>
+                                                <Link href="#">{cat}</Link>
+                                            </li>
                                         ))}
                                     </ul>
                                 </div>
@@ -286,7 +288,7 @@ export default function VillaConstructionDetail() {
                                             const recentImage = recent._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-news.jpg";
                                             const recentAuthor = recent._embedded?.author?.[0]?.name || "Unknown author";
                                             return (
-                                                <article className="post" key={recent.id}>
+                                                <article className="post" key={`recent-${recent.id}`}>
                                                     <div className="post-thumb" style={{ position: "relative", width: "100%", height: "80px" }}>
                                                         <Link href={`/VillaConstruction/${recent.slug}`}>
                                                             <Image src={recentImage} alt={recent.title.rendered} fill style={{ objectFit: "cover", borderRadius: "5px" }} />
@@ -310,8 +312,8 @@ export default function VillaConstructionDetail() {
                                         <h3>Our Construction Services</h3>
                                     </div>
                                     <ul className="tag-list clearfix" style={{ color: "black" }}>
-                                        {["Landing Mining", "Building Staff", "Material Supply", "Consultancy", "Architecture", "Crane Services"].map((tag) => (
-                                            <li key={tag}>
+                                        {["Landing Mining", "Building Staff", "Material Supply", "Consultancy", "Architecture", "Crane Services"].map((tag, index) => (
+                                            <li key={`tag-${index}`}>
                                                 <Link href="#" style={{ color: "black", border: "1px solid black", padding: "4px 8px", borderRadius: "6px", display: "inline-block" }}>{tag}</Link>
                                             </li>
                                         ))}

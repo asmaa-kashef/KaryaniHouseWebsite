@@ -1,5 +1,4 @@
-﻿
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Link from 'next/link'
@@ -10,7 +9,7 @@ const Footer = () => {
     return (
         <footer
             className="main-footer alternate"
-            style={{ backgroundImage: 'url(/images/background/5.jpg)' }} // أضفت / في بداية الرابط
+            style={{ backgroundImage: 'url(/images/background/5.jpg)' }}
         >
             <div className="auto-container">
                 {/* Widgets Section */}
@@ -24,16 +23,14 @@ const Footer = () => {
                                     <div className="footer-widget about-widget">
                                         <div className="footer-logo">
                                             <figure>
-                                                <Link href="/" legacyBehavior>
-                                                    <a>
-                                                        <Image
-                                                            src="/images/logo.png"
-                                                            alt="Logo"
-                                                            title="Logo"
-                                                            width={160} // بدل ال height حدد width & height 
-                                                            height={160}
-                                                        />
-                                                    </a>
+                                                <Link href="/">
+                                                    <Image
+                                                        src="/images/logo.png"
+                                                        alt="Logo"
+                                                        title="Logo"
+                                                        width={160}
+                                                        height={160}
+                                                    />
                                                 </Link>
                                             </figure>
                                         </div>
@@ -57,11 +54,11 @@ const Footer = () => {
                                         <h2 className="widget-title">Useful links</h2>
                                         <div className="widget-content">
                                             <ul className="list">
-                                                <li><Link href="/about" legacyBehavior><a>About</a></Link></li>
-                                                <li><Link href="/services" legacyBehavior><a>Services</a></Link></li>
-                                                <li><Link href="/projects" legacyBehavior><a>Project</a></Link></li>
-                                                <li><Link href="/news" legacyBehavior><a>News</a></Link></li>
-                                                <li><Link href="/contact" legacyBehavior><a>Contact Us</a></Link></li>
+                                                <li><Link href="/about">About</Link></li>
+                                                <li><Link href="/services">Services</Link></li>
+                                                <li><Link href="/projects">Project</Link></li>
+                                                <li><Link href="/news">News</Link></li>
+                                                <li><Link href="/contact">Contact Us</Link></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -82,7 +79,7 @@ const Footer = () => {
                                                             <Image
                                                                 src={`/images/gallery/${num}.webp`}
                                                                 alt={`Gallery Image ${num}`}
-                                                                width={100}  // حدد العرض والارتفاع المناسبين لك
+                                                                width={100}
                                                                 height={100}
                                                             />
                                                         </a>
