@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
-import parse, { HTMLReactParserOptions, DOMNode, Element } from "html-react-parser";
+import parse, { DOMNode, Element, HTMLReactParserOptions } from "html-react-parser";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -34,7 +34,10 @@ function getTextFromChildren(children: DOMNode[]): string {
     return children
         .map((child) => {
             if (child.type === "text") return child.data;
-            if ("children" in child && child.children) return getTextFromChildren(child.children);
+            if (child.type === "tag") {
+                const el = child as Element;
+                if (el.children) return getTextFromChildren(el.children);
+            }
             return "";
         })
         .join("")
@@ -69,7 +72,7 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
-export default function NewsDetail() {
+export default function VillaConstructionDetail() {
     const params = useParams();
     const slug = params?.slug as string;
 
@@ -112,6 +115,7 @@ export default function NewsDetail() {
         <>
             <Header />
 
+            {/* Page Title */}
             <section
                 className="page-title"
                 style={{ backgroundImage: "url(/images/background/construction.webp)" }}
@@ -123,15 +127,14 @@ export default function NewsDetail() {
                             <span className="title">{category}</span>
                         </div>
                         <ul className="bread-crumb clearfix">
-                            <li>
-                                <Link href="/">Home</Link>
-                            </li>
+                            <li><Link href="/">Home</Link></li>
                             <li>Blog Detail</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
+            {/* Main Content + Sidebar */}
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
@@ -149,7 +152,6 @@ export default function NewsDetail() {
                                     />
                                 </div>
                             )}
-
                             <div className="blog-detail">
                                 <div className="news-block-two">
                                     <div className="inner-box">
@@ -164,9 +166,7 @@ export default function NewsDetail() {
 
                                                 {/* Table of Contents */}
                                                 {headings.length > 0 && (
-                                                    <nav
-                                                        className="toc"
-                                                        aria-label="Table of Contents"
+                                                    <nav className="toc" aria-label="Table of Contents"
                                                         style={{
                                                             background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                                             borderRadius: "23px",
@@ -174,16 +174,12 @@ export default function NewsDetail() {
                                                             marginBottom: "55px",
                                                             color: "black",
                                                             fontWeight: "bold",
-                                                        }}
-                                                    >
+                                                        }}>
                                                         <h3>Table of Contents</h3>
                                                         <ul>
                                                             {headings.map(({ id, text, level }) => (
                                                                 <li key={id} style={{ marginLeft: `${(level - 2) * 20}px` }}>
-                                                                    <a
-                                                                        href={`#${id}`}
-                                                                        style={{ textDecoration: "none", cursor: "pointer", color: "black" }}
-                                                                    >
+                                                                    <a href={`#${id}`} style={{ textDecoration: "none", cursor: "pointer", color: "black" }}>
                                                                         {text}
                                                                     </a>
                                                                 </li>
@@ -203,7 +199,8 @@ export default function NewsDetail() {
                         {/* Sidebar */}
                         <div className="sidebar-side col-lg-4 col-md-12 col-sm-12">
                             <aside className="sidebar default-sidebar">
-                                {/* Search box */}
+
+                                {/* Search Box */}
                                 <div className="sidebar-widget search-box">
                                     <form method="post" action="#">
                                         <div className="form-group">
@@ -216,19 +213,16 @@ export default function NewsDetail() {
                                 </div>
 
                                 {/* Schedule a Site Visit */}
-                                <div
-                                    className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
+                                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{
                                         background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                         borderRadius: "23px",
                                         padding: "28px",
                                         marginBottom: "55px",
-                                    }}
-                                >
+                                    }}>
                                     <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>Schedule a Site Visit</strong>
                                     </h3>
-
                                     {["/video/final2.mp4", "/video/final.mp4"].map((src) => (
                                         <video
                                             key={src}
@@ -251,15 +245,13 @@ export default function NewsDetail() {
                                 </div>
 
                                 {/* Best Construction Company */}
-                                <div
-                                    className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
+                                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{
                                         background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                         borderRadius: "23px",
                                         padding: "28px",
                                         marginBottom: "55px",
-                                    }}
-                                >
+                                    }}>
                                     <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>
                                             Do You Need the Best <br /> Construction Company in Abu Dhabi?
@@ -298,30 +290,25 @@ export default function NewsDetail() {
                                 </div>
 
                                 {/* Get a Free Quote */}
-                                <div
-                                    className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
+                                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{
                                         background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                         borderRadius: "23px",
                                         padding: "12px",
                                         marginBottom: "55px",
-                                    }}
-                                >
+                                    }}>
                                     <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>Get a Free Quote</strong>
                                     </h3>
-                                    <a
-                                        href="tel:+9710506607159"
-                                        style={{
-                                            color: "black",
-                                            fontWeight: "bold",
-                                            fontSize: "1.1rem",
-                                            textDecoration: "underline",
-                                            cursor: "pointer",
-                                            display: "inline-block",
-                                            marginTop: "8px",
-                                        }}
-                                    >
+                                    <a href="tel:+9710506607159" style={{
+                                        color: "black",
+                                        fontWeight: "bold",
+                                        fontSize: "1.1rem",
+                                        textDecoration: "underline",
+                                        cursor: "pointer",
+                                        display: "inline-block",
+                                        marginTop: "8px",
+                                    }}>
                                         +971 050 660 7159
                                     </a>
                                 </div>
@@ -362,10 +349,8 @@ export default function NewsDetail() {
                                 </div>
 
                                 {/* Tags */}
-                                <div
-                                    className="sidebar-widget tags"
-                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}
-                                >
+                                <div className="sidebar-widget tags"
+                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
                                     <div className="sidebar-title">
                                         <h3>Our Construction Services</h3>
                                     </div>
@@ -379,6 +364,7 @@ export default function NewsDetail() {
                                         ))}
                                     </ul>
                                 </div>
+
                             </aside>
                         </div>
                     </div>
