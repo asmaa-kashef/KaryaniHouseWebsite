@@ -1,5 +1,4 @@
 ﻿"use client";
-
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
@@ -30,14 +29,11 @@ type HeadingItem = {
 
 const WORDPRESS_API_BASE = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2";
 
-function getTextFromChildren(children: DOMNode[]): string {
+function getTextFromChildren(children: any[]): string {
     return children
         .map((child) => {
             if (child.type === "text") return child.data;
-            if (child.type === "tag") {
-                const el = child as Element;
-                if (el.children) return getTextFromChildren(el.children);
-            }
+            if (child.type === "tag" && child.children) return getTextFromChildren(child.children);
             return "";
         })
         .join("")
@@ -55,13 +51,8 @@ function extractHeadings(html: string): HeadingItem[] {
                 const element = domNode as Element;
                 const level = parseInt(domNode.name.slice(1), 10);
                 const text = getTextFromChildren(element.children);
-
                 const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "");
-
-                if (text.toLowerCase().includes("frequently asked questions")) {
-                    stopCollecting = true;
-                }
-
+                if (text.toLowerCase().includes("frequently asked questions")) stopCollecting = true;
                 element.attribs = { ...element.attribs, id };
                 headings.push({ id, text, level });
             }
@@ -138,6 +129,7 @@ export default function VillaConstructionDetail() {
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
+
                         {/* Main Content */}
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             {image && (
@@ -205,21 +197,14 @@ export default function VillaConstructionDetail() {
                                     <form method="post" action="#">
                                         <div className="form-group">
                                             <input type="search" name="search-field" placeholder="Search....." required />
-                                            <button type="submit">
-                                                <span className="icon fa fa-search"></span>
-                                            </button>
+                                            <button type="submit"><span className="icon fa fa-search"></span></button>
                                         </div>
                                     </form>
                                 </div>
 
                                 {/* Schedule a Site Visit */}
                                 <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
-                                    style={{
-                                        background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
-                                        borderRadius: "23px",
-                                        padding: "28px",
-                                        marginBottom: "55px",
-                                    }}>
+                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
                                     <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>Schedule a Site Visit</strong>
                                     </h3>
@@ -246,16 +231,9 @@ export default function VillaConstructionDetail() {
 
                                 {/* Best Construction Company */}
                                 <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
-                                    style={{
-                                        background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
-                                        borderRadius: "23px",
-                                        padding: "28px",
-                                        marginBottom: "55px",
-                                    }}>
+                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
                                     <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
-                                        <strong>
-                                            Do You Need the Best <br /> Construction Company in Abu Dhabi?
-                                        </strong>
+                                        <strong>Do You Need the Best <br /> Construction Company in Abu Dhabi?</strong>
                                     </h3>
                                     <p className="text-sm text-black-700 mb-2" style={{ color: "black" }}>
                                         <strong>Karyani House</strong> is the leading construction company in Abu Dhabi.
@@ -266,8 +244,7 @@ export default function VillaConstructionDetail() {
                                     <p className="text-sm text-gray-800 font-medium mb-4 flex items-center justify-center gap-1" style={{ color: "black" }}>
                                         <span className="text-pink-600 text-lg">📞</span> Call us today: 050 660 7159
                                     </p>
-                                    <Link
-                                        href="/contact"
+                                    <Link href="/contact"
                                         className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
                                         style={{ backgroundColor: "#545454" }}
                                     >
@@ -282,33 +259,18 @@ export default function VillaConstructionDetail() {
                                     </div>
                                     <ul className="cat-list">
                                         {["Villa Construction", "Structure Repair", "Cladding", "Interior Works", "Alumnium and Glass"].map((cat) => (
-                                            <li key={cat} className={cat === "Cladding" ? "active" : ""}>
-                                                <Link href="#">{cat}</Link>
-                                            </li>
+                                            <li key={cat} className={cat === "Cladding" ? "active" : ""}><Link href="#">{cat}</Link></li>
                                         ))}
                                     </ul>
                                 </div>
 
                                 {/* Get a Free Quote */}
                                 <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
-                                    style={{
-                                        background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
-                                        borderRadius: "23px",
-                                        padding: "12px",
-                                        marginBottom: "55px",
-                                    }}>
+                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "12px", marginBottom: "55px" }}>
                                     <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
                                         <strong>Get a Free Quote</strong>
                                     </h3>
-                                    <a href="tel:+9710506607159" style={{
-                                        color: "black",
-                                        fontWeight: "bold",
-                                        fontSize: "1.1rem",
-                                        textDecoration: "underline",
-                                        cursor: "pointer",
-                                        display: "inline-block",
-                                        marginTop: "8px",
-                                    }}>
+                                    <a href="tel:+9710506607159" style={{ color: "black", fontWeight: "bold", fontSize: "1.1rem", textDecoration: "underline", cursor: "pointer", display: "inline-block", marginTop: "8px" }}>
                                         +971 050 660 7159
                                     </a>
                                 </div>
@@ -327,13 +289,7 @@ export default function VillaConstructionDetail() {
                                                 <article className="post" key={recent.id}>
                                                     <div className="post-thumb" style={{ position: "relative", width: "100%", height: "80px" }}>
                                                         <Link href={`/VillaConstruction/${recent.slug}`}>
-                                                            <Image
-                                                                src={recentImage}
-                                                                alt={recent.title.rendered}
-                                                                fill
-                                                                sizes="80px"
-                                                                style={{ objectFit: "cover", borderRadius: "5px" }}
-                                                            />
+                                                            <Image src={recentImage} alt={recent.title.rendered} fill style={{ objectFit: "cover", borderRadius: "5px" }} />
                                                         </Link>
                                                     </div>
                                                     <h3>
@@ -349,17 +305,14 @@ export default function VillaConstructionDetail() {
                                 </div>
 
                                 {/* Tags */}
-                                <div className="sidebar-widget tags"
-                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
+                                <div className="sidebar-widget tags" style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
                                     <div className="sidebar-title">
                                         <h3>Our Construction Services</h3>
                                     </div>
                                     <ul className="tag-list clearfix" style={{ color: "black" }}>
                                         {["Landing Mining", "Building Staff", "Material Supply", "Consultancy", "Architecture", "Crane Services"].map((tag) => (
                                             <li key={tag}>
-                                                <Link href="#" style={{ color: "black", border: "1px solid black", padding: "4px 8px", borderRadius: "6px", display: "inline-block" }}>
-                                                    {tag}
-                                                </Link>
+                                                <Link href="#" style={{ color: "black", border: "1px solid black", padding: "4px 8px", borderRadius: "6px", display: "inline-block" }}>{tag}</Link>
                                             </li>
                                         ))}
                                     </ul>
@@ -367,6 +320,7 @@ export default function VillaConstructionDetail() {
 
                             </aside>
                         </div>
+
                     </div>
                 </div>
             </div>
