@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
-import parse, { HTMLReactParserOptions, DomNode, Element } from "html-react-parser";
+import parse, { HTMLReactParserOptions, DOMNode, Element } from "html-react-parser";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -30,7 +30,7 @@ type HeadingItem = {
 
 const WORDPRESS_API_BASE = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2";
 
-function getTextFromChildren(children: DomNode[]): string {
+function getTextFromChildren(children: DOMNode[]): string {
     return children
         .map((child) => {
             if (child.type === "text") return child.data;
