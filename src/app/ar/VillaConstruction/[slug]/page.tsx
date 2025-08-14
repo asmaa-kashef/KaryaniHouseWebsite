@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
-import parse, { Element, DOMNode, HTMLReactParserOptions } from "html-react-parser";
+import parse, { DOMNode, Element, HTMLReactParserOptions, Text } from "html-react-parser";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -29,13 +29,20 @@ type HeadingItem = {
 
 const WORDPRESS_API_BASE = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2";
 
+// type guards
+function isText(node: DOMNode): node is Text {
+    return node.type === "text";
+}
+
+function isElement(node: DOMNode): node is Element {
+    return node.type === "tag";
+}
+
 function getTextFromChildren(children: DOMNode[]): string {
     return children
         .map((child) => {
-            if ((child as any).type === "text") return (child as any).data;
-            if ((child as any).type === "tag" && (child as any).children) {
-                return getTextFromChildren((child as any).children as unknown as DOMNode[]);
-            }
+            if (isText(child)) return child.data;
+            if (isElement(child) && child.children) return getTextFromChildren(child.children);
             return "";
         })
         .join("")
@@ -47,15 +54,14 @@ function extractHeadings(html: string): HeadingItem[] {
     let stopCollecting = false;
 
     const options: HTMLReactParserOptions = {
-        replace: (domNode) => {
+        replace: (domNode: DOMNode) => {
             if (stopCollecting) return;
-            if (domNode.type === "tag" && /^h[1-6]$/.test(domNode.name)) {
-                const element = domNode as Element;
+            if (isElement(domNode) && /^h[1-6]$/.test(domNode.name)) {
                 const level = parseInt(domNode.name.slice(1), 10);
-                const text = getTextFromChildren(element.children as unknown as DOMNode[]);
+                const text = getTextFromChildren(domNode.children);
                 const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "");
                 if (text.toLowerCase().includes("frequently asked questions")) stopCollecting = true;
-                element.attribs = { ...element.attribs, id };
+                domNode.attribs = { ...domNode.attribs, id };
                 headings.push({ id, text, level });
             }
         },
