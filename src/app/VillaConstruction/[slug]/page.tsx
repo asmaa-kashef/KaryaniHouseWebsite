@@ -2,10 +2,21 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
-import parse, { Element, DOMNode, HTMLReactParserOptions } from "html-react-parser";
+import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+
+// Types
+interface WPEmbeddedMedia {
+    source_url: string;
+}
+interface WPAuthor {
+    name: string;
+}
+interface WPTerm {
+    name: string;
+}
 
 type Post = {
     id: number;
@@ -15,9 +26,9 @@ type Post = {
     date: string;
     author: number;
     _embedded?: {
-        "wp:featuredmedia"?: { source_url: string }[];
-        author?: { name: string }[];
-        "wp:term"?: { name: string }[][];
+        "wp:featuredmedia"?: WPEmbeddedMedia[];
+        author?: WPAuthor[];
+        "wp:term"?: WPTerm[][];
     };
 };
 
@@ -29,12 +40,13 @@ type HeadingItem = {
 
 const WORDPRESS_API_BASE = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2";
 
+
 function getTextFromChildren(children: DOMNode[]): string {
     return children
         .map((child) => {
-            if ((child as any).type === "text") return (child as any).data;
-            if ((child as any).type === "tag" && (child as any).children) {
-                return getTextFromChildren((child as any).children as unknown as DOMNode[]);
+            if ((child as Text).type === "text") return (child as Text).data;
+            if ((child as Element).type === "tag" && (child as Element).children) {
+                return getTextFromChildren((child as Element).children as DOMNode[]);
             }
             return "";
         })
@@ -52,7 +64,7 @@ function extractHeadings(html: string): HeadingItem[] {
             if (domNode.type === "tag" && /^h[1-6]$/.test(domNode.name)) {
                 const element = domNode as Element;
                 const level = parseInt(domNode.name.slice(1), 10);
-                const text = getTextFromChildren(element.children as unknown as DOMNode[]);
+                const text = getTextFromChildren(element.children as DOMNode[]);
                 const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "");
                 if (text.toLowerCase().includes("frequently asked questions")) stopCollecting = true;
                 element.attribs = { ...element.attribs, id };
@@ -64,6 +76,8 @@ function extractHeadings(html: string): HeadingItem[] {
     parse(html, options);
     return headings;
 }
+
+
 
 export default function VillaConstructionDetail() {
     const params = useParams();
@@ -77,11 +91,11 @@ export default function VillaConstructionDetail() {
         async function fetchData() {
             try {
                 const postRes = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`);
-                const postData = await postRes.json();
+                const postData: Post[] = await postRes.json();
                 setPost(postData[0] || null);
 
                 const recentRes = await fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`);
-                const recentData = await recentRes.json();
+                const recentData: Post[] = await recentRes.json();
                 setRecentPosts(recentData || []);
             } catch (error) {
                 console.error(error);
@@ -105,7 +119,9 @@ export default function VillaConstructionDetail() {
     const parsedContent = parse(post.content.rendered);
 
     return (
+      
         <>
+
             <Header />
             {/* Page Title */}
             <section
@@ -223,7 +239,7 @@ export default function VillaConstructionDetail() {
                                                 padding: "10px",
                                             }}
                                             src={src}
-                                            type="video/mp4"
+                                            typeof="video/mp4"
                                         >
                                             Your browser does not support the video tag.
                                         </video>
@@ -331,3 +347,9 @@ export default function VillaConstructionDetail() {
         </>
     );
 }
+
+
+
+
+
+      
