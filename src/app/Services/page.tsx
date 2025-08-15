@@ -65,10 +65,7 @@ export default function ServicesPage() {
         <>
             <Head>
                 <title>{data.title} | Karyani House</title>
-                <meta
-                    name="description"
-                    content={`Discover our specialized services in ${data.title.toLowerCase()}.`}
-                />
+                <meta name="description" content={`Discover our specialized services in ${data.title.toLowerCase()}.`} />
             </Head>
 
             <Header />
