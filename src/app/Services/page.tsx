@@ -1,5 +1,6 @@
 ﻿"use client";
 export const dynamic = "force-dynamic";
+
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
@@ -7,7 +8,6 @@ import Footer from "../components/HomeFooter";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-
 
 type ServiceData = {
     title: string;
@@ -134,8 +134,7 @@ export default function ServicesPage() {
                                         <span className="title">Quick Contact</span>
                                         <h2>Get Solution</h2>
                                         <div className="text">
-                                            Contact us at the Interior office nearest to you or submit a business
-                                            inquiry online.
+                                            Contact us at the Interior office nearest to you or submit a business inquiry online.
                                         </div>
                                         <Link className="theme-btn btn-style-three" href="/contact">
                                             Contact
