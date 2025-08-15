@@ -1,7 +1,7 @@
 ﻿"use client";
 export const dynamic = "force-dynamic";
+
 import React, { useEffect, useState } from "react";
-import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/HomeFooter";
 import Link from "next/link";
@@ -29,7 +29,7 @@ type ServiceData = {
     };
 };
 
-function ServicesPage() {
+export default function ServicesPage() {
     const [servicesData, setServicesData] = useState<Record<string, ServiceData> | null>(null);
     const [activeTab, setActiveTab] = useState("precautions");
     const searchParams = useSearchParams();
@@ -64,16 +64,9 @@ function ServicesPage() {
 
     return (
         <>
-            <Head>
-                <title>{data.title} | Karyani House</title>
-                <meta
-                    name="description"
-                    content={`Discover our specialized services in ${data.title.toLowerCase()}.`}
-                />
-            </Head>
+            {/* Page Title */}
 
             <Header />
-
             <section
                 className="page-title"
                 style={{ backgroundImage: "url(/images/background/cons.jpg)" }}
@@ -155,6 +148,7 @@ function ServicesPage() {
                                                 alt={data.mainImageAlt}
                                                 width={800}
                                                 height={500}
+                                                priority
                                                 style={{ width: "100%", height: "auto" }}
                                             />
                                         </figure>
@@ -235,8 +229,4 @@ function ServicesPage() {
             <Footer />
         </>
     );
-}
-
-export default function ServicesPageWrapper() {
-    return <ServicesPage />;
 }
