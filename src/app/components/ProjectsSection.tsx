@@ -1,24 +1,32 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
+
+type Member = {
+    name: string;
+    role: string;
+    video: string;
+    image?: string; // optional image for the member
+};
 
 const TeamWithVideos = () => {
     const [category, setCategory] = useState("villa");
 
-    const videosByCategory: Record<string, {  video: string }[]> = {
+    const videosByCategory: Record<string, Member[]> = {
         villa: [
-            {video: "/video/final.mp4" },
-            {  video: "/video/final2.mp4" },
-            { video: "/video/final3.mp4" },
+            { name: "John Doe", role: "Project Manager", video: "/video/final.mp4", image: "/images/team1.jpg" },
+            { name: "Jane Smith", role: "Designer", video: "/video/final2.mp4", image: "/images/team2.jpg" },
+            { name: "Mike Johnson", role: "Engineer", video: "/video/final3.mp4", image: "/images/team3.jpg" },
         ],
         repair: [
-            {  video: "/video/repair1.mp4" },
-            {  video: "/video/repair2.mp4" },
-            {  video: "/video/repair3.mp4" },
+            { name: "Alice Brown", role: "Structural Engineer", video: "/video/repair1.mp4", image: "/images/repair1.jpg" },
+            { name: "Bob White", role: "Technician", video: "/video/repair2.mp4", image: "/images/repair2.jpg" },
+            { name: "Charlie Green", role: "Supervisor", video: "/video/repair3.mp4", image: "/images/repair3.jpg" },
         ],
         cladding: [
-            {  video: "/video/cladding1.mp4" },
-            { video: "/video/cladding2.mp4" },
-            {video: "/video/cladding3.mp4" },
+            { name: "David Lee", role: "Project Lead", video: "/video/cladding1.mp4", image: "/images/cladding1.jpg" },
+            { name: "Emma Wilson", role: "Architect", video: "/video/cladding2.mp4", image: "/images/cladding2.jpg" },
+            { name: "Frank Harris", role: "Designer", video: "/video/cladding3.mp4", image: "/images/cladding3.jpg" },
         ],
     };
 
@@ -69,8 +77,21 @@ const TeamWithVideos = () => {
                                         />
                                     </div>
 
+                                    {/* Optional Image using Next.js Image */}
+                                    {member.image && (
+                                        <div className="member-image mt-2" style={{ textAlign: "center" }}>
+                                            <Image
+                                                src={member.image}
+                                                alt={member.name}
+                                                width={150}
+                                                height={150}
+                                                className="rounded-circle"
+                                            />
+                                        </div>
+                                    )}
+
                                     {/* Social Links */}
-                                    <ul className="social-links">
+                                    <ul className="social-links mt-2">
                                         <li><a href="#"><i className="fa fa-facebook"></i></a></li>
                                         <li><a href="#"><i className="fa fa-twitter"></i></a></li>
                                         <li><a href="#"><i className="fa fa-google-plus"></i></a></li>
