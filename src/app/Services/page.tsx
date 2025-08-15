@@ -43,9 +43,7 @@ export default function ServicesPage() {
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 return res.json();
             })
-            .then((data) => {
-                setServicesData(data);
-            })
+            .then((data) => setServicesData(data))
             .catch((error) => {
                 console.error("Failed to load services data:", error);
                 setServicesData(null);
@@ -58,13 +56,8 @@ export default function ServicesPage() {
         }
     }, [servicesData, selectedService, router]);
 
-    if (!servicesData) {
-        return <div>Loading services data...</div>;
-    }
-
-    if (!(selectedService in servicesData)) {
-        return null;
-    }
+    if (!servicesData) return <div>Loading services data...</div>;
+    if (!(selectedService in servicesData)) return null;
 
     const data = servicesData[selectedService];
 
@@ -88,9 +81,7 @@ export default function ServicesPage() {
                             <span className="title">The Interior speak for themselves</span>
                         </div>
                         <ul className="bread-crumb clearfix">
-                            <li>
-                                <Link href="/">Home</Link>
-                            </li>
+                            <li><Link href="/">Home</Link></li>
                             <li>Service Detail</li>
                         </ul>
                     </div>
@@ -100,6 +91,7 @@ export default function ServicesPage() {
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
+                        {/* Sidebar */}
                         <div className="sidebar-side col-lg-4 col-md-12 col-sm-12">
                             <aside className="sidebar services-sidebar">
                                 <div className="sidebar-widget sidebar-blog-category">
@@ -114,47 +106,31 @@ export default function ServicesPage() {
 
                                 <div className="sidebar-widget brochure-widget">
                                     <h3 className="sidebar-title">Download Brochures</h3>
-                                    <div className="brochure-box">
-                                        <div className="inner">
-                                            <span className="icon fa fa-file-pdf-o"></span>
-                                            <div className="text">Project-One .pdf</div>
+                                    {["pdf", "word", "ppt"].map((type) => (
+                                        <div key={type} className="brochure-box">
+                                            <div className="inner">
+                                                <span className={`icon fa fa-file-${type}-o`}></span>
+                                                <div className="text">Project-One .{type}</div>
+                                            </div>
+                                            <a href="#" className="overlay-link"></a>
                                         </div>
-                                        <a href="#" className="overlay-link"></a>
-                                    </div>
-                                    <div className="brochure-box">
-                                        <div className="inner">
-                                            <span className="icon fa fa-file-word-o"></span>
-                                            <div className="text">Project-One .wd</div>
-                                        </div>
-                                        <a href="#" className="overlay-link"></a>
-                                    </div>
-                                    <div className="brochure-box">
-                                        <div className="inner">
-                                            <span className="icon fa fa-file-powerpoint-o"></span>
-                                            <div className="text">Project-One .ppt</div>
-                                        </div>
-                                        <a href="#" className="overlay-link"></a>
-                                    </div>
+                                    ))}
                                 </div>
 
-                                <div
-                                    className="help-box"
-                                    style={{ backgroundImage: "url(/images/resource/brochure-bg.jpg)" }}
-                                >
+                                <div className="help-box" style={{ backgroundImage: "url(/images/resource/brochure-bg.jpg)" }}>
                                     <div className="inner">
                                         <span className="title">Quick Contact</span>
                                         <h2>Get Solution</h2>
                                         <div className="text">
                                             Contact us at the Interior office nearest to you or submit a business inquiry online.
                                         </div>
-                                        <Link className="theme-btn btn-style-three" href="/contact">
-                                            Contact
-                                        </Link>
+                                        <Link className="theme-btn btn-style-three" href="/contact">Contact</Link>
                                     </div>
                                 </div>
                             </aside>
                         </div>
 
+                        {/* Content */}
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             <div className="service-detail">
                                 <div className="inner-box">
@@ -169,6 +145,7 @@ export default function ServicesPage() {
                                             />
                                         </figure>
                                     </div>
+
                                     <h2>{data.title}</h2>
                                     <div className="text">
                                         <strong>{data.introStrong}</strong>
@@ -181,9 +158,7 @@ export default function ServicesPage() {
                                             <div className="column col-lg-6 col-md-6 col-sm-12">
                                                 <h3>{data.featuresTitle}</h3>
                                                 <ul>
-                                                    {data.featuresList.map((feature, idx) => (
-                                                        <li key={idx}>{feature}</li>
-                                                    ))}
+                                                    {data.featuresList.map((feature, idx) => <li key={idx}>{feature}</li>)}
                                                 </ul>
                                             </div>
                                             <div className="column col-lg-6 col-md-6 col-sm-12">
@@ -206,53 +181,32 @@ export default function ServicesPage() {
                                     </div>
                                 </div>
 
+                                {/* Tabs */}
                                 <div className="product-info-tabs">
                                     <div className="prod-tabs tabs-box">
                                         <ul className="tab-btns tab-buttons clearfix">
-                                            <li
-                                                className={activeTab === "precautions" ? "tab-btn active-btn" : "tab-btn"}
-                                                onClick={() => setActiveTab("precautions")}
-                                            >
-                                                Precautions
-                                            </li>
-                                            <li
-                                                className={activeTab === "intelligence" ? "tab-btn active-btn" : "tab-btn"}
-                                                onClick={() => setActiveTab("intelligence")}
-                                            >
-                                                Intelligence
-                                            </li>
-                                            <li
-                                                className={activeTab === "specializations" ? "tab-btn active-btn" : "tab-btn"}
-                                                onClick={() => setActiveTab("specializations")}
-                                            >
-                                                Specializations
-                                            </li>
+                                            {["precautions", "intelligence", "specializations"].map((tab) => (
+                                                <li
+                                                    key={tab}
+                                                    className={activeTab === tab ? "tab-btn active-btn" : "tab-btn"}
+                                                    onClick={() => setActiveTab(tab)}
+                                                >
+                                                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                                </li>
+                                            ))}
                                         </ul>
+
                                         <div className="tabs-content">
-                                            <div
-                                                className={activeTab === "precautions" ? "tab active-tab" : "tab"}
-                                                id="prod-details"
-                                            >
-                                                <div className="content">
-                                                    <p>{data.tabs.precautions}</p>
+                                            {["precautions", "intelligence", "specializations"].map((tab) => (
+                                                <div
+                                                    key={tab}
+                                                    className={activeTab === tab ? "tab active-tab" : "tab"}
+                                                >
+                                                    <div className="content">
+                                                        <p>{data.tabs[tab as keyof typeof data.tabs]}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div
-                                                className={activeTab === "intelligence" ? "tab active-tab" : "tab"}
-                                                id="prod-spec"
-                                            >
-                                                <div className="content">
-                                                    <p>{data.tabs.intelligence}</p>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className={activeTab === "specializations" ? "tab active-tab" : "tab"}
-                                                id="prod-reviews"
-                                            >
-                                                <div className="content">
-                                                    <p>{data.tabs.specializations}</p>
-                                                </div>
-                                            </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
