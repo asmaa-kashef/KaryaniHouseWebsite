@@ -1,4 +1,5 @@
 ﻿"use client";
+
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
@@ -6,6 +7,8 @@ import Footer from "../components/HomeFooter";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
+
+export const dynamic = "force-dynamic"; // تجعل الصفحة ديناميكية بالكامل
 
 type ServiceData = {
     title: string;
