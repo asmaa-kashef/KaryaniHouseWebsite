@@ -1,4 +1,5 @@
 ﻿"use client";
+
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
@@ -38,7 +39,7 @@ export default function ServicesPage() {
     const selectedService = searchParams?.get("service") || defaultService;
 
     useEffect(() => {
-        fetch("/data/servicesData.json")
+        fetch("/data/servicesData.json") // تأكد إن الملف موجود في public/data/
             .then((res) => {
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 return res.json();
@@ -88,7 +89,6 @@ export default function ServicesPage() {
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
-                        {/* Sidebar */}
                         <div className="sidebar-side col-lg-4 col-md-12 col-sm-12">
                             <aside className="sidebar services-sidebar">
                                 <div className="sidebar-widget sidebar-blog-category">
@@ -100,34 +100,9 @@ export default function ServicesPage() {
                                         ))}
                                     </ul>
                                 </div>
-
-                                <div className="sidebar-widget brochure-widget">
-                                    <h3 className="sidebar-title">Download Brochures</h3>
-                                    {["pdf", "word", "ppt"].map((type) => (
-                                        <div key={type} className="brochure-box">
-                                            <div className="inner">
-                                                <span className={`icon fa fa-file-${type}-o`}></span>
-                                                <div className="text">Project-One .{type}</div>
-                                            </div>
-                                            <a href="#" className="overlay-link"></a>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="help-box" style={{ backgroundImage: "url(/images/resource/brochure-bg.jpg)" }}>
-                                    <div className="inner">
-                                        <span className="title">Quick Contact</span>
-                                        <h2>Get Solution</h2>
-                                        <div className="text">
-                                            Contact us at the Interior office nearest to you or submit a business inquiry online.
-                                        </div>
-                                        <Link className="theme-btn btn-style-three" href="/contact">Contact</Link>
-                                    </div>
-                                </div>
                             </aside>
                         </div>
 
-                        {/* Content */}
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             <div className="service-detail">
                                 <div className="inner-box">
@@ -178,7 +153,6 @@ export default function ServicesPage() {
                                     </div>
                                 </div>
 
-                                {/* Tabs */}
                                 <div className="product-info-tabs">
                                     <div className="prod-tabs tabs-box">
                                         <ul className="tab-btns tab-buttons clearfix">
@@ -195,10 +169,7 @@ export default function ServicesPage() {
 
                                         <div className="tabs-content">
                                             {["precautions", "intelligence", "specializations"].map((tab) => (
-                                                <div
-                                                    key={tab}
-                                                    className={activeTab === tab ? "tab active-tab" : "tab"}
-                                                >
+                                                <div key={tab} className={activeTab === tab ? "tab active-tab" : "tab"}>
                                                     <div className="content">
                                                         <p>{data.tabs[tab as keyof typeof data.tabs]}</p>
                                                     </div>
@@ -209,6 +180,7 @@ export default function ServicesPage() {
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
