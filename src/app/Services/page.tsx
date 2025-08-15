@@ -1,6 +1,5 @@
 ﻿"use client";
 export const dynamic = "force-dynamic";
-
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "../components/Header";
@@ -30,7 +29,7 @@ type ServiceData = {
     };
 };
 
-export default function ServicesPage() {
+function ServicesPage() {
     const [servicesData, setServicesData] = useState<Record<string, ServiceData> | null>(null);
     const [activeTab, setActiveTab] = useState("precautions");
     const searchParams = useSearchParams();
@@ -134,7 +133,8 @@ export default function ServicesPage() {
                                         <span className="title">Quick Contact</span>
                                         <h2>Get Solution</h2>
                                         <div className="text">
-                                            Contact us at the Interior office nearest to you or submit a business inquiry online.
+                                            Contact us at the Interior office nearest to you or submit a business
+                                            inquiry online.
                                         </div>
                                         <Link className="theme-btn btn-style-three" href="/contact">
                                             Contact
@@ -235,4 +235,8 @@ export default function ServicesPage() {
             <Footer />
         </>
     );
+}
+
+export default function ServicesPageWrapper() {
+    return <ServicesPage />;
 }
