@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import React from "react";
+import Image from 'next/image';
 import Link from "next/link";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -154,18 +155,26 @@ export default function AboutPage() {
                                     </div>
                                     <div className="image-box">
                                         <figure className="alphabet-img wow fadeInRight">
-                                            <img
+                                            <Image
                                                 src="/images/resource/alphabet-image.png"
                                                 alt="Alphabet"
+                                                width={600} // You can adjust these values
+                                                height={700} // to fit your design
                                             />
                                         </figure>
                                         <figure
                                             className="image wow fadeInRight"
                                             data-wow-delay="600ms"
                                         >
-                                            <img src="/images/resource/image-2.png" alt="About Image" />
+                                            <Image
+                                                src="/images/resource/image-2.png"
+                                                alt="About Image"
+                                                width={444} // You can adjust these values
+                                                height={448} // to fit your design
+                                            />
                                         </figure>
                                     </div>
+                                 
                                 </div>
                             </div>
 
@@ -244,7 +253,13 @@ export default function AboutPage() {
                                         <div className="text">{item.text}</div>
                                         <div className="info-box">
                                             <div className="thumb">
-                                                <img src={item.image} alt={item.name} />
+                                                {/* Corrected line: Replaced <img> with <Image> */}
+                                                <Image
+                                                    src={item.image}
+                                                    alt={item.name}
+                                                    width={70} // Example size, adjust as needed
+                                                    height={70} // Example size, adjust as needed
+                                                />
                                             </div>
                                             <h5 className="name">{item.name}</h5>
                                             <span className="date">{item.date}</span>
@@ -259,7 +274,9 @@ export default function AboutPage() {
                 {/* Clients & Video Section */}
                 <ClientsAndVideoSection />
 
-                {/* FAQ Section */}
+           
+
+                {/* App Section */}
                 <section className="faq-section">
                     <div className="auto-container">
                         <div className="row">
@@ -267,7 +284,13 @@ export default function AboutPage() {
                                 <div className="inner-column">
                                     <div className="image-box">
                                         <figure className="image">
-                                            <img src="/images/resource/faq-img.png" alt="FAQ Image" />
+                                            {/* Corrected line: Replaced <img> with <Image> */}
+                                            <Image
+                                                src="/images/resource/faq-img.png"
+                                                alt="FAQ Image"
+                                                width={560} // Example size, adjust as needed
+                                                height={524} // Example size, adjust as needed
+                                            />
                                         </figure>
                                     </div>
                                 </div>
@@ -297,44 +320,6 @@ export default function AboutPage() {
                                             </li>
                                         ))}
                                     </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* App Section */}
-                <section className="app-section">
-                    <div className="outer-box">
-                        <div className="auto-container">
-                            <div className="row">
-                                <div className="title-column col-lg-4 col-md-12 col-sm-12">
-                                    <div className="inner-column">
-                                        <h1>
-                                            Karyani <br />
-                                            House
-                                        </h1>
-                                    </div>
-                                </div>
-
-                                <div className="image-column col-lg-4 col-md-12 col-sm-12">
-                                    <div className="inner-column">
-                                        <div className="image-box wow zoomInLeft">
-                                            <figure className="image">
-                                                <img src="/images/resource/mobile-app.png" alt="Mobile App" />
-                                            </figure>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="content-column col-lg-4 col-md-12 col-sm-12">
-                                    <div className="inner-column">
-                                        <h3>Karyani House <br /> delivers expert construction</h3>
-                                        <div className="text">
-                                            renovation, cladding, and maintenance <br />
-                                            services with guaranteed quality
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -381,22 +366,18 @@ export default function AboutPage() {
                                         <ul className="image-carousel owl-carousel owl-theme">
                                             <li>
                                                 <Link href="/images/resource/ENGG12.png" className="lightbox-image" title="Image Caption Here">
-                                                    <img src="/images/resource/ENGG12.png" alt="" />
+                                                    <Image src="/images/resource/ENGG12.png" alt="Engineering Image 1" width={670} height={420} />
                                                 </Link>
                                             </li>
                                             <li>
                                                 <Link href="/images/resource/Eng1.png" className="lightbox-image" title="Image Caption Here">
-                                                    <img src="/images/resource/Eng1.png" alt="" />
+                                                    <Image src="/images/resource/Eng1.png" alt="Engineering Image 2" width={670} height={420} />
                                                 </Link>
                                             </li>
-                                            <li>
-                                                <Link href="/images/resource/special-4.jpg" className="lightbox-image" title="Image Caption Here">
-                                                    <img src="/images/resource/special-4.jpg" alt="" />
-                                                </Link>
-                                            </li>
+                                           
                                             <li>
                                                 <Link href="/images/resource/ENGG122.png" className="lightbox-image" title="Image Caption Here">
-                                                    <img src="/images/resource/ENGG12.png" alt="" />
+                                                    <Image src="/images/resource/ENGG12.png" alt="Engineering Image 3" width={670} height={420} />
                                                 </Link>
                                             </li>
                                         </ul>
@@ -404,7 +385,7 @@ export default function AboutPage() {
                                         <ul className="thumbs-carousel owl-carousel owl-theme">
                                             <li className="thumb-box">
                                                 <figure>
-                                                    <img src="/images/resource/Eng12.png" alt="" />
+                                                    <Image src="/images/resource/Eng12.png" alt="Thumbnail 1" width={150} height={150} />
                                                 </figure>
                                                 <div className="overlay">
                                                     <span className="icon fa fa-arrows-alt"></span>
@@ -412,7 +393,7 @@ export default function AboutPage() {
                                             </li>
                                             <li className="thumb-box">
                                                 <figure>
-                                                    <img src="/images/resource/ENG.png" alt="" />
+                                                    <Image src="/images/resource/ENG.png" alt="Thumbnail 2" width={150} height={150} />
                                                 </figure>
                                                 <div className="overlay">
                                                     <span className="icon fa fa-arrows-alt"></span>
@@ -420,7 +401,7 @@ export default function AboutPage() {
                                             </li>
                                             <li className="thumb-box">
                                                 <figure>
-                                                    <img src="/images/resource/Eng12.png" alt="" />
+                                                    <Image src="/images/resource/Eng12.png" alt="Thumbnail 3" width={150} height={150} />
                                                 </figure>
                                                 <div className="overlay">
                                                     <span className="icon fa fa-arrows-alt"></span>
