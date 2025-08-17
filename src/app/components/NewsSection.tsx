@@ -1,5 +1,5 @@
-import React from "react";
-
+﻿import React from "react";
+import Image from "next/image";
 type Post = {
     id: number;
     slug: string;
@@ -52,9 +52,11 @@ export default async function NewsSection() {
                                 <div className="inner-box">
                                     <div className="image-box">
                                         <figure className="image" style={{ overflow: "hidden" }}>
-                                            <img
-                                                src={img}
-                                                alt={title}
+                                            <Image
+                                                src={img || "/images/placeholder.jpg"} // placeholder لو img فاضي
+                                                alt={title.replace(/<[^>]+>/g, "")}
+                                                width={400}      // اضبطي العرض حسب التصميم
+                                                height={250}     // نفس ارتفاع التصميم القديم
                                                 style={{
                                                     width: "100%",
                                                     height: "250px",
@@ -69,6 +71,7 @@ export default async function NewsSection() {
                                             </a>
                                         </div>
                                     </div>
+
                                     <div className="caption-box">
                                         <div className="inner">
                                             <h3>

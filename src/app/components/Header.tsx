@@ -62,19 +62,7 @@ export default function Header() {
                                             </ul>
                                         </li>
 
-                                        <li className="dropdown">
-                                            {/* Dropdown title, keep <a> since it's not a real page */}
-                                            <a href="#" role="button" aria-haspopup="true" aria-expanded="false">Services</a>
-                                            <ul>
-                                                <li><Link href="/services">All Services</Link></li>
-                                                <li><Link href="/service-detail">Commercial Design</Link></li>
-                                                <li><Link href="/service-detail">Landescape Design</Link></li>
-                                                <li><Link href="/service-detail">Interior Design</Link></li>
-                                                <li><Link href="/service-detail">Complete Interior</Link></li>
-                                                <li><Link href="/service-detail">House Interior</Link></li>
-                                                <li><Link href="/service-detail">Service Detail</Link></li>
-                                            </ul>
-                                        </li>
+                                        <li><Link href="/Services">Services</Link></li>
 
                                         <li>
                                             <Link href="/projects">Projects</Link>

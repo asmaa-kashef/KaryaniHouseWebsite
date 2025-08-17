@@ -19,7 +19,7 @@ export default function RootLayout({
                 <link rel="stylesheet" href="/css/bootstrap.css" />
                 <link rel="stylesheet" href="/css/style.css" />
                 <link rel="stylesheet" href="/css/responsive.css" />
-                <link rel="stylesheet" href="/css/color.css" />
+                
             </head>
             <body>
                 {/* الهيدر */}

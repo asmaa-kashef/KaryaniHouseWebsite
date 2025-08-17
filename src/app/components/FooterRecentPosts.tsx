@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
-
+import Image from "next/image";
 type Post = {
     id: number;
     slug: string;
@@ -49,7 +49,13 @@ export default function FooterRecentPosts() {
                             <div className="post" key={post.id}>
                                 <div className="thumb">
                                     <a href={`/blog/${post.slug}`}>
-                                        <img src={img} alt={title.replace(/<[^>]+>/g, "")} />
+                                        <Image
+                                            src={img || "/images/placeholder.jpg"} // لو img مش موجود، هيعرض placeholder
+                                            alt={title.replace(/<[^>]+>/g, "")}
+                                            width={600}   // حدد العرض المناسب
+                                            height={400}  // حدد الارتفاع المناسب
+                                            style={{ objectFit: "cover" }}
+                                        />
                                     </a>
                                 </div>
                                 <h4>

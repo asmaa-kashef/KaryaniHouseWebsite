@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-
+import Image from 'next/image';
 const ClientsSection = () => {
     return (
         <section className="clients-section style-two">
@@ -11,7 +11,13 @@ const ClientsSection = () => {
                             <li key={idx} className="slide-item">
                                 <figure className="image-box">
                                     <a href="#">
-                                        <img src={`/images/clients/${num}.webp`} alt={`Client ${num}`} style={{ width: "150px", height: "90px", objectFit: "contain", display: "block", margin: "0 auto" }} />
+                                        <Image
+                                            src={`/images/clients/${num}.webp`}
+                                            alt={`Client ${num}`}
+                                            width={110}
+                                            height={80}
+                                            style={{ objectFit: "contain", display: "block", margin: "0 auto" }}
+                                        />
                                     </a>
                                 </figure>
                             </li>

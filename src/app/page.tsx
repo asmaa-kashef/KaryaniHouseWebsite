@@ -1,4 +1,5 @@
 ﻿import React from "react";
+import Image from "next/image";
 import Header from "./components/HomeHeader";
 import Footer from "./components/HomeFooter";
 import ProjectsComponent from './components/ProjectsComponent';
@@ -13,47 +14,32 @@ export default function HomePage() {
                 {/* Banner Section */}
                 <section className="banner-section-two">
                     <div className="banner-carousel owl-carousel owl-theme">
-                        <div className="slide-item" style={{ backgroundImage: "url(/images/main-slider/construction.webp)" }}>
-                            <div className="auto-container">
-                                <div className="content-box">
-                                    <span className="title">Our Specilization</span>
-                                    <h2>Villa Construction <br />Structure Repair<br />Cladding</h2>
-                                    <div className="video-link">
-                                        <a href="https://www.youtube.com/watch?v=Fvae8nxzVz4" data-fancybox="gallery">
-                                            <i className="icon fa fa-play" aria-hidden="true"></i>
-                                        </a>
+                        {[
+                            "/images/main-slider/construction.webp",
+                            "/images/main-slider/VillaConstruction.webp",
+                            "/images/main-slider/villa.webp"
+                        ].map((bg, idx) => (
+                            <div
+                                key={idx}
+                                className="slide-item"
+                                style={{ backgroundImage: `url(${bg})` }}
+                            >
+                                <div className="auto-container">
+                                    <div className="content-box">
+                                        <span className="title">Our Specialization</span>
+                                        <h2>Villa Construction <br />Structure Repair<br />Cladding</h2>
+                                        <div className="video-link">
+                                            <a
+                                                href="https://www.youtube.com/watch?v=Fvae8nxzVz4"
+                                                data-fancybox="gallery"
+                                            >
+                                                <i className="icon fa fa-play" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div className="slide-item" style={{ backgroundImage: "url(/images/main-slider/VillaConstruction.webp)" }}>
-                            <div className="auto-container">
-                                <div className="content-box">
-                                    <span className="title">Our Specialization</span>
-                                    <h2>Villa Construction <br />Structure Repair<br />Cladding</h2>
-                                    <div className="video-link">
-                                        <a href="https://www.youtube.com/watch?v=Fvae8nxzVz4" data-fancybox="gallery">
-                                            <i className="icon fa fa-play" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="slide-item" style={{ backgroundImage: "url(/images/main-slider/villa.webp)" }}>
-                            <div className="auto-container">
-                                <div className="content-box">
-                                    <span className="title">Our Specialization</span>
-                                    <h2>Villa Construction <br />Structure Repair<br />Cladding</h2>
-                                    <div className="video-link">
-                                        <a href="https://www.youtube.com/watch?v=Fvae8nxzVz4" data-fancybox="gallery">
-                                            <i className="icon fa fa-play" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </section>
 
@@ -61,8 +47,8 @@ export default function HomePage() {
                 <section className="specialize-section">
                     <div className="auto-container">
                         <div className="sec-title">
-                            <span className="float-text">Specilization</span>
-                            <h2>Our Specilization</h2>
+                            <span className="float-text">Specialization</span>
+                            <h2>Our Specialization</h2>
                         </div>
 
                         <div className="services-carousel-two owl-carousel owl-theme">
@@ -78,7 +64,13 @@ export default function HomePage() {
                                         <div className="image-box">
                                             <figure className="image">
                                                 <a href={service.link}>
-                                                    <img src={service.img} alt={service.title} style={{ width: "300px", height: "300px", objectFit: "cover", display: "block" }} />
+                                                    <Image
+                                                        src={service.img}
+                                                        alt={service.title}
+                                                        width={300}
+                                                        height={300}
+                                                        style={{ objectFit: "cover", display: "block" }}
+                                                    />
                                                 </a>
                                             </figure>
                                         </div>
@@ -97,7 +89,7 @@ export default function HomePage() {
                     </div>
                 </section>
 
-                {/* ✅ About Section */}
+                {/* About Section */}
                 <section className="about-section" style={{ backgroundImage: "url(/images/background/1.jpg)" }}>
                     <div className="auto-container">
                         <div className="row no-gutters">
@@ -108,10 +100,22 @@ export default function HomePage() {
                                     </div>
                                     <div className="image-box">
                                         <figure className="alphabet-img wow fadeInRight">
-                                            <img src="/images/resource/alphabet-image.png" alt="" />
+                                            <Image
+                                                src="/images/resource/alphabet-image.png"
+                                                alt=""
+                                                width={800}
+                                                height={800}
+                                                style={{ objectFit: "contain" }}
+                                            />
                                         </figure>
                                         <figure className="image wow fadeInRight" data-wow-delay="600ms">
-                                            <img src="/images/resource/image-1.webp" alt="" />
+                                            <Image
+                                                src="/images/resource/image-1.webp"
+                                                alt=""
+                                                width={350}
+                                                height={100}
+                                                style={{ objectFit: "cover" }}
+                                            />
                                         </figure>
                                     </div>
                                 </div>
@@ -135,7 +139,7 @@ export default function HomePage() {
                     </div>
                 </section>
 
-                {/* Fun Fact And Features */}
+                {/* Fun Fact and Features */}
                 <section className="fun-fact-and-features" style={{ backgroundImage: "url(/images/background/3.jpg)" }}>
                     <div className="outer-box">
                         <div className="auto-container">
@@ -244,7 +248,13 @@ export default function HomePage() {
                                     <li key={idx} className="slide-item">
                                         <figure className="image-box">
                                             <a href="#">
-                                                <img src={`/images/clients/${num}.webp`} alt={`Client ${num}`} style={{ width: "150px", height: "90px", objectFit: "contain", display: "block", margin: "0 auto" }} />
+                                                <Image
+                                                    src={`/images/clients/${num}.webp`}
+                                                    alt={`Client ${num}`}
+                                                    width={150}
+                                                    height={90}
+                                                    style={{ objectFit: "contain", display: "block", margin: "0 auto" }}
+                                                />
                                             </a>
                                         </figure>
                                     </li>

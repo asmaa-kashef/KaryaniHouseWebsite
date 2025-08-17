@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 
 export default function ClientsAndVideoSection() {
     return (
@@ -12,7 +13,16 @@ export default function ClientsAndVideoSection() {
                                 <li key={idx} className="slide-item">
                                     <figure className="image-box">
                                         <a href="#">
-                                            <img src={`/images/clients/${num}.webp`} alt={`Client ${num}`} style={{ width: "150px", height: "90px", objectFit: "contain", display: "block", margin: "0 auto" }} />
+                                            {/* Corrected line: Replaced <img> with <Image> */}
+                                            <Image
+                                                src={`/images/clients/${num}.webp`}
+                                                alt={`Client ${num}`}
+                                                width={110}
+                                                height={80}
+                                                // Note: The styling should ideally be in a CSS class
+                                                // and not inline for better practice.
+                                                style={{ objectFit: "contain", display: "block", margin: "0 auto" }}
+                                            />
                                         </a>
                                     </figure>
                                 </li>
@@ -21,7 +31,6 @@ export default function ClientsAndVideoSection() {
                     </div>
                 </div>
             </section>
-      
 
             {/* Video Section */}
             <section className="video-section">
@@ -45,7 +54,12 @@ export default function ClientsAndVideoSection() {
                                 <div className="inner-column">
                                     <div className="video-box">
                                         <figure className="image">
-                                            <img src="/images/resource/video-img.webp" alt="Video Preview" />
+                                            <Image
+                                                src="/images/resource/video-img.webp"
+                                                alt="Video Preview"
+                                                width={600} // Example size, adjust as needed
+                                                height={400} // Example size, adjust as needed
+                                            />
                                             <a href="https://www.youtube.com/watch?v=Fvae8nxzVz4" className="link" data-fancybox="gallery">
                                                 <span className="icon fa fa-play"></span>
                                             </a>

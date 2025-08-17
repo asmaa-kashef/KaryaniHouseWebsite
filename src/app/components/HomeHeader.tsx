@@ -156,20 +156,7 @@ export default function Header() {
                                             <li><Link href="/coming-soon">Coming Soon</Link></li>
                                         </ul>
                                     </li>
-                                    <li className="dropdown">
-                                        <span role="button" aria-haspopup="true" aria-expanded="false" className="dropdown-toggle" style={{ cursor: "pointer" }}>
-                                            Services
-                                        </span>
-                                        <ul>
-                                            <li><Link href="/services">All Services</Link></li>
-                                            <li><Link href="/service-detail">Commercial Design</Link></li>
-                                            <li><Link href="/service-detail">Landescape Design</Link></li>
-                                            <li><Link href="/service-detail">Interior Design</Link></li>
-                                            <li><Link href="/service-detail">Complete Interior</Link></li>
-                                            <li><Link href="/service-detail">House Interior</Link></li>
-                                            <li><Link href="/service-detail">Service Detail</Link></li>
-                                        </ul>
-                                    </li>
+                                    <li><Link href="/Services">Services</Link></li>
                                     <li><Link href="/projects">Projects</Link></li>
                                     <li><Link href="/VillaConstruction">Blog</Link></li>
                                     <li><Link href="/contact">Contact</Link></li>

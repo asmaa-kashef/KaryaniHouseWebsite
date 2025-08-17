@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from "next/image";
 export default function ClientsAndVideoSection() {
     return (
         <>
@@ -11,7 +11,15 @@ export default function ClientsAndVideoSection() {
                             {["1", "2", "3", "4", "5", "1", "2", "3", "4", "5"].map((num, index) => (
                                 <li className="slide-item" key={index}>
                                     <figure className="image-box">
-                                        <a href="#"><img src={`/images/clients/${num}.png`} alt="" /></a>
+                                        <a href="#">
+                                            <Image
+                                                src={`/images/clients/${num}.png`}
+                                                alt={`Client ${num}`}
+                                                width={150} // set the width you need
+                                                height={100} // set the height you need
+                                                objectFit="contain" // optional: makes image fit nicely
+                                            />
+                                        </a>
                                     </figure>
                                 </li>
                             ))}
@@ -42,8 +50,18 @@ export default function ClientsAndVideoSection() {
                                 <div className="inner-column">
                                     <div className="video-box">
                                         <figure className="image">
-                                            <img src="/images/resource/video-img.jpg" alt="Video Preview" />
-                                            <a href="https://www.youtube.com/watch?v=Fvae8nxzVz4" className="link" data-fancybox="gallery">
+                                            <Image
+                                                src="/images/resource/video-img.jpg"
+                                                alt="Video Preview"
+                                                width={600}   // set according to your layout
+                                                height={400}  // set according to your layout
+                                                objectFit="cover" // optional: adjust as needed
+                                            />
+                                            <a
+                                                href="https://www.youtube.com/watch?v=Fvae8nxzVz4"
+                                                className="link"
+                                                data-fancybox="gallery"
+                                            >
                                                 <span className="icon fa fa-play"></span>
                                             </a>
                                         </figure>

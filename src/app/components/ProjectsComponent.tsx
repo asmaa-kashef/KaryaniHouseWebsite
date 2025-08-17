@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import React, { useEffect, useState } from 'react';
-
+import Image from "next/image";
 interface Project {
     img: string;
     name: string;
@@ -42,9 +42,16 @@ export default function ProjectsComponent() {
                         <div key={idx} className="project-block-two">
                             <div className="image-box">
                                 <figure className="image">
-                                    <img src={project.img} alt={project.name} />
+                                    <Image
+                                        src={project.img || "/images/placeholder.jpg"} // placeholder لو img مش موجودة
+                                        alt={project.name}
+                                        width={400}   // حددي العرض حسب التصميم
+                                        height={250}  // ارتفاع مناسب للـ carousel
+                                        style={{ objectFit: "cover" }}
+                                    />
                                 </figure>
                             </div>
+
                             <div className="info-box">
                                 <div className="inner-box">
                                     <span className="title">{project.title}</span>
