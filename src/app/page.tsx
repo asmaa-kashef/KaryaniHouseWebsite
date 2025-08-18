@@ -193,8 +193,8 @@ export default function HomePage() {
                 <ProjectsComponent />
 
                 {/* Offer Section */}
-           
-                <OfferForm/>
+
+                <OfferForm />
                 {/* Projects Section */}
                 <ProjectsSection />
 

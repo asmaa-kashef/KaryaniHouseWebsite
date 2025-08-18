@@ -3,19 +3,13 @@
 import { useState, useEffect } from "react";
 import $ from "jquery";
 
-// Define a type for your form data with an index signature
-type FormData = {
-    FirstName: string;
-    lastname: string;
-    Email: string;
-    PhoneNumber: string;
-    Subject: string;
-    Message: string;
-    [key: string]: string; // This allows you to access properties using a string index
-};
+// Conditionally import Owl Carousel
+if (typeof window !== 'undefined') {
+    require('owl.carousel');
+}
 
 // Custom Dropdown Component
-function CustomSelect({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+function CustomSelect({ value, onChange }) {
     const options = ["Villa Construction", "Structure Repair", "Cladding"];
     const [open, setOpen] = useState(false);
 
@@ -68,10 +62,9 @@ function CustomSelect({ value, onChange }: { value: string; onChange: (value: st
 }
 
 export default function OfferForm() {
-    // Your Google Apps Script Web App URL
     const sheetURL = "https://script.google.com/macros/s/AKfycbxrUcITfQZSkhsobRC6eoVgHaGaozHJPqDsOljwYvZeUC_6gN4UkoNvwCJ137uGqp3lXA/exec";
 
-    const [formData, setFormData] = useState<FormData>({
+    const [formData, setFormData] = useState({
         FirstName: "",
         lastname: "",
         Email: "",
@@ -83,12 +76,9 @@ export default function OfferForm() {
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
     useEffect(() => {
-        // Use a dynamic import for Owl Carousel
-        import('owl.carousel').then(() => {
-            if ($ && $.fn.owlCarousel) {
-                $('.owl-carousel').owlCarousel({});
-            }
-        });
+        if ($ && $.fn.owlCarousel) {
+            $('.owl-carousel').owlCarousel({});
+        }
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -182,8 +172,7 @@ export default function OfferForm() {
                                                             "Enter your phone number"
                                             }
                                             required
-                                            // The type assertion 'as FormData' fixes the TypeScript error
-                                            value={formData[field]}
+                                            value={(formData as any)[field]}
                                             onChange={handleChange}
                                             style={{
                                                 padding: "12px 15px",
@@ -226,7 +215,7 @@ export default function OfferForm() {
                                         type="submit"
                                         disabled={status === "loading"}
                                         style={{
-                                            background: "#ff8a00",
+                                            background: "#ff8a00", // solid orange
                                             color: "#fff",
                                             fontSize: "18px",
                                             padding: "12px",
