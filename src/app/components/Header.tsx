@@ -1,16 +1,24 @@
-﻿'use client';
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
+import LanguageSwitcher from "./LanguageSwitcher"; // تأكد من المسار الصحيح
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+    const pathname = usePathname();
+    const isArabic = pathname.startsWith("/ar");
+    const lang = isArabic ? "ar" : "en";
+
     return (
         <header className="main-header header-style-four">
             <div className="header-top">
                 <div className="auto-container clearfix">
                     <div className="top-right">
                         <ul className="contact-info">
-                            <li><span>PHONE :</span> (+971) 050-660-71593</li>
+                            <li>
+                                <span>PHONE :</span> (+971) 050-660-71593
+                            </li>
                             <li>
                                 <span>EMAIL :</span>
                                 <a href="mailto:info@karyani-house.com">info@karyani-house.com</a>
@@ -27,7 +35,7 @@ export default function Header() {
                         {/* Logo Box */}
                         <div className="logo-box">
                             <div className="logo">
-                                <Link href="/">
+                                <Link href={`/${lang}`}>
                                     <Image src="/images/logo.png" alt="Logo" width={150} height={80} />
                                 </Link>
                             </div>
@@ -51,29 +59,52 @@ export default function Header() {
 
                                 <div className="collapse navbar-collapse clearfix" id="navbarSupportedContent">
                                     <ul className="navigation clearfix">
-                                        <li><Link href="/">Home</Link></li>
+                                        <li>
+                                            <Link href={`/${lang}`}>{isArabic ? "الرئيسية" : "Home"}</Link>
+                                        </li>
 
                                         <li>
-                                            <Link href="/about">About</Link>
+                                            <Link href={`/${lang}/about`}>{isArabic ? "من نحن" : "About"}</Link>
                                             <ul>
-                                                <li><Link href="/about">About Us</Link></li>
-                                                <li><Link href="/team">Our Team</Link></li>
-                                                <li><Link href="/coming-soon">Coming Soon</Link></li>
+                                                <li>
+                                                    <Link href={`/${lang}/about`}>{isArabic ? "من نحن" : "About Us"}</Link>
+                                                </li>
+                                                <li>
+                                                    <Link href={`/${lang}/team`}>{isArabic ? "فريقنا" : "Our Team"}</Link>
+                                                </li>
+                                                <li>
+                                                    <Link href={`/${lang}/coming-soon`}>{isArabic ? "قريباً" : "Coming Soon"}</Link>
+                                                </li>
                                             </ul>
                                         </li>
 
-                                        <li><Link href="/Services">Services</Link></li>
+                                        <li>
+                                            <Link href={`/${lang}/services`}>{isArabic ? "خدماتنا" : "Services"}</Link>
+                                        </li>
 
                                         <li>
-                                            <Link href="/projects">Projects</Link>
+                                            <Link href={`/${lang}/projects`}>{isArabic ? "مشاريعنا" : "Projects"}</Link>
                                             <ul>
-                                                <li><Link href="/projects">Projects</Link></li>
-                                                <li><Link href="/project-detail">Project Detail</Link></li>
+                                                <li>
+                                                    <Link href={`/${lang}/projects`}>{isArabic ? "مشاريعنا" : "Projects"}</Link>
+                                                </li>
+                                                <li>
+                                                    <Link href={`/${lang}/project-detail`}>{isArabic ? "تفاصيل المشروع" : "Project Detail"}</Link>
+                                                </li>
                                             </ul>
                                         </li>
 
-                                        <li><Link href="/VillaConstruction">Blog</Link></li>
-                                        <li><Link href="/contact">Contact</Link></li>
+                                        <li>
+                                            <Link href={`/${lang}/VillaConstruction`}>{isArabic ? "المدونة" : "Blog"}</Link>
+                                        </li>
+                                        <li>
+                                            <Link href={`/${lang}/contact`}>{isArabic ? "اتصل بنا" : "Contact"}</Link>
+                                        </li>
+
+                                        {/* زر تبديل اللغة */}
+                                        <li>
+                                            <LanguageSwitcher />
+                                        </li>
                                     </ul>
                                 </div>
                             </nav>
@@ -87,7 +118,12 @@ export default function Header() {
                                                 <div className="form-container">
                                                     <form method="post" action="#">
                                                         <div className="form-group">
-                                                            <input type="search" name="field-name" placeholder="Search Here" required />
+                                                            <input
+                                                                type="search"
+                                                                name="field-name"
+                                                                placeholder={isArabic ? "ابحث هنا" : "Search Here"}
+                                                                required
+                                                            />
                                                             <button type="submit" className="search-btn">
                                                                 <span className="fa fa-search"></span>
                                                             </button>

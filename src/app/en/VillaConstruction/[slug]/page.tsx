@@ -1,7 +1,7 @@
 ﻿"use client";
 import React, { useEffect, useState } from "react";
-import Header from "../../components/Header";
-import Footer from "../../components/HomeFooter";
+import Header from "../../../components/Header";
+import Footer from "../../../components/HomeFooter";
 import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
 import Link from "next/link";
 import Image from "next/image";

@@ -6,9 +6,9 @@ import Link from "next/link";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Header from "../components/HomeHeader";
-import Footer from "../components/HomeFooter";
-import ClientsAndVideoSection from "../components/ClientsAndVideoSection";
+import Header from "../../components/HomeHeader";
+import Footer from "../../components/HomeFooter";
+import ClientsAndVideoSection from "../../components/ClientsAndVideoSection";
 
 const PrevArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
     <div className="slick-prev custom-arrow" onClick={onClick}>
