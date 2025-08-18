@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import Header from "../components/Header";
-import Footer from "../components/HomeFooter";
+import Header from "../../components/Header";
+import Footer from "../../components/HomeFooter";
 
 interface Project {
     img: string;

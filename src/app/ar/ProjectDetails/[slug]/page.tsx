@@ -4,8 +4,8 @@ import React, { useEffect, useState, ReactElement } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import Header from "../../components/Header";
-import Footer from "../../components/HomeFooter";
+import Header from "../../../components/Header";
+import Footer from "../../../components/HomeFooter";
 import ImageGallery, { GalleryItem } from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
