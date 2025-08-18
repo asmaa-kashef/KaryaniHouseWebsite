@@ -3,7 +3,7 @@
 import Script from "next/script";
 
 export const metadata = {
-    title: "Contra - Interior Creator",
+    title: "karyani House construction",
     description: "Luxury Modern Villas and Construction",
 };
 

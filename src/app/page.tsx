@@ -1,11 +1,12 @@
-﻿import React from "react";
+﻿
+import React from "react";
 import Image from "next/image";
 import Header from "./components/HomeHeader";
 import Footer from "./components/HomeFooter";
 import ProjectsComponent from './components/ProjectsComponent';
 import NewsSection from "./components/NewsSection";
 import ProjectsSection from "./components/ProjectsSection";
-
+import OfferForm from "./components/OfferForm";
 export default function HomePage() {
     return (
         <>
@@ -192,50 +193,8 @@ export default function HomePage() {
                 <ProjectsComponent />
 
                 {/* Offer Section */}
-                <section className="offer-section" style={{ backgroundImage: "url(/images/background/6.jpg)" }}>
-                    <div className="auto-container">
-                        <div className="row">
-                            <div className="content-column col-lg-6 col-md-12 col-sm-12">
-                                <div className="inner-column">
-                                    <span className="title"> Book your free consultation now</span>
-                                    <h2><span>Want to get in touch? </span><br /> Fill out the form </h2>
-                                    <br />
-                                    <div className="text"><h2> and we will call you back </h2></div>
-                                    <br />
-                                    <span className="discount">Soon!</span>
-                                    <span className="title"><h2>+9710506607159</h2></span>
-                                </div>
-                            </div>
-
-                            <div className="form-column order-last col-lg-6 col-md-12 col-sm-12">
-                                <div className="inner-column">
-                                    <div className="discount-form">
-                                        <form method="post" action="#">
-                                            <div className="row">
-                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                    <input type="text" name="username" placeholder="Name" required />
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                    <input type="email" name="email" placeholder="Email" required />
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                    <input type="text" name="phone" placeholder="Phone" required />
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                    <textarea name="message" placeholder="Message"></textarea>
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group text-center">
-                                                    <button className="theme-btn btn-style-one" type="submit" name="submit-form">send Now</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
+           
+                <OfferForm/>
                 {/* Projects Section */}
                 <ProjectsSection />
 
