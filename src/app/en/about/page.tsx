@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Header from "../../components/HomeHeader";
 import Footer from "../../components/HomeFooter";
 import ClientsAndVideoSection from "../../components/ClientsAndVideoSection";
-
+import Reviews from '../../components/Reviews';
 const PrevArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
     <div className="slick-prev custom-arrow" onClick={onClick}>
         ‹
@@ -23,22 +23,14 @@ const NextArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
 );
 
 export default function AboutPage() {
-    const testimonialData = [
-        {
-            name: "Elena Gomes",
-            date: "July 28 - 2018",
-            image: "/images/resource/thumb-2.jpg",
-            text:
-                "I got an excellent design for my future home, from cooperation I was very pleased, everything was done at the highest level. Boldly I recommend to all this company.",
-        },
-        {
-            name: "Aliza Norka",
-            date: "July 28 - 2018",
-            image: "/images/resource/thumb-3.jpg",
-            text:
-                "I got an excellent design for my future home, from cooperation I was very pleased, everything was done at the highest level. Boldly I recommend to all this company.",
-        },
-    ];
+  
+    const aboutPageContent = {
+        testimonialSection: {
+
+            title: 'Testimonial',
+            heading: 'What Clients Say',
+        }
+    };
 
     const sliderSettings = {
         dots: false,
@@ -226,12 +218,10 @@ export default function AboutPage() {
                                     <div className="inner-box">
                                         <span className="count">{`0${idx + 1}`}</span>
                                         <h4>
-                                            <Link href="/service-detail">{step.title}</Link>
+                                            {step.title}
                                         </h4>
                                         <div className="text">{step.desc}</div>
-                                        <div className="link-box">
-                                            <Link href="/service-detail">Read More</Link>
-                                        </div>
+                                      
                                     </div>
                                 </div>
                             ))}
@@ -240,36 +230,7 @@ export default function AboutPage() {
                 </section>
 
                 {/* Testimonial Section */}
-                <section className="testimonial-section-two">
-                    <div className="auto-container">
-                        <div className="sec-title">
-                            <span className="float-text">Testimonial</span>
-                            <h2>What Clients Says</h2>
-                        </div>
-                        <Slider {...sliderSettings}>
-                            {testimonialData.map((item, idx) => (
-                                <div key={idx} className="testimonial-block-two">
-                                    <div className="inner-box">
-                                        <div className="text">{item.text}</div>
-                                        <div className="info-box">
-                                            <div className="thumb">
-                                                {/* Corrected line: Replaced <img> with <Image> */}
-                                                <Image
-                                                    src={item.image}
-                                                    alt={item.name}
-                                                    width={70} // Example size, adjust as needed
-                                                    height={70} // Example size, adjust as needed
-                                                />
-                                            </div>
-                                            <h5 className="name">{item.name}</h5>
-                                            <span className="date">{item.date}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </Slider>
-                    </div>
-                </section>
+                <Reviews content={aboutPageContent} />
 
                 {/* Clients & Video Section */}
                 <ClientsAndVideoSection />

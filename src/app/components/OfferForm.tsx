@@ -1,7 +1,48 @@
-"use client";
+﻿'use client';
 
 import { useState, useEffect } from "react";
 import $ from "jquery";
+import { usePathname } from "next/navigation";
+
+// كائن يحتوي على جميع النصوص باللغتين
+const translations = {
+    en: {
+        title: "Book your free consultation now",
+        heading: "Want to get in touch? <br /> Fill out the form",
+        subtext: "and we will call you back",
+        soon: "Soon!",
+        formFields: {
+            FirstName: "Enter your first name",
+            lastname: "Enter your last name",
+            Email: "Enter your email",
+            PhoneNumber: "Enter your phone number",
+            Message: "Enter your message"
+        },
+        dropdownOptions: ["Villa Construction", "Structure Repair", "Cladding"],
+        submitButton: "Send Now",
+        sending: "Sending...",
+        success: "Message sent successfully!",
+        error: "Failed to send message. Try again!"
+    },
+    ar: {
+        title: "احجز استشارتك المجانية الآن",
+        heading: "هل ترغب في التواصل؟ <br /> املأ النموذج",
+        subtext: "وسوف نتصل بك قريباً",
+        soon: "قريباً!",
+        formFields: {
+            FirstName: "أدخل اسمك الأول",
+            lastname: "أدخل اسمك الأخير",
+            Email: "أدخل بريدك الإلكتروني",
+            PhoneNumber: "أدخل رقم هاتفك",
+            Message: "أدخل رسالتك"
+        },
+        dropdownOptions: ["بناء الفلل", "ترميم الهياكل", "التكسية"],
+        submitButton: "أرسل الآن",
+        sending: "جارٍ الإرسال...",
+        success: "تم إرسال الرسالة بنجاح!",
+        error: "فشل في إرسال الرسالة. حاول مرة أخرى!"
+    }
+};
 
 // Conditionally import Owl Carousel
 if (typeof window !== 'undefined') {
@@ -9,8 +50,7 @@ if (typeof window !== 'undefined') {
 }
 
 // Custom Dropdown Component
-function CustomSelect({ value, onChange }) {
-    const options = ["Villa Construction", "Structure Repair", "Cladding"];
+function CustomSelect({ value, onChange, options }) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -20,7 +60,7 @@ function CustomSelect({ value, onChange }) {
                 style={{
                     padding: "12px 15px",
                     borderRadius: "10px",
-                    background: "#ff8a00", // solid orange
+                    background: "#ff8a00",
                     color: "#000",
                     cursor: "pointer",
                     fontWeight: "bold",
@@ -44,9 +84,9 @@ function CustomSelect({ value, onChange }) {
                     zIndex: 1000,
                     boxShadow: "0 5px 15px rgba(0,0,0,0.2)"
                 }}>
-                    {options.map((opt) => (
+                    {options.map((opt, idx) => (
                         <li
-                            key={opt}
+                            key={idx}
                             onClick={() => { onChange(opt); setOpen(false); }}
                             style={{ padding: "10px 15px", cursor: "pointer" }}
                             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#333"}
@@ -62,6 +102,10 @@ function CustomSelect({ value, onChange }) {
 }
 
 export default function OfferForm() {
+    const pathname = usePathname();
+    const currentLang = pathname.startsWith("/ar") ? "ar" : "en";
+    const content = translations[currentLang];
+
     const sheetURL = "https://script.google.com/macros/s/AKfycbxrUcITfQZSkhsobRC6eoVgHaGaozHJPqDsOljwYvZeUC_6gN4UkoNvwCJ137uGqp3lXA/exec";
 
     const [formData, setFormData] = useState({
@@ -69,7 +113,7 @@ export default function OfferForm() {
         lastname: "",
         Email: "",
         PhoneNumber: "",
-        Subject: "Villa Construction",
+        Subject: content.dropdownOptions[0],
         Message: ""
     });
 
@@ -106,7 +150,7 @@ export default function OfferForm() {
 
             if (res.ok && result.result === "success") {
                 setStatus("success");
-                setFormData({ FirstName: "", lastname: "", Email: "", PhoneNumber: "", Subject: "Villa Construction", Message: "" });
+                setFormData({ FirstName: "", lastname: "", Email: "", PhoneNumber: "", Subject: content.dropdownOptions[0], Message: "" });
             } else {
                 setStatus("error");
             }
@@ -127,19 +171,24 @@ export default function OfferForm() {
                 <div style={{ display: "flex", flexDirection: "row", gap: "40px", flexWrap: "wrap", alignItems: "flex-start" }}>
 
                     {/* Left Column */}
-                    <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{ color: "#fff", flex: "1 1 45%" }}>
+                    <div className="content-column col-lg-6 col-md-12 col-sm-12"
+                        style={{
+                            color: "#fff",
+                            flex: "1 1 45%",
+                            textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)"
+                        }}>
                         <div className="inner-column">
-                            <span className="title">Book your free consultation now</span>
+                            <span className="title">{content.title}</span>
                             <h2>
-                                <span>Want to get in touch? </span>
-                                <br /> Fill out the form
+                                <span>{content.heading.split('<br />')[0]}</span>
+                                <br /> {content.heading.split('<br />')[1]}
                             </h2>
                             <br />
                             <div className="text">
-                                <h2>and we will call you back</h2>
+                                <h2>{content.subtext}</h2>
                             </div>
                             <br />
-                            <span className="discount">Soon!</span>
+                            <span className="discount">{content.soon}</span>
                             <span className="title">
                                 <h2>+9710506607159</h2>
                             </span>
@@ -165,12 +214,7 @@ export default function OfferForm() {
                                             key={field}
                                             type={field === "Email" ? "email" : "text"}
                                             name={field}
-                                            placeholder={
-                                                field === "FirstName" ? "Enter your first name" :
-                                                    field === "lastname" ? "Enter your last name" :
-                                                        field === "Email" ? "Enter your email" :
-                                                            "Enter your phone number"
-                                            }
+                                            placeholder={content.formFields[field as keyof typeof content.formFields]}
                                             required
                                             value={(formData as any)[field]}
                                             onChange={handleChange}
@@ -189,11 +233,11 @@ export default function OfferForm() {
                                     ))}
 
                                     {/* Custom Dropdown */}
-                                    <CustomSelect value={formData.Subject} onChange={handleDropdownChange} />
+                                    <CustomSelect value={formData.Subject} onChange={handleDropdownChange} options={content.dropdownOptions} />
 
                                     <textarea
                                         name="Message"
-                                        placeholder="Enter your message"
+                                        placeholder={content.formFields.Message}
                                         value={formData.Message}
                                         onChange={handleChange}
                                         rows={5}
@@ -215,7 +259,7 @@ export default function OfferForm() {
                                         type="submit"
                                         disabled={status === "loading"}
                                         style={{
-                                            background: "#ff8a00", // solid orange
+                                            background: "#ff8a00",
                                             color: "#fff",
                                             fontSize: "18px",
                                             padding: "12px",
@@ -227,11 +271,11 @@ export default function OfferForm() {
                                         onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
                                         onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
                                     >
-                                        {status === "loading" ? "Sending..." : "Send Now"}
+                                        {status === "loading" ? content.sending : content.submitButton}
                                     </button>
 
-                                    {status === "success" && <p style={{ color: "#28a745", fontWeight: "bold", textAlign: "center" }}>Message sent successfully!</p>}
-                                    {status === "error" && <p style={{ color: "#dc3545", fontWeight: "bold", textAlign: "center" }}>Failed to send message. Try again!</p>}
+                                    {status === "success" && <p style={{ color: "#28a745", fontWeight: "bold", textAlign: "center" }}>{content.success}</p>}
+                                    {status === "error" && <p style={{ color: "#dc3545", fontWeight: "bold", textAlign: "center" }}>{content.error}</p>}
                                 </form>
                             </div>
                         </div>

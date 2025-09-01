@@ -2,19 +2,28 @@
     {
         "img": "/images/gallery/1.png",
         "classes": "project-block all mix Repair  col-lg-4 col-md-6 col-sm-12"
-          
+
     },
     {
         "img": "/images/gallery/2.png",
         "classes": "project-block all mix  Repair col-lg-8 col-md-6 col-sm-12"
     },
     {
-        "img": "/images/gallery/11.webp",
-        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
-    },
-    {
         "img": "/images/gallery/3.png",
         "classes": "project-block all mix  Repair col-lg-6 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/4.png",
+        "classes": "project-block all mix Repair  col-lg-4 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/gallery/5.png",
+        "classes": "project-block all mix  Repair col-lg-8 col-md-6 col-sm-12"
+
+    },
+    {
+        "img": "/images/gallery/11.webp",
+        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
     },
     {
         "img": "/images/gallery/12.webp",
@@ -24,39 +33,18 @@
         "img": "/images/gallery/13.webp",
         "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
     },
-    {
-        "img": "/images/gallery/4.webp",
-        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12"
-    },
-    {
-        "img": "/images/gallery/4.png",
-        "classes": "project-block all mix Repair  col-lg-4 col-md-6 col-sm-12"
-    },
-    {
-        "img": "/images/gallery/5.png",
-        "classes": "project-block all mix  Repair col-lg-8 col-md-6 col-sm-12"
-    },
-    {
-        "img": "/images/gallery/5.webp",
-        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
-    },
+    
     {
         "img": "/images/gallery/6.png",
         "classes": "project-block all mix  Repair col-lg-6 col-md-6 col-sm-12"
     },
+
     {
-        "img": "/images/gallery/15.webp",
-        "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12"
-    },
-    {
-        "img": "/images/gallery/14.webp",
+        "img": "/images/projects/villa-construction/1/1.webp",
         "classes": "project-block all mix Villa col-lg-6 col-md-6 col-sm-12",
-        "slug": "shamkha-abu-dhabi-villa-construction"
+        "slug": "villa-construction-al-shamkhah-abu-dhabi"
     },
-    {
-        "img": "/images/gallery/6.webp",
-        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12"
-    },
+
     {
         "img": "/images/gallery/1.png",
         "classes": "project-block all mix Repair  col-lg-4 col-md-6 col-sm-12"
@@ -77,5 +65,68 @@
     {
         "img": "/images/gallery/3.webp",
         "classes": "project-block all mix Cladding  col-lg-4 col-md-6 col-sm-12"
+    },
+    {
+        "img": "/images/projects/villa-construction/2/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "luxury-villa-construction-al-shamkhah-abu-dhabi"
+    },
+
+    {
+        "img": "/images/projects/villa-construction/3/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "affordable-villa-renovation-al-shamkhah-abu-dhabi"
+    },
+
+    {
+        "img": "/images/projects/villa-construction/4/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "residential-villa-madinat-al-riyad-abu-dhabi"
+    },
+
+    {
+        "img": "/images/projects/villa-construction/5/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "uae-residential-villa-construction-madinat-al-riyad"
+    },
+    {
+        "img": "/images/projects/villa-construction/6/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "construction-services-villa-madinat-al-riyad-abu-dhabi"
+    },
+    {
+        "img": "/images/projects/villa-construction/7/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "uae-residential-construction-madinat-al-riyad-abu-dhabi"
+    },
+    {
+        "img": "/images/projects/villa-construction/8/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "villa-construction-madinat-al-riyad-abu-dhabi-RD23-293"
+    },
+    {
+        "img": "/images/projects/villa-construction/9/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "villa-construction-abu-dhabi-al-shawamekh-SHM12-218"
+    },
+    {
+        "img": "/images/projects/villa-construction/10/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "complete-villa-construction-mohamed-bin-zayed-city-Z19-61"
+    },
+    {
+        "img": "/images/projects/villa-construction/11/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "residential-villa-construction-mohamed-bin-zayed-abu-dhabi-Z19-61"
+    },
+    {
+        "img": "/images/projects/villa-construction/12/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "residential-villa-construction-al-shamkhah-abu-dhabi-SH36-149"
+    },
+    {
+        "img": "/images/projects/villa-construction/13/1.webp",
+        "classes": "project-block all mix Villa  col-lg-6 col-md-6 col-sm-12",
+        "slug": "residential-villa-construction-madinat-al-riyad-abu-dhabi-RD25-485"
     }
 ]

@@ -1,7 +1,11 @@
-﻿'use client';
+﻿
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 interface Project {
     img: string;
     name: string;
@@ -9,8 +13,26 @@ interface Project {
     text: string;
 }
 
+const componentContent = {
+    en: {
+        heading: "Our Best Work",
+        subheading: "Project",
+        allProjectsLink: "All Projects",
+        viewProjectLink: "View Project"
+    },
+    ar: {
+        heading: "أفضل أعمالنا",
+        subheading: "المشاريع",
+        allProjectsLink: "جميع المشاريع",
+        viewProjectLink: "عرض المشروع"
+    }
+};
+
 export default function ProjectsComponent() {
     const [projects, setProjects] = useState<Project[]>([]);
+    const pathname = usePathname();
+    const currentLang = pathname.startsWith("/ar") ? "ar" : "en";
+    const content = componentContent[currentLang];
 
     useEffect(() => {
         fetch('/data/projects.json')
@@ -20,20 +42,20 @@ export default function ProjectsComponent() {
             })
             .then((data) => setProjects(data))
             .catch((err) => console.error('Error loading projects:', err));
-    }, []);
+    }, [currentLang]);
 
     return (
-        <section className="projects-section-two">
+        <section className="projects-section-two" dir={currentLang === "ar" ? "rtl" : "ltr"}>
             <div className="auto-container">
                 <div className="upper-box clearfix">
                     <div className="sec-title">
-                        <span className="float-text">Project</span>
-                        <h2>Our Best Work</h2>
+                        <span className="float-text">{content.subheading}</span>
+                        <h2>{content.heading}</h2>
                     </div>
                     <div className="link-box">
-                        <a href="projects.html">
-                            All Project <i className="fa fa-long-arrow-right"></i>
-                        </a>
+                        <Link href={`/${currentLang}/projects`}>
+                            {content.allProjectsLink} <i className="fa fa-long-arrow-right"></i>
+                        </Link>
                     </div>
                 </div>
 
@@ -43,10 +65,10 @@ export default function ProjectsComponent() {
                             <div className="image-box">
                                 <figure className="image">
                                     <Image
-                                        src={project.img || "/images/placeholder.jpg"} // placeholder لو img مش موجودة
+                                        src={project.img || "/images/placeholder.jpg"}
                                         alt={project.name}
-                                        width={400}   // حددي العرض حسب التصميم
-                                        height={250}  // ارتفاع مناسب للـ carousel
+                                        width={400}
+                                        height={250}
                                         style={{ objectFit: "cover" }}
                                     />
                                 </figure>
@@ -58,7 +80,9 @@ export default function ProjectsComponent() {
                                     <h3>{project.name}</h3>
                                     <div className="text">{project.text}</div>
                                     <div className="link-box">
-                                        <a href="project-detail.html">View Project</a>
+                                        <Link href={`/${currentLang}/projects`}>
+                                            {content.viewProjectLink}
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

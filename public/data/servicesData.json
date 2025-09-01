@@ -52,5 +52,34 @@
             "intelligence": "We apply advanced repair technologies and sustainable materials for effective and long-lasting repairs.",
             "specializations": "Our specialization includes crack repair, concrete restoration, corrosion protection, and foundation stabilization."
         }
+    },
+    "cladding": {
+        "title": "Cladding Services",
+        "mainImage": "/images/resource/cladding.jpg",
+        "mainImageAlt": "Cladding Services",
+        "introStrong": "Modern, Durable, and Stylish Facade Solutions",
+        "introParagraph": "Karyani House provides premium cladding solutions that enhance both aesthetics and durability of buildings. From aluminum composite panels to stone and glass cladding, our expertise ensures a perfect finish.",
+        "strategyTitle": "Our Cladding Approach",
+        "strategyParagraph": "We combine modern materials with precision installation techniques. Every project is tailored to client requirements, ensuring durability, insulation, and weather resistance.",
+        "featuresTitle": "Cladding Options",
+        "featuresList": [
+            "Aluminum Composite Panel (ACP) Cladding",
+            "Glass and Curtain Wall Systems",
+            "Natural Stone and Ceramic Cladding",
+            "High-Pressure Laminate (HPL) Panels",
+            "Thermal and Acoustic Insulation Integration",
+            "Custom Facade Design and Engineering"
+        ],
+        "featureImage": "/images/resource/cladding-feature.jpg",
+        "featureImageAlt": "Cladding Example",
+        "quote": "\"Our building’s facade was completely transformed by Karyani House. The cladding not only looks stunning but also adds long-term durability.\"",
+        "quoteAuthor": "Mohammed Al Suwaidi, Abu Dhabi",
+        "tabs": {
+            "precautions": "We ensure proper installation techniques with weatherproofing and fire-resistant materials for maximum safety.",
+            "intelligence": "We use advanced cladding systems designed for energy efficiency, insulation, and sustainability.",
+            "specializations": "We specialize in aluminum, glass, stone, and HPL cladding solutions with custom designs."
+        }
     }
 }
+
+

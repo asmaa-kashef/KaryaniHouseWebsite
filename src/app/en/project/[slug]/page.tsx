@@ -1,24 +1,19 @@
-﻿'use client';
-
-import React, { useEffect, useState, ReactElement } from "react";
-import Head from "next/head";
+﻿import { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import path from "path";
+import { promises as fs } from "fs";
+import ImageGalleryClient from "../../../components/ImageGalleryClient";
+import ContactLink from "../../../components/ContactLink";
 import Header from "../../../components/Header";
 import Footer from "../../../components/HomeFooter";
-import ImageGallery, { GalleryItem } from "react-image-gallery";
-import "react-image-gallery/styles/css/image-gallery.css";
-
-// TypeScript type for project data
 interface Project {
+    id: number;
+    slug: string;
+    category?: string;
     title: string;
-    images?: string[];
-    architectImages?: string[];
-    villaDescription: string;
-    zone: string;
-    location: string;
-    mapEmbedUrl?: string;
     projectName: string;
+    location: string;
+    zone: string;
     permitNumber?: string;
     firstIssueDate?: string;
     sector?: string;
@@ -27,67 +22,86 @@ interface Project {
     plotArea?: string;
     designerAndSupervisor?: string;
     contractor?: string;
+    villaDescription: string;
+    images?: string[];
+    architectImages?: string[];
+    mapEmbedUrl?: string;
+    metaTitle?: string;
+    metaDescription?: string;
+    seoKeyword?: string;
+    h1?: string;
+    h2Sections?: string[];
 }
 
-export default function ProjectDetail() {
-    const [project, setProject] = useState<Project | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+// Function to read project data from the local JSON file on the server.
+async function getProjectBySlug(slug: string): Promise<Project | null> {
+    try {
+        const jsonDirectory = path.join(process.cwd(), 'public', 'data');
+        const fileContents = await fs.readFile(jsonDirectory + '/constructionproject.json', 'utf8');
+        const data: Project[] = JSON.parse(fileContents);
+        return data.find(p => p.slug === slug) || null;
+    } catch (error) {
+        console.error("Failed to read project data:", error);
+        return null;
+    }
+}
 
-    useEffect(() => {
-        fetch("/data/constructionproject.json")
-            .then((res) => {
-                if (!res.ok) throw new Error("Network response was not ok");
-                return res.json();
-            })
-            .then((data: Project[]) => {
-                setProject(data[0]); // Replace with slug-based selection if needed
-                setLoading(false);
-            })
-            .catch(() => {
-                setError("Failed to load project data.");
-                setLoading(false);
-            });
-    }, []);
+// This function generates dynamic metadata for the page.
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+    const project = await getProjectBySlug(params.slug);
+    const canonicalUrl = `https://karyani-house.com/projects/${params.slug}`;
 
-    if (error)
-        return <p style={{ textAlign: "center", color: "red", marginTop: 30 }}>{error}</p>;
-    if (loading)
-        return (
-            <p style={{ textAlign: "center", fontWeight: "bold", fontSize: 18, marginTop: 30 }}>
-                Loading project...
-            </p>
-        );
+    if (!project) {
+        return {
+            title: "Project Not Found",
+            description: "The requested project could not be found.",
+            openGraph: {
+                url: canonicalUrl,
+            },
+            alternates: {
+                canonical: canonicalUrl,
+            },
+        };
+    }
 
-    const mainImages = (project?.images || []).map((img) => ({ original: img, thumbnail: img }));
-    const architectImages = (project?.architectImages || []).map((img) => ({ original: img, thumbnail: img }));
+    const metaTitle = project.metaTitle || `${project.title} | Karyani House – Abu Dhabi`;
+    const metaDescription = project.metaDescription || `Discover ${project.title} in ${project.location}. Expert villa construction, structural repair, cladding, and interior design by Karyani House.`;
+    const metaKeywords = project.seoKeyword || `${project.title}, ${project.projectName}, villa construction Abu Dhabi, structural repair, cladding, interior design, Karyani House`;
+    const ogImage = project.images?.[0] || "/images/logo.png";
 
-    const renderImageItem = (item: GalleryItem): ReactElement => (
-        <Image
-            src={item.original}
-            alt={item.originalAlt || project?.title || "Project Image"}
-            width={800}
-            height={500}
-            style={{
-                objectFit: "contain",
-                width: "70%",
-                margin: "auto",
-                display: "block",
-                borderRadius: 8,
-            }}
-        />
-    );
+    return {
+        title: metaTitle,
+        description: metaDescription,
+        keywords: metaKeywords,
+        openGraph: {
+            title: metaTitle,
+            description: metaDescription,
+            url: canonicalUrl,
+            images: [ogImage],
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: metaTitle,
+            description: metaDescription,
+            images: [ogImage],
+        },
+        alternates: {
+            canonical: canonicalUrl,
+        },
+    };
+}
+
+export default async function ProjectDetail({ params }: { params: { slug: string } }) {
+    const project = await getProjectBySlug(params.slug);
+
+    if (!project) {
+        return <p style={{ textAlign: "center", marginTop: 30 }}>Project not found.</p>;
+    }
 
     return (
         <>
-            <Head>
-                <title>{project?.title} | Karyani House</title>
-                <meta name="description" content={project?.villaDescription} />
-            </Head>
-
             <Header />
-
-            {/* Page Title Section */}
             <section
                 className="page-title"
                 style={{ backgroundImage: "url(/images/background/project.jpg)" }}
@@ -95,40 +109,34 @@ export default function ProjectDetail() {
                 <div className="auto-container">
                     <div className="inner-container clearfix">
                         <div className="title-box">
-                            <h1>Project Detail</h1>
+                            <h1>{project.title}</h1>
                             <span className="title">The Interior speaks for itself</span>
                         </div>
                         <ul className="bread-crumb clearfix">
                             <li>
                                 <Link href="/">Home</Link>
                             </li>
-                            <li>Project Detail</li>
+                            <li>{project.title}</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
-            {/* Main Section */}
             <section
                 className="project-details-section"
                 style={{ padding: "50px 20px", backgroundColor: "#f9f9f9" }}
             >
                 <div className="auto-container" style={{ maxWidth: 1200, margin: "auto" }}>
-                    {/* Image Gallery */}
                     <div className="upper-box" style={{ marginBottom: 50 }}>
-                        <ImageGallery
-                            items={mainImages}
-                            showPlayButton={false}
-                            showFullscreenButton={false}
-                            showNav={true}
-                            slideOnThumbnailOver={true}
-                            thumbnailPosition="left"
-                            renderItem={renderImageItem}
-                        />
+                        {project.images && project.images.length > 0 && (
+                            <ImageGalleryClient
+                                images={project.images}
+                                title={project.title}
+                            />
+                        )}
                     </div>
 
                     <div className="lower-content" style={{ display: "flex", gap: 40, flexWrap: "wrap" }}>
-                        {/* Left Content */}
                         <div
                             className="content-column"
                             style={{
@@ -141,14 +149,13 @@ export default function ProjectDetail() {
                             }}
                         >
                             <h2 style={{ marginBottom: 20 }}>Project Description</h2>
-                            <p style={{ lineHeight: 1.6 }}>{project?.villaDescription}</p>
+                            <p style={{ lineHeight: 1.6 }}>{project.villaDescription}</p>
 
                             <h4 style={{ marginTop: 30 }}>Project Challenge</h4>
                             <p>
-                                This project required full construction from scratch, meeting tight
-                                deadlines, and implementing smart systems integration.
+                                This project required full construction from scratch, meeting tight deadlines, and
+                                implementing smart systems integration.
                             </p>
-
                             <ul style={{ marginTop: 15, paddingLeft: 20 }}>
                                 <li>Full construction from foundation to finish</li>
                                 <li>Installation of smart systems</li>
@@ -158,34 +165,28 @@ export default function ProjectDetail() {
 
                             <h4 style={{ marginTop: 30 }}>What We Did</h4>
                             <p>
-                                Managed end-to-end construction including permits, foundation,
-                                structure, interior work, and smart home installations.
+                                Managed end-to-end construction including permits, foundation, structure, interior
+                                work, and smart home installations.
                             </p>
 
                             <h4 style={{ marginTop: 30 }}>Result</h4>
                             <p>
-                                Successfully delivered a modern villa on schedule with smart
-                                integrations and premium finishing.
+                                Successfully delivered a modern villa on schedule with smart integrations and premium
+                                finishing.
                             </p>
 
-                            {/* Architect Plans Gallery */}
-                            {architectImages.length > 0 && (
+                            {project.architectImages && project.architectImages.length > 0 && (
                                 <div className="architect-gallery" style={{ marginTop: 50 }}>
                                     <h3 style={{ marginBottom: 20 }}>Architect Plans</h3>
-                                    <ImageGallery
-                                        items={architectImages}
-                                        showPlayButton={false}
-                                        showFullscreenButton={false}
-                                        showNav={true}
-                                        slideOnThumbnailOver={true}
-                                        thumbnailPosition="bottom"
-                                        renderItem={renderImageItem}
+                                    <ImageGalleryClient
+                                        images={project.architectImages}
+                                        title={`${project.title} Architect Plans`}
+                                        isArchitectGallery={true}
                                     />
                                 </div>
                             )}
                         </div>
 
-                        {/* Right Sidebar */}
                         <aside
                             className="info-column"
                             style={{
@@ -204,11 +205,11 @@ export default function ProjectDetail() {
                             </p>
                             <ul style={{ listStyle: "none", padding: 0, color: "#333", lineHeight: 1.7 }}>
                                 <li>
-                                    <strong>Zone:</strong> {project?.zone}
+                                    <strong>Zone:</strong> {project.zone}
                                 </li>
                                 <li>
                                     <strong>Location:</strong>{" "}
-                                    {project?.mapEmbedUrl ? (
+                                    {project.mapEmbedUrl ? (
                                         <a
                                             href={project.mapEmbedUrl}
                                             target="_blank"
@@ -218,40 +219,49 @@ export default function ProjectDetail() {
                                             {project.location}
                                         </a>
                                     ) : (
-                                        project?.location
+                                        project.location
                                     )}
                                 </li>
                                 <li>
-                                    <strong>Project Name:</strong> {project?.projectName}
+                                    <strong>Project Name:</strong> {project.projectName}
                                 </li>
                                 <li>
-                                    <strong>Permit Number:</strong> {project?.permitNumber}
+                                    <strong>Permit Number:</strong> {project.permitNumber}
                                 </li>
                                 <li>
-                                    <strong>First Issue Date:</strong> {project?.firstIssueDate}
+                                    <strong>First Issue Date:</strong> {project.firstIssueDate}
                                 </li>
                                 <li>
-                                    <strong>Sector:</strong> {project?.sector}
+                                    <strong>Sector:</strong> {project.sector}
                                 </li>
                                 <li>
-                                    <strong>Plot Number:</strong> {project?.plotNumber}
+                                    <strong>Plot Number:</strong> {project.plotNumber}
                                 </li>
                                 <li>
-                                    <strong>Land Use:</strong> {project?.landUse}
+                                    <strong>Land Use:</strong> {project.landUse}
                                 </li>
                                 <li>
-                                    <strong>Plot Area (m²):</strong> {project?.plotArea}
+                                    <strong>Plot Area (m²):</strong> {project.plotArea}
                                 </li>
                                 <li>
-                                    <strong>Designer and Supervisor:</strong>{" "}
-                                    {project?.designerAndSupervisor}
+                                    <strong>Designer and Supervisor:</strong> {project.designerAndSupervisor}
                                 </li>
                                 <li>
-                                    <strong>Contractor:</strong> {project?.contractor}
+                                    <strong>Contractor:</strong> {project.contractor}
                                 </li>
                             </ul>
 
-                            {/* Contact Box */}
+                            {project.mapEmbedUrl && (
+                                <iframe
+                                    src={project.mapEmbedUrl}
+                                    width="100%"
+                                    height="250"
+                                    style={{ border: 0, marginTop: 20, borderRadius: 8 }}
+                                    allowFullScreen
+                                    loading="lazy"
+                                ></iframe>
+                            )}
+
                             <div
                                 className="help-box-two"
                                 style={{
@@ -262,37 +272,28 @@ export default function ProjectDetail() {
                                     textAlign: "center",
                                 }}
                             >
-                                <span style={{ fontWeight: "700", fontSize: 18, display: "block", marginBottom: 10 }}>
+                                <span
+                                    style={{
+                                        fontWeight: "700",
+                                        fontSize: 18,
+                                        display: "block",
+                                        marginBottom: 10,
+                                    }}
+                                >
                                     Quick Contact
                                 </span>
                                 <h2 style={{ marginBottom: 10 }}>Get Solution</h2>
                                 <p style={{ marginBottom: 15 }}>
                                     Contact us at the nearest office or submit a request online.
                                 </p>
-                                <Link
-                                    href="/contact"
-                                    style={{
-                                        display: "inline-block",
-                                        backgroundColor: "#007bff",
-                                        color: "#fff",
-                                        padding: "10px 25px",
-                                        borderRadius: 5,
-                                        fontWeight: "600",
-                                        textDecoration: "none",
-                                        transition: "background-color 0.3s ease",
-                                    }}
-                                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#0056b3")}
-                                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#007bff")}
-                                >
-                                    Contact
-                                </Link>
+                                <ContactLink />
                             </div>
                         </aside>
                     </div>
                 </div>
             </section>
-
             <Footer />
         </>
+           
     );
 }

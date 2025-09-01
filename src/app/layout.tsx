@@ -2,10 +2,12 @@
 
 import Script from "next/script";
 
-export const metadata = {
-    title: "karyani House construction",
-    description: "Luxury Modern Villas and Construction",
-};
+// Remove the static metadata export.
+// It will override the dynamic metadata from your pages.
+// export const metadata = {
+//     title: "karyani House construction",
+//     description: "Luxury Modern Villas and Construction",
+// };
 
 export default function RootLayout({
     children,
@@ -15,23 +17,14 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                {/* روابط ملفات CSS */}
+                {/* CSS links */}
                 <link rel="stylesheet" href="/css/bootstrap.css" />
                 <link rel="stylesheet" href="/css/style.css" />
                 <link rel="stylesheet" href="/css/responsive.css" />
-                
             </head>
             <body>
-                {/* الهيدر */}
-              
-
-                {/* محتوى الصفحة */}
                 <main>{children}</main>
-
-                {/* الفوتر */}
-             
-
-                {/* ملفات جافاسكريبت */}
+                {/* JavaScript files */}
                 <Script src="/js/jquery.js" strategy="beforeInteractive" />
                 <Script src="/js/popper.min.js" strategy="beforeInteractive" />
                 <Script src="/js/bootstrap.min.js" strategy="lazyOnload" />

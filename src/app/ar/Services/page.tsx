@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export default function ServicesPage() {
     return (
-        <>
+        <div className="rtl">
             <Header />
             <section
                 className="page-title"
@@ -19,25 +19,26 @@ export default function ServicesPage() {
                 <div className="auto-container">
                     <div className="inner-container clearfix">
                         <div className="title-box">
-                            <h1>Service Detail</h1>
-                            <span className="title">The Interior speak for themselves</span>
+                            <h1>تفاصيل الخدمة</h1>
+                            <span className="title">الديكورات الداخلية تتحدث عن نفسها</span>
                         </div>
                         <ul className="bread-crumb clearfix">
+                           
+                            <li>تفاصيل الخدمة</li>
                             <li>
-                                <Link href="/">Home</Link>
+                                <Link href="/">الرئيسية</Link>
                             </li>
-                            <li>Service Detail</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             {/* The Suspense boundary is essential here */}
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>جار التحميل...</div>}>
                 <ServicesClientComponent />
             </Suspense>
 
             <Footer />
-        </>
+        </div>
     );
 }

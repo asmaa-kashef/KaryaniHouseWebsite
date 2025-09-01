@@ -1,5 +1,8 @@
-﻿import React from "react";
+﻿"use client";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
 type Post = {
     id: number;
     slug: string;
@@ -11,24 +14,40 @@ type Post = {
     };
 };
 
-async function getPosts(): Promise<Post[]> {
-    const res = await fetch(
-        "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2/posts?_embed&per_page=4",
-        { next: { revalidate: 60 } }
-    );
-    if (!res.ok) throw new Error("Failed to fetch posts");
-    return res.json();
-}
+const translations = {
+    en: { mainTitle: "News & Articles", floatText: "Blogs" },
+    ar: { mainTitle: "الأخبار والمقالات", floatText: "مدونة" },
+};
 
-export default async function NewsSection() {
-    const posts = await getPosts();
+export default function NewsSection() {
+    const [posts, setPosts] = useState<Post[]>([]);
+    const pathname = usePathname();
+    const currentLang = pathname.startsWith("/ar") ? "ar" : "en";
+    const content = translations[currentLang];
+
+    useEffect(() => {
+        async function getPosts() {
+            const res = await fetch(
+                "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2/posts?_embed&per_page=4",
+                { next: { revalidate: 60 } }
+            );
+            if (!res.ok) throw new Error("Failed to fetch posts");
+            const data = await res.json();
+            setPosts(data);
+        }
+        getPosts();
+    }, []);
 
     return (
-        <section className="news-section alternate">
+        <section
+            className="news-section alternate"
+            style={{ backgroundColor: "chocolate", padding: "50px 0" }} // Purple background
+        >
             <div className="auto-container">
-                <div className="sec-title">
-                    <span className="float-text">Blogs</span>
-                    <h2>News & Articals</h2>
+                <div className="sec-title" style={{ color: "#fff" }}>
+                    <span className="float-text">{content.floatText}</span>
+                    <h2 style={{ color: "white" }}>{content.mainTitle}</h2>
+
                 </div>
                 <div className="row">
                     {posts.map((post) => {
@@ -41,22 +60,21 @@ export default async function NewsSection() {
                             month: "long",
                             year: "numeric",
                         });
-                        const author =
-                            post._embedded?.author?.[0]?.name || "Unknown Author";
+                        const author = post._embedded?.author?.[0]?.name || "Unknown Author";
 
                         return (
                             <div
                                 key={post.id}
                                 className="news-block-two col-lg-6 col-md-12 col-sm-12"
                             >
-                                <div className="inner-box">
+                                <div className="inner-box" style={{ backgroundColor: "#fff", borderRadius: "8px", padding: "15px" }}>
                                     <div className="image-box">
                                         <figure className="image" style={{ overflow: "hidden" }}>
                                             <Image
-                                                src={img || "/images/placeholder.jpg"} // placeholder لو img فاضي
+                                                src={img}
                                                 alt={title.replace(/<[^>]+>/g, "")}
-                                                width={400}      // اضبطي العرض حسب التصميم
-                                                height={250}     // نفس ارتفاع التصميم القديم
+                                                width={400}
+                                                height={250}
                                                 style={{
                                                     width: "100%",
                                                     height: "250px",

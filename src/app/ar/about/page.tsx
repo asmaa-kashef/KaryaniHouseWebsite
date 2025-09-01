@@ -1,14 +1,100 @@
-﻿"use client";
+﻿'use client';
 
-import React from "react";
+import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
-import Link from "next/link";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Header from "../../components/HomeHeader";
-import Footer from "../../components/HomeFooter";
-import ClientsAndVideoSection from "../../components/ClientsAndVideoSection";
+import Slider from 'react-slick';
+import { usePathname } from 'next/navigation';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Header from '../../components/HomeHeader';
+import Footer from '../../components/HomeFooter';
+import Reviews from '../../components/Reviews';
+import ClientsAndVideoSection from '../../components/ClientsAndVideoSection';
+
+// All static content for both languages in a single object
+const translations = {
+ 
+    ar: {
+        pageTitle: 'من نحن',
+        pageSubTitle: 'الديكورات الداخلية تتحدث عن نفسها',
+        homeLink: 'الرئيسية',
+        aboutLink: 'عنا',
+        aboutSection: {
+            title: 'نبذة <br /> عنا',
+            heading: 'أي مشروع <br /> بأي حجم',
+            text: 'تتمتع شركة كارياني هاوس بخبرة طويلة وتتخصص في تصميم وبناء وتجديد وصيانة الفلل والمباني السكنية والمساحات التجارية. نحن نقدم خدمات متخصصة في ترميم الهياكل، التكسية، أعمال الألمنيوم والزجاج، التشطيبات الداخلية، وحلول البناء المخصصة في جميع أنحاء أبوظبي والإمارات العربية المتحدة.',
+            aboutUsButton: 'من نحن',
+        },
+        processSection: {
+            title: 'كيف نعمل',
+            heading: 'عملية مثبتة',
+            steps: [
+                {
+                    title: 'المفهوم',
+                    desc: 'نبدأ بفهم رؤيتك ومساحتك، ونترجم الأفكار إلى نطاق مشروع عملي.',
+                },
+                {
+                    title: 'التخطيط',
+                    desc: 'نقوم بإعداد جداول زمنية وميزانيات وتصاريح مفصلة لضمان أن يبدأ البناء على أسس صلبة.',
+                },
+                {
+                    title: 'التصميم',
+                    desc: 'يطور مهندسونا تصاميم إبداعية وفعالة مع الالتزام الكامل بالمعايير الهيكلية والجمالية.',
+                },
+                {
+                    title: 'التنفيذ',
+                    desc: 'يقدم فريقنا ذو الخبرة خدمات البناء باستخدام مواد عالية الجودة، وبروتوكولات أمان، وحرفية ماهرة.',
+                },
+            ],
+            readMore: 'اقرأ المزيد',
+        },
+        testimonialSection: {
+            title: 'آراء العملاء',
+            heading: 'ماذا يقول العملاء',
+          
+        },
+        faqSection: {
+            title: 'بعض الأسئلة الشائعة',
+            heading: 'الأسئلة المتكررة',
+            data: [
+                {
+                    question: 'هل تقومون بالتصميم والتنفيذ بأنفسكم؟',
+                    answer: 'نقدم ضمانًا لمدة 5 سنوات ونتعهد بتصحيح أي عيب ينشأ عن سوء المصنعية على نفقتنا. ومع ذلك، لا يسري الضمان على سوء الاستخدام والقطع القابلة للكسر.',
+                    active: false,
+                },
+                {
+                    question: 'هل تقدمون ضمانًا وخدمة ما بعد البيع؟',
+                    answer: 'نقدم ضمانًا لمدة 5 سنوات ونتعهد بتصحيح أي عيب ينشأ عن سوء المصنعية على نفقتنا. ومع ذلك، لا يسري الضمان على سوء الاستخدام والقطع القابلة للكسر.',
+                    active: true,
+                },
+                {
+                    question: 'هل يمكنكم تقديم عرض سعر بناءً على مخطط الأرضية؟',
+                    answer: 'نقدم ضمانًا لمدة 5 سنوات ونتعهد بتصحيح أي عيب ينشأ عن سوء المصنعية على نفقتنا. ومع ذلك، لا يسري الضمان على سوء الاستخدام والقطع القابلة للكسر.',
+                    active: false,
+                },
+                {
+                    question: 'في أي مرحلة يمكن البدء في أعمال التصميم الداخلي؟',
+                    answer: 'نقدم ضمانًا لمدة 5 سنوات ونتعهد بتصحيح أي عيب ينشأ عن سوء المصنعية على نفقتنا. ومع ذلك، لا يسري الضمان على سوء الاستخدام والقطع القابلة للكسر.',
+                    active: false,
+                },
+                {
+                    question: 'هل تتقاضون رسومًا مقابل تقديم عرض سعر؟',
+                    answer: 'نقدم ضمانًا لمدة 5 سنوات ونتعهد بتصحيح أي عيب ينشأ عن سوء المصنعية على نفقتنا. ومع ذلك، لا يسري الضمان على سوء الاستخدام والقطع القابلة للكسر.',
+                    active: false,
+                },
+            ],
+        },
+        engineerSection: {
+            title: 'خدمات',
+            heading: 'تعرف على مهندسينا',
+            subheading: 'خبرة متفانية',
+            text1: 'الدقة والابتكار يميزان فريقنا الهندسي. مع التحديات التي لا تعد ولا تحصى في البناء الحديث، يتطلب البقاء في المقدمة المهارة والإبداع.',
+            text2: 'بعيدًا عن الحلول التقليدية، يصوغ مهندسونا تصاميم عملية وفعالة تصمد أمام اختبار الزمن. يجمعون بين المعرفة والشغف، مما يضمن نجاح وسلامة كل مشروع. عملهم يشكل المستقبل بالقوة والأناقة.',
+            readMore: 'اقرأ المزيد',
+        },
+    },
+};
 
 const PrevArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
     <div className="slick-prev custom-arrow" onClick={onClick}>
@@ -21,24 +107,22 @@ const NextArrow: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
         ›
     </div>
 );
+// Define the content data here or import it from a separate file
+const aboutPageContent = {
+    testimonialSection: {
+      
+         title: 'آراء العملاء',
+        heading: 'ماذا يقول العملاء',
+    }
+};
 
 export default function AboutPage() {
-    const testimonialData = [
-        {
-            name: "Elena Gomes",
-            date: "July 28 - 2018",
-            image: "/images/resource/thumb-2.jpg",
-            text:
-                "I got an excellent design for my future home, from cooperation I was very pleased, everything was done at the highest level. Boldly I recommend to all this company.",
-        },
-        {
-            name: "Aliza Norka",
-            date: "July 28 - 2018",
-            image: "/images/resource/thumb-3.jpg",
-            text:
-                "I got an excellent design for my future home, from cooperation I was very pleased, everything was done at the highest level. Boldly I recommend to all this company.",
-        },
-    ];
+    const pathname = usePathname();
+    const currentLang = pathname.startsWith('/ar') ? 'ar' : 'en';
+    const content = translations[currentLang];
+
+    const processSteps = content.processSection.steps;
+    const faqData = content.faqSection.data;
 
     const sliderSettings = {
         dots: false,
@@ -54,64 +138,8 @@ export default function AboutPage() {
         responsive: [{ breakpoint: 992, settings: { slidesToShow: 1 } }],
     };
 
-    const processSteps = [
-        {
-            title: "Concept",
-            desc:
-                "We begin by understanding your vision and space, translating ideas into a practical project scope.",
-        },
-        {
-            title: "Planning",
-            desc:
-                "We prepare detailed schedules, budgets, and permits to ensure your construction starts on solid ground.",
-        },
-        {
-            title: "Design",
-            desc:
-                "Our architects develop creative, efficient designs with full compliance to structural and aesthetic standards.",
-        },
-        {
-            title: "Execution",
-            desc:
-                "Our experienced team delivers construction with high-quality materials, safety protocols, and skilled craftsmanship throughout.",
-        },
-    ];
-
-    const faqData = [
-        {
-            question: "Do you do the design and the execution yourselves?",
-            answer:
-                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-            active: false,
-        },
-        {
-            question: "Do you give Contra and After sales service?",
-            answer:
-                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-            active: true,
-        },
-        {
-            question: "Will you be able to give a quote, if given the floor plan?",
-            answer:
-                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-            active: false,
-        },
-        {
-            question: "At what stage an interior designing work could be started?",
-            answer:
-                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-            active: false,
-        },
-        {
-            question: "Do you charge for giving a Proposal?",
-            answer:
-                "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
-            active: false,
-        },
-    ];
-
     return (
-    <>
+        <div className={currentLang === 'ar' ? 'rtl' : ''}>
             <Header />
             <main>
                 {/* Page Title */}
@@ -122,19 +150,20 @@ export default function AboutPage() {
                     <div className="auto-container">
                         <div className="inner-container clearfix">
                             <div className="title-box">
-                                <h1>About Us</h1>
-                                <span className="title">The Interior speak for themselves</span>
+                                <h1>{content.pageTitle}</h1>
+                                <span className="title">{content.pageSubTitle}</span>
+                                
                             </div>
                             <ul className="bread-crumb clearfix">
+                                <li>{content.aboutLink}</li>
                                 <li>
-                                    <Link href="/">Home</Link>
+                                    <Link href={`/${currentLang === 'ar' ? 'ar' : ''}`}>{content.homeLink}</Link>
                                 </li>
-                                <li>About us</li>
+
                             </ul>
                         </div>
                     </div>
                 </section>
-
                 {/* About Section */}
                 <section
                     className="about-section"
@@ -148,18 +177,15 @@ export default function AboutPage() {
                                         className="title-box wow fadeInLeft"
                                         data-wow-delay="1200ms"
                                     >
-                                        <h2>
-                                            ABOUT <br />
-                                            US
-                                        </h2>
+                                        <h2 dangerouslySetInnerHTML={{ __html: content.aboutSection.title }} />
                                     </div>
                                     <div className="image-box">
                                         <figure className="alphabet-img wow fadeInRight">
                                             <Image
                                                 src="/images/resource/alphabet-image.png"
                                                 alt="Alphabet"
-                                                width={600} // You can adjust these values
-                                                height={700} // to fit your design
+                                                width={600}
+                                                height={700}
                                             />
                                         </figure>
                                         <figure
@@ -169,35 +195,25 @@ export default function AboutPage() {
                                             <Image
                                                 src="/images/resource/image-2.png"
                                                 alt="About Image"
-                                                width={444} // You can adjust these values
-                                                height={448} // to fit your design
+                                                width={444}
+                                                height={448}
                                             />
                                         </figure>
                                     </div>
-                                 
                                 </div>
                             </div>
-
                             <div className="content-column col-lg-6 col-md-12 col-sm-12">
                                 <div className="inner-column wow fadeInLeft">
                                     <div className="content-box">
                                         <div className="title">
-                                            <h2>
-                                                Any Project <br />
-                                                For Any Scale
-                                            </h2>
+                                            <h2 dangerouslySetInnerHTML={{ __html: content.aboutSection.heading }} />
                                         </div>
                                         <div className="text">
-                                            Karyani House has many years of experience and specializes
-                                            in designing, building, renovating, and maintaining villas,
-                                            residential buildings, and commercial spaces. We provide
-                                            expert services in structural repair, cladding, aluminum
-                                            and glass works, interior finishing, and custom construction
-                                            solutions across Abu Dhabi and the UAE.
+                                            {content.aboutSection.text}
                                         </div>
                                         <div className="link-box">
-                                            <Link href="/about" className="theme-btn btn-style-one">
-                                                About Us
+                                            <Link href={`/${currentLang}/about`} className="theme-btn btn-style-one">
+                                                {content.aboutSection.aboutUsButton}
                                             </Link>
                                         </div>
                                     </div>
@@ -206,7 +222,6 @@ export default function AboutPage() {
                         </div>
                     </div>
                 </section>
-
                 {/* Process Section */}
                 <section
                     className="process-section"
@@ -214,8 +229,8 @@ export default function AboutPage() {
                 >
                     <div className="auto-container">
                         <div className="sec-title light">
-                            <span className="float-text">HOW WE WORK</span>
-                            <h2>Proven Process</h2>
+                            <span className="float-text">{content.processSection.title}</span>
+                            <h2>{content.processSection.heading}</h2>
                         </div>
                         <div className="row">
                             {processSteps.map((step, idx) => (
@@ -226,12 +241,9 @@ export default function AboutPage() {
                                     <div className="inner-box">
                                         <span className="count">{`0${idx + 1}`}</span>
                                         <h4>
-                                            <Link href="/service-detail">{step.title}</Link>
+                                            {step.title}
                                         </h4>
                                         <div className="text">{step.desc}</div>
-                                        <div className="link-box">
-                                            <Link href="/service-detail">Read More</Link>
-                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -239,44 +251,12 @@ export default function AboutPage() {
                     </div>
                 </section>
 
-                {/* Testimonial Section */}
-                <section className="testimonial-section-two">
-                    <div className="auto-container">
-                        <div className="sec-title">
-                            <span className="float-text">Testimonial</span>
-                            <h2>What Clients Says</h2>
-                        </div>
-                        <Slider {...sliderSettings}>
-                            {testimonialData.map((item, idx) => (
-                                <div key={idx} className="testimonial-block-two">
-                                    <div className="inner-box">
-                                        <div className="text">{item.text}</div>
-                                        <div className="info-box">
-                                            <div className="thumb">
-                                                {/* Corrected line: Replaced <img> with <Image> */}
-                                                <Image
-                                                    src={item.image}
-                                                    alt={item.name}
-                                                    width={70} // Example size, adjust as needed
-                                                    height={70} // Example size, adjust as needed
-                                                />
-                                            </div>
-                                            <h5 className="name">{item.name}</h5>
-                                            <span className="date">{item.date}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </Slider>
-                    </div>
-                </section>
+                {/* Pass the content prop to the Reviews component */}
+                <Reviews content={aboutPageContent} />
 
                 {/* Clients & Video Section */}
                 <ClientsAndVideoSection />
-
-           
-
-                {/* App Section */}
+                {/* FAQ Section */}
                 <section className="faq-section">
                     <div className="auto-container">
                         <div className="row">
@@ -284,23 +264,21 @@ export default function AboutPage() {
                                 <div className="inner-column">
                                     <div className="image-box">
                                         <figure className="image">
-                                            {/* Corrected line: Replaced <img> with <Image> */}
                                             <Image
                                                 src="/images/resource/faq-img.png"
                                                 alt="FAQ Image"
-                                                width={560} // Example size, adjust as needed
-                                                height={524} // Example size, adjust as needed
+                                                width={560}
+                                                height={524}
                                             />
                                         </figure>
                                     </div>
                                 </div>
                             </div>
-
                             <div className="accordion-column col-lg-6 col-md-12 col-sm-12">
                                 <div className="inner-column">
                                     <div className="sec-title">
-                                        <span className="float-text">some FAQ’s</span>
-                                        <h2>Frequently Asked Questions</h2>
+                                        <span className="float-text">{content.faqSection.title}</span>
+                                        <h2>{content.faqSection.heading}</h2>
                                     </div>
                                     <ul className="accordion-box">
                                         {faqData.map(({ question, answer, active }, idx) => (
@@ -325,7 +303,6 @@ export default function AboutPage() {
                         </div>
                     </div>
                 </section>
-
                 {/* Engineer / Specialize Section */}
                 <section className="specialize-section-two">
                     <div className="auto-container">
@@ -333,33 +310,21 @@ export default function AboutPage() {
                             <div className="title-column col-xl-5 col-lg-12 col-md-12 col-sm-12">
                                 <div className="inner-column">
                                     <div className="sec-title">
-                                        <span className="float-text">Services</span>
-                                        <h2>Meet Our Engineer</h2>
+                                        <span className="float-text">{content.engineerSection.title}</span>
+                                        <h2>{content.engineerSection.heading}</h2>
                                     </div>
-
                                     <div className="text-box">
-                                        <h4>Dedicated Expertise</h4>
-                                        <p>
-                                            Precision and innovation define our engineering team. With
-                                            countless challenges in modern construction, staying ahead
-                                            requires both skill and creativity.
-                                        </p>
-                                        <p>
-                                            Far beyond typical solutions, our engineers craft practical
-                                            and efficient designs that stand the test of time. Combining
-                                            knowledge with passion, they ensure every project’s success
-                                            and safety. Their work shapes the future with strength and
-                                            elegance.
-                                        </p>
+                                        <h4>{content.engineerSection.subheading}</h4>
+                                        <p>{content.engineerSection.text1}</p>
+                                        <p>{content.engineerSection.text2}</p>
                                     </div>
                                     <div className="link-box">
-                                        <Link href="#">
-                                            Read More <i className="fa fa-angle-double-right"></i>
+                                        <Link href={`/${currentLang}/service-detail`}>
+                                            {content.engineerSection.readMore} <i className="fa fa-angle-double-right"></i>
                                         </Link>
                                     </div>
                                 </div>
                             </div>
-
                             <div className="carousel-column col-xl-7 col-lg-12 col-md-12 col-sm-12">
                                 <div className="inner-column">
                                     <div className="carousel-outer">
@@ -374,14 +339,12 @@ export default function AboutPage() {
                                                     <Image src="/images/resource/Eng1.png" alt="Engineering Image 2" width={670} height={420} />
                                                 </Link>
                                             </li>
-                                           
                                             <li>
                                                 <Link href="/images/resource/ENGG122.png" className="lightbox-image" title="Image Caption Here">
                                                     <Image src="/images/resource/ENGG12.png" alt="Engineering Image 3" width={670} height={420} />
                                                 </Link>
                                             </li>
                                         </ul>
-
                                         <ul className="thumbs-carousel owl-carousel owl-theme">
                                             <li className="thumb-box">
                                                 <figure>
@@ -416,7 +379,6 @@ export default function AboutPage() {
                 </section>
             </main>
             <Footer />
-        </>
+        </div>
     );
 }
-

@@ -1,11 +1,12 @@
-// src/app/Services/ServicesClientComponent.tsx
+﻿// src/app/Services/ServicesClientComponent.tsx
 
 "use client";
-
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
+
+// Translations removed (English only)
 
 type ServiceData = {
     title: string;
@@ -34,8 +35,8 @@ export default function ServicesClientComponent() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    const defaultService = "villaConstruction";
-    const selectedService = searchParams?.get("service") || defaultService;
+    const defaultServiceKey = "villaConstruction";
+    const selectedServiceKey = searchParams?.get("service") || defaultServiceKey;
 
     useEffect(() => {
         fetch("/data/servicesData.json")
@@ -51,15 +52,21 @@ export default function ServicesClientComponent() {
     }, []);
 
     useEffect(() => {
-        if (servicesData && !(selectedService in servicesData)) {
-            router.replace(`/Services?service=${defaultService}`);
+        if (servicesData && !(selectedServiceKey in servicesData)) {
+            router.replace(`/en/Services?service=${defaultServiceKey}`);
         }
-    }, [servicesData, selectedService, router]);
+    }, [servicesData, selectedServiceKey, router]);
 
     if (!servicesData) return <div>Loading services data...</div>;
-    if (!(selectedService in servicesData)) return null;
+    if (!(selectedServiceKey in servicesData)) return null;
 
-    const data = servicesData[selectedService];
+    const data = servicesData[selectedServiceKey];
+
+    const tabNames = {
+        precautions: "Precautions",
+        intelligence: "Intelligence",
+        specializations: "Specializations",
+    };
 
     return (
         <div className="sidebar-page-container">
@@ -71,8 +78,10 @@ export default function ServicesClientComponent() {
                             <div className="sidebar-widget sidebar-blog-category">
                                 <ul className="blog-cat">
                                     {Object.keys(servicesData).map((key) => (
-                                        <li key={key} className={key === selectedService ? "active" : ""}>
-                                            <Link href={`/Services?service=${key}`}>{servicesData[key].title}</Link>
+                                        <li key={key} className={key === selectedServiceKey ? "active" : ""}>
+                                            <Link href={`/en/Services?service=${key}`}>
+                                                {servicesData[key].title}
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -99,10 +108,9 @@ export default function ServicesClientComponent() {
                                     <span className="title">Quick Contact</span>
                                     <h2>Get Solution</h2>
                                     <div className="text">
-                                        Contact us at the Interior office nearest to you or submit a business inquiry
-                                        online.
+                                        Contact us at the Interior office nearest to you or submit a business inquiry online.
                                     </div>
-                                    <Link className="theme-btn btn-style-three" href="/contact">
+                                    <Link className="theme-btn btn-style-three" href={`/en/contact`}>
                                         Contact
                                     </Link>
                                 </div>
@@ -173,7 +181,7 @@ export default function ServicesClientComponent() {
                                                 className={activeTab === tab ? "tab-btn active-btn" : "tab-btn"}
                                                 onClick={() => setActiveTab(tab)}
                                             >
-                                                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                                {tabNames[tab as keyof typeof tabNames]}
                                             </li>
                                         ))}
                                     </ul>

@@ -1,11 +1,10 @@
-// src/app/Services/ServicesClientComponent.tsx
-
+﻿// src/app/Services/ServicesClientComponent.tsx
 "use client";
-
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 type ServiceData = {
     title: string;
@@ -33,9 +32,10 @@ export default function ServicesClientComponent() {
     const [activeTab, setActiveTab] = useState("precautions");
     const searchParams = useSearchParams();
     const router = useRouter();
+    const pathname = usePathname();
 
-    const defaultService = "villaConstruction";
-    const selectedService = searchParams?.get("service") || defaultService;
+    const defaultServiceKey = "villaConstruction";
+    const selectedServiceKey = searchParams?.get("service") || defaultServiceKey;
 
     useEffect(() => {
         fetch("/data/servicesData.json")
@@ -45,21 +45,35 @@ export default function ServicesClientComponent() {
             })
             .then((data) => setServicesData(data))
             .catch((error) => {
-                console.error("Failed to load services data:", error);
+                console.error("فشل تحميل بيانات الخدمات:", error);
                 setServicesData(null);
             });
     }, []);
 
     useEffect(() => {
-        if (servicesData && !(selectedService in servicesData)) {
-            router.replace(`/Services?service=${defaultService}`);
+        if (servicesData && !(selectedServiceKey in servicesData)) {
+            router.replace(`/ar/Services?service=${defaultServiceKey}`);
         }
-    }, [servicesData, selectedService, router]);
+    }, [servicesData, selectedServiceKey, router]);
 
-    if (!servicesData) return <div>Loading services data...</div>;
-    if (!(selectedService in servicesData)) return null;
+    if (!servicesData) return <div>جاري تحميل بيانات الخدمات...</div>;
+    if (!(selectedServiceKey in servicesData)) return null;
 
-    const data = servicesData[selectedService];
+    const data = servicesData[selectedServiceKey];
+
+    const tabNames = {
+        precautions: "الاحتياطات",
+        intelligence: "الذكاء",
+        specializations: "التخصصات",
+    };
+
+    const serviceKeysToAr = {
+        villaConstruction: "بناء الفلل",
+        structureRepair: "ترميم الهياكل",
+        cladding: "التكسية",
+        aluminumAndGlass: "الألومنيوم والزجاج",
+        interiorDesign: "التصميم الداخلي",
+    };
 
     return (
         <div className="sidebar-page-container">
@@ -71,20 +85,22 @@ export default function ServicesClientComponent() {
                             <div className="sidebar-widget sidebar-blog-category">
                                 <ul className="blog-cat">
                                     {Object.keys(servicesData).map((key) => (
-                                        <li key={key} className={key === selectedService ? "active" : ""}>
-                                            <Link href={`/Services?service=${key}`}>{servicesData[key].title}</Link>
+                                        <li key={key} className={key === selectedServiceKey ? "active" : ""}>
+                                            <Link href={`/ar/Services?service=${key}`}>
+                                                {serviceKeysToAr[key as keyof typeof serviceKeysToAr] || servicesData[key].title}
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
                             <div className="sidebar-widget brochure-widget">
-                                <h3 className="sidebar-title">Download Brochures</h3>
+                                <h3 className="sidebar-title">تحميل الكتيبات</h3>
                                 {["pdf", "word", "ppt"].map((type) => (
                                     <div key={type} className="brochure-box">
                                         <div className="inner">
                                             <span className={`icon fa fa-file-${type}-o`}></span>
-                                            <div className="text">Project-One .{type}</div>
+                                            <div className="text">مشروع-واحد .{type}</div>
                                         </div>
                                         <a href="#" className="overlay-link"></a>
                                     </div>
@@ -96,14 +112,13 @@ export default function ServicesClientComponent() {
                                 style={{ backgroundImage: "url(/images/resource/brochure-bg.jpg)" }}
                             >
                                 <div className="inner">
-                                    <span className="title">Quick Contact</span>
-                                    <h2>Get Solution</h2>
+                                    <span className="title">تواصل سريع</span>
+                                    <h2>احصل على حلول</h2>
                                     <div className="text">
-                                        Contact us at the Interior office nearest to you or submit a business inquiry
-                                        online.
+                                        تواصل معنا في أقرب مكتب لك أو أرسل استفسارًا عبر الإنترنت.
                                     </div>
-                                    <Link className="theme-btn btn-style-three" href="/contact">
-                                        Contact
+                                    <Link className="theme-btn btn-style-three" href={`/ar/contact`}>
+                                        اتصل بنا
                                     </Link>
                                 </div>
                             </div>
@@ -173,7 +188,7 @@ export default function ServicesClientComponent() {
                                                 className={activeTab === tab ? "tab-btn active-btn" : "tab-btn"}
                                                 onClick={() => setActiveTab(tab)}
                                             >
-                                                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                                {tabNames[tab as keyof typeof tabNames]}
                                             </li>
                                         ))}
                                     </ul>

@@ -7,7 +7,13 @@ const nextConfig: NextConfig = {
                 protocol: "https",
                 hostname: "karyaniconstruction.karyani-house.com",
                 port: "",
-                pathname: "/**", // adjust path if you want to restrict, e.g. "/wp-content/uploads/**"
+                pathname: "/**",
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+                port: '',
+                pathname: '/**',
             },
         ],
     },
