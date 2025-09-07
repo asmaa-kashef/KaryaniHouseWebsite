@@ -7,13 +7,6 @@ import ContactLink from "../../../components/ContactLink";
 import Header from "../../../components/Header";
 import Footer from "../../../components/HomeFooter";
 
-// Your global CSS files should be imported in the root layout file (src/app/layout.tsx)
-// and not on individual pages to avoid redundant imports and optimize performance.
-// If you still have these imports here, the path is also incorrect.
-// import "../../../../public/css/bootstrap.css";
-// import "../../../../public/css/style.css";
-// import "../../../../public/css/responsive.css";
-
 interface Project {
     id: number;
     slug: string;
@@ -41,7 +34,6 @@ interface Project {
     h2Sections?: string[];
 }
 
-// Function to read project data from the local JSON file on the server.
 async function getProjectBySlug(slug: string): Promise<Project | null> {
     try {
         const jsonDirectory = path.join(process.cwd(), 'public', 'data');
@@ -54,12 +46,10 @@ async function getProjectBySlug(slug: string): Promise<Project | null> {
     }
 }
 
-// This function generates dynamic metadata for the page.
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    // Await params before using its properties
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
     const project = await getProjectBySlug(slug);
-    const canonicalUrl = `https://karyani-house.com/projects/${slug}`;
+    const canonicalUrl = `https://karyani-house.com/en/projects/${slug}`;
     const metadataBase = new URL('https://karyani-house.com');
 
     if (!project) {
@@ -67,12 +57,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
             title: "Project Not Found",
             description: "The requested project could not be found.",
             metadataBase,
-            openGraph: {
-                url: canonicalUrl,
-            },
-            alternates: {
-                canonical: canonicalUrl,
-            },
+            openGraph: { url: canonicalUrl },
+            alternates: { canonical: canonicalUrl },
         };
     }
 
@@ -99,14 +85,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
             description: metaDescription,
             images: [ogImage],
         },
-        alternates: {
-            canonical: canonicalUrl,
-        },
+        alternates: { canonical: canonicalUrl },
     };
 }
 
-export default async function ProjectDetail({ params }: { params: { slug: string } }) {
-    // Await params before using its properties
+export default async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const project = await getProjectBySlug(slug);
 
@@ -144,10 +127,7 @@ export default async function ProjectDetail({ params }: { params: { slug: string
                 <div className="auto-container" style={{ maxWidth: 1200, margin: "auto" }}>
                     <div className="upper-box" style={{ marginBottom: 50 }}>
                         {project.images && project.images.length > 0 && (
-                            <ImageGalleryClient
-                                images={project.images}
-                                title={project.title}
-                            />
+                            <ImageGalleryClient images={project.images} title={project.title} />
                         )}
                     </div>
 
@@ -219,51 +199,24 @@ export default async function ProjectDetail({ params }: { params: { slug: string
                                 Details of the construction project handled by Karyani House.
                             </p>
                             <ul style={{ listStyle: "none", padding: 0, color: "#333", lineHeight: 1.7 }}>
-                                <li>
-                                    <strong>Zone:</strong> {project.zone}
-                                </li>
+                                <li><strong>Zone:</strong> {project.zone}</li>
                                 <li>
                                     <strong>Location:</strong>{" "}
                                     {project.mapEmbedUrl ? (
-                                        <a
-                                            href={project.mapEmbedUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            style={{ color: "#0077cc", textDecoration: "underline" }}
-                                        >
+                                        <a href={project.mapEmbedUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#0077cc", textDecoration: "underline" }}>
                                             {project.location}
                                         </a>
-                                    ) : (
-                                        project.location
-                                    )}
+                                    ) : project.location}
                                 </li>
-                                <li>
-                                    <strong>Project Name:</strong> {project.projectName}
-                                </li>
-                                <li>
-                                    <strong>Permit Number:</strong> {project.permitNumber}
-                                </li>
-                                <li>
-                                    <strong>First Issue Date:</strong> {project.firstIssueDate}
-                                </li>
-                                <li>
-                                    <strong>Sector:</strong> {project.sector}
-                                </li>
-                                <li>
-                                    <strong>Plot Number:</strong> {project.plotNumber}
-                                </li>
-                                <li>
-                                    <strong>Land Use:</strong> {project.landUse}
-                                </li>
-                                <li>
-                                    <strong>Plot Area (m²):</strong> {project.plotArea}
-                                </li>
-                                <li>
-                                    <strong>Designer and Supervisor:</strong> {project.designerAndSupervisor}
-                                </li>
-                                <li>
-                                    <strong>Contractor:</strong> {project.contractor}
-                                </li>
+                                <li><strong>Project Name:</strong> {project.projectName}</li>
+                                <li><strong>Permit Number:</strong> {project.permitNumber}</li>
+                                <li><strong>First Issue Date:</strong> {project.firstIssueDate}</li>
+                                <li><strong>Sector:</strong> {project.sector}</li>
+                                <li><strong>Plot Number:</strong> {project.plotNumber}</li>
+                                <li><strong>Land Use:</strong> {project.landUse}</li>
+                                <li><strong>Plot Area (m²):</strong> {project.plotArea}</li>
+                                <li><strong>Designer and Supervisor:</strong> {project.designerAndSupervisor}</li>
+                                <li><strong>Contractor:</strong> {project.contractor}</li>
                             </ul>
 
                             {project.mapEmbedUrl && (
@@ -287,20 +240,9 @@ export default async function ProjectDetail({ params }: { params: { slug: string
                                     textAlign: "center",
                                 }}
                             >
-                                <span
-                                    style={{
-                                        fontWeight: "700",
-                                        fontSize: 18,
-                                        display: "block",
-                                        marginBottom: 10,
-                                    }}
-                                >
-                                    Quick Contact
-                                </span>
+                                <span style={{ fontWeight: "700", fontSize: 18, display: "block", marginBottom: 10 }}>Quick Contact</span>
                                 <h2 style={{ marginBottom: 10 }}>Get Solution</h2>
-                                <p style={{ marginBottom: 15 }}>
-                                    Contact us at the nearest office or submit a request online.
-                                </p>
+                                <p style={{ marginBottom: 15 }}>Contact us at the nearest office or submit a request online.</p>
                                 <ContactLink />
                             </div>
                         </aside>
