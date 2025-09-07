@@ -29,23 +29,25 @@ const metaConfig = {
 };
 
 // === Dynamic Metadata ===
+type FilterKeys = "all" | "Repair" | "Villa" | "Cladding";
+
 export async function generateMetadata({
     searchParams,
 }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-    // ✅ لازم await
     const params = await searchParams;
 
     const filter = (params?.filter as string) || "all";
+    const filterKey: FilterKeys = filter as FilterKeys; // ✅ تعيين النوع الصحيح
     const currentPage = Number(params?.page) || 1;
 
-    const baseTitle = metaConfig[filter]?.title || metaConfig.all.title;
+    const baseTitle = metaConfig[filterKey]?.title || metaConfig.all.title;
     const title =
         currentPage > 1 ? `${baseTitle} (الصفحة ${currentPage})` : baseTitle;
 
     const baseDescription =
-        metaConfig[filter]?.description || metaConfig.all.description;
+        metaConfig[filterKey]?.description || metaConfig.all.description;
     const description =
         currentPage > 1
             ? `${baseDescription} - الصفحة ${currentPage}`
