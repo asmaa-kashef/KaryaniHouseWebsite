@@ -1,12 +1,17 @@
-﻿// src/components/BannerSection.js
+﻿"use client";
 
-"use client";
+import React from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
-import React, { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+// Swiper imports
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, EffectFade } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/effect-fade";
 
-// Translation data for different languages
+// Translation data
 const translations = {
     en: {
         buttonText: "Get a Free Quote",
@@ -22,28 +27,6 @@ const BannerSection = () => {
     const pathname = usePathname();
     const currentLang = pathname.startsWith("/ar") ? "ar" : "en";
     const content = translations[currentLang];
-
-    useEffect(() => {
-        if (typeof window !== "undefined" && typeof window.$ !== "undefined") {
-            import("owl.carousel").then(() => {
-                window.$('.banner-carousel').owlCarousel({
-                    loop: true,
-                    margin: 0,
-                    nav: true,
-                    items: 1,
-                    dots: false,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    animateOut: 'fadeOut',
-                    animateIn: 'fadeIn',
-                    navText: [
-                        '<span class="fa fa-angle-left"></span>',
-                        '<span class="fa fa-angle-right"></span>'
-                    ],
-                });
-            });
-        }
-    }, []);
 
     const slides = [
         {
@@ -62,36 +45,60 @@ const BannerSection = () => {
 
     return (
         <section className="banner-section-two">
-            <div className="banner-carousel owl-carousel owl-theme">
+            <Swiper
+                modules={[Autoplay, Navigation, EffectFade]}
+                navigation
+                loop
+                autoplay={{ delay: 5000 }}
+                effect="fade"
+                className="banner-carousel"
+            >
                 {slides.map((item, idx) => (
-                    <div
-                        key={idx}
-                        className="slide-item"
-                        style={{ backgroundImage: `url(${item.bg})` }}
-                    >
-                        <div className="auto-container">
-                            <div className="content-box text-center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Link
-                                    href="#offer-form"
-                                    className="theme-btn btn-style-one"
-                                    style={{ fontSize: "20px", padding: "12px 30px" }}
+                    <SwiperSlide key={idx}>
+                        <div
+                            className="slide-item"
+                            style={{
+                                backgroundImage: `url(${item.bg})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        >
+                            <div className="auto-container">
+                                <div
+                                    className="content-box text-center"
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                    }}
                                 >
-                                    {content.buttonText}
-                                </Link>
-                                {/* Updated h2 with CSS pre-line for proper line breaks */}
-                                <h2 style={{ marginTop: "20px", whiteSpace: "pre-line", lineHeight: "1.3em" }}>
-                                    {content.slideTitles}
-                                </h2>
-                                <div className="video-link">
-                                    <a href={item.video} data-fancybox="gallery">
-                                        <i className="icon fa fa-play" aria-hidden="true"></i>
-                                    </a>
+                                    <Link
+                                        href="#offer-form"
+                                        className="theme-btn btn-style-one"
+                                        style={{ fontSize: "20px", padding: "12px 30px" }}
+                                    >
+                                        {content.buttonText}
+                                    </Link>
+                                    <h2
+                                        style={{
+                                            marginTop: "20px",
+                                            whiteSpace: "pre-line",
+                                            lineHeight: "1.3em",
+                                        }}
+                                    >
+                                        {content.slideTitles}
+                                    </h2>
+                                    <div className="video-link">
+                                        <a href={item.video} data-fancybox="gallery">
+                                            <i className="icon fa fa-play" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </SwiperSlide>
                 ))}
-            </div>
+            </Swiper>
         </section>
     );
 };
