@@ -7,8 +7,6 @@ import ContactLink from "../../../components/ContactLink";
 import Header from "../../../components/Header";
 import Footer from "../../../components/HomeFooter";
 
-
-
 interface Project {
     id: number;
     slug: string;
@@ -48,13 +46,9 @@ async function getProjectBySlug(slug: string): Promise<Project | null> {
     }
 }
 
-interface ProjectPageProps {
-    params: { slug: string };
-}
-
-export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
-    // Await params before using its properties
-    const { slug } =  params;
+// النوع الجديد لـ params: Promise-like
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params; // ✅ ضروري await هنا
     const project = await getProjectBySlug(slug);
     const canonicalUrl = `https://karyani-house.com/projects/${slug}`;
 
@@ -62,12 +56,8 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
         return {
             title: "المشروع غير موجود",
             description: "المشروع المطلوب غير موجود.",
-            openGraph: {
-                url: canonicalUrl,
-            },
-            alternates: {
-                canonical: canonicalUrl,
-            },
+            openGraph: { url: canonicalUrl },
+            alternates: { canonical: canonicalUrl },
         };
     }
 
@@ -75,13 +65,12 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     const metaDescription = project.metaDescription || `اكتشف ${project.title} في ${project.location}. خبراء بناء الفلل، إصلاح الهياكل، التكسية الداخلية والخارجية، وتصميم الديكور الداخلي بواسطة كريانى هاوس.`;
     const metaKeywords = project.seoKeyword || `${project.title}, ${project.projectName}, بناء فلل أبوظبي, إصلاح هياكل, تكسية, تصميم داخلي, كريانى هاوس`;
     const ogImage = project.images?.[0] || "/images/logo.png";
-    const metadataBase = new URL('https://karyani-house.com');
 
     return {
         title: metaTitle,
         description: metaDescription,
         keywords: metaKeywords,
-        metadataBase,
+        metadataBase: new URL('https://karyani-house.com'),
         openGraph: {
             title: metaTitle,
             description: metaDescription,
@@ -95,15 +84,13 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
             description: metaDescription,
             images: [ogImage],
         },
-        alternates: {
-            canonical: canonicalUrl,
-        },
+        alternates: { canonical: canonicalUrl },
     };
 }
 
-export default async function ProjectDetail({ params }: ProjectPageProps) {
-    // Await params before using its properties
-    const { slug } = await params;
+// نفس التعديل في الـ Page function
+export default async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params; // ✅ await هنا
     const project = await getProjectBySlug(slug);
 
     if (!project) {
@@ -212,9 +199,7 @@ export default async function ProjectDetail({ params }: ProjectPageProps) {
                                 تفاصيل مشروع البناء الذي قامت به كريانى هاوس.
                             </p>
                             <ul style={{ listStyle: "none", padding: 0, color: "#333", lineHeight: 1.7 }}>
-                                <li>
-                                    <strong>المنطقة:</strong> {project.zone}
-                                </li>
+                                <li><strong>المنطقة:</strong> {project.zone}</li>
                                 <li>
                                     <strong>الموقع:</strong>{" "}
                                     {project.mapEmbedUrl ? (
@@ -230,30 +215,14 @@ export default async function ProjectDetail({ params }: ProjectPageProps) {
                                         project.location
                                     )}
                                 </li>
-                                <li>
-                                    <strong>اسم المشروع:</strong> {project.projectName}
-                                </li>
-                                <li>
-                                    <strong>رقم التصريح:</strong> {project.permitNumber}
-                                </li>
-                                <li>
-                                    <strong>تاريخ الإصدار الأول:</strong> {project.firstIssueDate}
-                                </li>
-                                <li>
-                                    <strong>القطاع:</strong> {project.sector}
-                                </li>
-                                <li>
-                                    <strong>رقم القطعة:</strong> {project.plotNumber}
-                                </li>
-                                <li>
-                                    <strong>استخدام الأرض:</strong> {project.landUse}
-                                </li>
-                                <li>
-                                    <strong>المصمم والمشرف:</strong> {project.designerAndSupervisor}
-                                </li>
-                                <li>
-                                    <strong>المقاول:</strong> {project.contractor}
-                                </li>
+                                <li><strong>اسم المشروع:</strong> {project.projectName}</li>
+                                <li><strong>رقم التصريح:</strong> {project.permitNumber}</li>
+                                <li><strong>تاريخ الإصدار الأول:</strong> {project.firstIssueDate}</li>
+                                <li><strong>القطاع:</strong> {project.sector}</li>
+                                <li><strong>رقم القطعة:</strong> {project.plotNumber}</li>
+                                <li><strong>استخدام الأرض:</strong> {project.landUse}</li>
+                                <li><strong>المصمم والمشرف:</strong> {project.designerAndSupervisor}</li>
+                                <li><strong>المقاول:</strong> {project.contractor}</li>
                             </ul>
 
                             {project.mapEmbedUrl && (
