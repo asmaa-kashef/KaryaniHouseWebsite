@@ -24,23 +24,26 @@ const metaConfig = {
     },
 };
 
-// ✅ fix: await searchParams (it's a Promise in Next.js 15)
+type FilterKeys = "all" | "Repair" | "Villa" | "Cladding";
+
+// ✅ Next.js 15: Await searchParams (it's a Promise)
 export async function generateMetadata({
     searchParams,
 }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-    const params = await searchParams; // <-- لازم await
+    const params = await searchParams;
     const filter = (params.filter as string) || "all";
     const currentPage = Number(params.page) || 1;
 
-    const baseTitle = metaConfig[filter]?.title || metaConfig.all.title;
+    const filterKey = filter as FilterKeys;
+    const baseTitle = metaConfig[filterKey]?.title || metaConfig.all.title;
     const title = currentPage > 1 ? `${baseTitle} (Page ${currentPage})` : baseTitle;
 
-    const baseDescription = metaConfig[filter]?.description || metaConfig.all.description;
+    const baseDescription = metaConfig[filterKey]?.description || metaConfig.all.description;
     const description = currentPage > 1 ? `${baseDescription} - Page ${currentPage}` : baseDescription;
 
-    const baseUrl = "https://yourwebsite.com/projects";
+    const baseUrl = "https://karyani-house.com/projects";
     const currentUrl = `${baseUrl}?filter=${filter}&page=${currentPage}`;
 
     return {
@@ -53,7 +56,7 @@ export async function generateMetadata({
             type: "website",
             images: [
                 {
-                    url: "https://yourwebsite.com/images/project-banner.jpg",
+                    url: "https://karyani-house.com/images/project-banner.jpg",
                     alt: "Karyani House Projects",
                 },
             ],
@@ -62,7 +65,7 @@ export async function generateMetadata({
             card: "summary_large_image",
             title,
             description,
-            images: ["https://yourwebsite.com/images/project-banner.jpg"],
+            images: ["https://karyani-house.com/images/project-banner.jpg"],
         },
         alternates: {
             canonical: currentUrl,
