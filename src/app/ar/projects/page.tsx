@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, { Suspense } from "react";
 import Link from "next/link";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
@@ -115,7 +115,10 @@ export default function ProjectsPage() {
                 </div>
             </section>
 
-            <ProjectsPageClient />
+            {/* ✅ حطينا ProjectsPageClient داخل Suspense */}
+            <Suspense fallback={<div>جاري التحميل...</div>}>
+                <ProjectsPageClient />
+            </Suspense>
 
             <Footer />
         </div>

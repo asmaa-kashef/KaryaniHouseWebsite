@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, { Suspense } from "react";
 import Link from "next/link";
 import Header from "../../components/Header";
 import Footer from "../../components/HomeFooter";
@@ -8,19 +8,23 @@ import ProjectsPageClient from "../../components/ProjectsPageClient";
 const metaConfig = {
     all: {
         title: "Villa & Structural Repair Projects | Karyani House Abu Dhabi",
-        description: "Explore Karyani House's latest villa construction, structural repair, and cladding projects in Abu Dhabi. View details and quality work examples.",
+        description:
+            "Explore Karyani House's latest villa construction, structural repair, and cladding projects in Abu Dhabi. View details and quality work examples.",
     },
     Repair: {
         title: "Structural Repair Projects in Abu Dhabi | Karyani House",
-        description: "Browse our structural repair projects in Abu Dhabi, showcasing durability and expert engineering.",
+        description:
+            "Browse our structural repair projects in Abu Dhabi, showcasing durability and expert engineering.",
     },
     Villa: {
         title: "Villa Construction Projects in Abu Dhabi | Karyani House",
-        description: "Discover our modern and luxury villa construction projects across Abu Dhabi.",
+        description:
+            "Discover our modern and luxury villa construction projects across Abu Dhabi.",
     },
     Cladding: {
         title: "Cladding Projects in Abu Dhabi | Karyani House",
-        description: "See our professional cladding projects that combine aesthetics with durability in Abu Dhabi.",
+        description:
+            "See our professional cladding projects that combine aesthetics with durability in Abu Dhabi.",
     },
 };
 
@@ -38,10 +42,15 @@ export async function generateMetadata({
 
     const filterKey = filter as FilterKeys;
     const baseTitle = metaConfig[filterKey]?.title || metaConfig.all.title;
-    const title = currentPage > 1 ? `${baseTitle} (Page ${currentPage})` : baseTitle;
+    const title =
+        currentPage > 1 ? `${baseTitle} (Page ${currentPage})` : baseTitle;
 
-    const baseDescription = metaConfig[filterKey]?.description || metaConfig.all.description;
-    const description = currentPage > 1 ? `${baseDescription} - Page ${currentPage}` : baseDescription;
+    const baseDescription =
+        metaConfig[filterKey]?.description || metaConfig.all.description;
+    const description =
+        currentPage > 1
+            ? `${baseDescription} - Page ${currentPage}`
+            : baseDescription;
 
     const baseUrl = "https://karyani-house.com/projects";
     const currentUrl = `${baseUrl}?filter=${filter}&page=${currentPage}`;
@@ -69,13 +78,16 @@ export async function generateMetadata({
         },
         alternates: {
             canonical: currentUrl,
-            prev: currentPage > 1 ? `${baseUrl}?filter=${filter}&page=${currentPage - 1}` : undefined,
+            prev:
+                currentPage > 1
+                    ? `${baseUrl}?filter=${filter}&page=${currentPage - 1}`
+                    : undefined,
             next: `${baseUrl}?filter=${filter}&page=${currentPage + 1}`,
         },
     };
 }
 
-// The main page component
+// === Main Page Component ===
 export default function ProjectsPage() {
     return (
         <>
@@ -102,7 +114,10 @@ export default function ProjectsPage() {
                 </div>
             </section>
 
-            <ProjectsPageClient />
+            {/* ✅ Fix: wrap client component in Suspense */}
+            <Suspense fallback={<div>Loading projects...</div>}>
+                <ProjectsPageClient />
+            </Suspense>
 
             <Footer />
         </>
