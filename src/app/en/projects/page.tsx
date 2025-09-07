@@ -24,10 +24,15 @@ const metaConfig = {
     },
 };
 
-// This function runs on the server and sets the dynamic metadata.
-export async function generateMetadata({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-    const filter = searchParams.filter as string || "all";
-    const currentPage = Number(searchParams.page) || 1;
+// ✅ fix: await searchParams (it's a Promise in Next.js 15)
+export async function generateMetadata({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+    const params = await searchParams; // <-- لازم await
+    const filter = (params.filter as string) || "all";
+    const currentPage = Number(params.page) || 1;
 
     const baseTitle = metaConfig[filter]?.title || metaConfig.all.title;
     const title = currentPage > 1 ? `${baseTitle} (Page ${currentPage})` : baseTitle;
@@ -39,11 +44,11 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
     const currentUrl = `${baseUrl}?filter=${filter}&page=${currentPage}`;
 
     return {
-        title: title,
-        description: description,
+        title,
+        description,
         openGraph: {
-            title: title,
-            description: description,
+            title,
+            description,
             url: currentUrl,
             type: "website",
             images: [
@@ -55,13 +60,12 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
         },
         twitter: {
             card: "summary_large_image",
-            title: title,
-            description: description,
+            title,
+            description,
             images: ["https://yourwebsite.com/images/project-banner.jpg"],
         },
         alternates: {
             canonical: currentUrl,
-            // Prev/Next links for pagination SEO
             prev: currentPage > 1 ? `${baseUrl}?filter=${filter}&page=${currentPage - 1}` : undefined,
             next: `${baseUrl}?filter=${filter}&page=${currentPage + 1}`,
         },
@@ -73,7 +77,6 @@ export default function ProjectsPage() {
     return (
         <>
             <Header />
-            {/* This section can remain a server component */}
             <section
                 className="page-title"
                 style={{ backgroundImage: "url(/images/background/project.jpg)" }}

@@ -6,6 +6,14 @@ import ImageGalleryClient from "../../../components/ImageGalleryClient";
 import ContactLink from "../../../components/ContactLink";
 import Header from "../../../components/Header";
 import Footer from "../../../components/HomeFooter";
+
+// Your global CSS files should be imported in the root layout file (src/app/layout.tsx)
+// and not on individual pages to avoid redundant imports and optimize performance.
+// If you still have these imports here, the path is also incorrect.
+// import "../../../../public/css/bootstrap.css";
+// import "../../../../public/css/style.css";
+// import "../../../../public/css/responsive.css";
+
 interface Project {
     id: number;
     slug: string;
@@ -48,13 +56,17 @@ async function getProjectBySlug(slug: string): Promise<Project | null> {
 
 // This function generates dynamic metadata for the page.
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const project = await getProjectBySlug(params.slug);
-    const canonicalUrl = `https://karyani-house.com/projects/${params.slug}`;
+    // Await params before using its properties
+    const { slug } = await params;
+    const project = await getProjectBySlug(slug);
+    const canonicalUrl = `https://karyani-house.com/projects/${slug}`;
+    const metadataBase = new URL('https://karyani-house.com');
 
     if (!project) {
         return {
             title: "Project Not Found",
             description: "The requested project could not be found.",
+            metadataBase,
             openGraph: {
                 url: canonicalUrl,
             },
@@ -73,6 +85,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         title: metaTitle,
         description: metaDescription,
         keywords: metaKeywords,
+        metadataBase,
         openGraph: {
             title: metaTitle,
             description: metaDescription,
@@ -93,7 +106,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function ProjectDetail({ params }: { params: { slug: string } }) {
-    const project = await getProjectBySlug(params.slug);
+    // Await params before using its properties
+    const { slug } = await params;
+    const project = await getProjectBySlug(slug);
 
     if (!project) {
         return <p style={{ textAlign: "center", marginTop: 30 }}>Project not found.</p>;
@@ -294,6 +309,5 @@ export default async function ProjectDetail({ params }: { params: { slug: string
             </section>
             <Footer />
         </>
-           
     );
 }

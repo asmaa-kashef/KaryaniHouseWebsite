@@ -7,6 +7,8 @@ import ContactLink from "../../../components/ContactLink";
 import Header from "../../../components/Header";
 import Footer from "../../../components/HomeFooter";
 
+
+
 interface Project {
     id: number;
     slug: string;
@@ -46,9 +48,15 @@ async function getProjectBySlug(slug: string): Promise<Project | null> {
     }
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const project = await getProjectBySlug(params.slug);
-    const canonicalUrl = `https://karyani-house.com/projects/${params.slug}`;
+interface ProjectPageProps {
+    params: { slug: string };
+}
+
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+    // Await params before using its properties
+    const { slug } = await params;
+    const project = await getProjectBySlug(slug);
+    const canonicalUrl = `https://karyani-house.com/projects/${slug}`;
 
     if (!project) {
         return {
@@ -67,11 +75,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     const metaDescription = project.metaDescription || `اكتشف ${project.title} في ${project.location}. خبراء بناء الفلل، إصلاح الهياكل، التكسية الداخلية والخارجية، وتصميم الديكور الداخلي بواسطة كريانى هاوس.`;
     const metaKeywords = project.seoKeyword || `${project.title}, ${project.projectName}, بناء فلل أبوظبي, إصلاح هياكل, تكسية, تصميم داخلي, كريانى هاوس`;
     const ogImage = project.images?.[0] || "/images/logo.png";
+    const metadataBase = new URL('https://karyani-house.com');
 
     return {
         title: metaTitle,
         description: metaDescription,
         keywords: metaKeywords,
+        metadataBase,
         openGraph: {
             title: metaTitle,
             description: metaDescription,
@@ -91,8 +101,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
 }
 
-export default async function ProjectDetail({ params }: { params: { slug: string } }) {
-    const project = await getProjectBySlug(params.slug);
+export default async function ProjectDetail({ params }: ProjectPageProps) {
+    // Await params before using its properties
+    const { slug } = await params;
+    const project = await getProjectBySlug(slug);
 
     if (!project) {
         return <p style={{ textAlign: "center", marginTop: 30 }}>المشروع غير موجود.</p>;
@@ -235,9 +247,6 @@ export default async function ProjectDetail({ params }: { params: { slug: string
                                 </li>
                                 <li>
                                     <strong>استخدام الأرض:</strong> {project.landUse}
-                                </li>
-                                <li>
-                                    <strong>مساحة الأرض (م²):</strong> {project.plotArea}
                                 </li>
                                 <li>
                                     <strong>المصمم والمشرف:</strong> {project.designerAndSupervisor}
