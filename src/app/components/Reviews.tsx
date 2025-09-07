@@ -115,8 +115,8 @@ const Reviews = ({ content }: { content: TestimonialContent }) => {
             {/* CSS styles */}
             <style jsx>{`
                 .testimonial-section-two {
-                    background: #FFF5E6; /* ✅ خلفية رمادي فاتح */
-                    padding: 90px 0;
+                    background: #fff5e6;
+                    padding: 100px 0;
                 }
                 .auto-container {
                     max-width: 950px;
@@ -124,84 +124,88 @@ const Reviews = ({ content }: { content: TestimonialContent }) => {
                 }
                 .sec-title {
                     text-align: center;
-                    margin-bottom: 60px;
+                    margin-bottom: 70px;
                 }
                 .sec-title h2 {
-                    font-size: 32px;
-                    font-weight: 700;
-                    color: #ff914d;
+                    font-size: 34px;
+                    font-weight: 800;
+                    color: #d97706; /* أكتر وضوح */
                 }
                 .inner-box {
                     background-color: #fff;
-                    border-radius: 20px;
-                    padding: 45px 35px;
-                    border: 5px solid #d97706; /* ✅ بوردر برتقالي */
-                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+                    border-radius: 22px;
+                    padding: 50px 40px;
+                    border: 5px solid #d97706;
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
                     text-align: center;
-                    min-height: 320px;
+                    min-height: 350px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
                 }
                 .text {
-                    font-size: 18px;
+                    font-size: 19px;
                     font-style: italic;
-                    line-height: 1.8;
-                    color: orange;
-                    margin-bottom: 30px;
+                    line-height: 1.9;
+                    color: #ff7f00;
+                    margin-bottom: 35px;
                 }
                 .thumb {
-                    margin: 0 auto 15px;
+                    margin: 0 auto 18px;
                 }
                 .thumb :global(img) {
                     border-radius: 50%;
-                    border: 3px solid #d97706; /* ✅ برتقالي */
+                    border: 3px solid #d97706;
                 }
                 .name {
-                    margin-bottom: 5px;
-                    font-size: 20px;
-                    font-weight: 600;
+                    margin-bottom: 6px;
+                    font-size: 21px;
+                    font-weight: 700;
                     color: #111;
                 }
                 .date {
                     display: block;
-                    margin-bottom: 12px;
+                    margin-bottom: 14px;
                     color: #666;
                 }
                 .rating span {
-                    color: #f59e0b; /* أصفر/برتقالي للنجوم */
-                    font-size: 20px;
-                    margin: 0 1px;
+                    color: #f59e0b;
+                    font-size: 22px;
+                    margin: 0 2px;
                 }
 
                 /* Slider dots */
                 :global(.slick-dots li button:before) {
-                    font-size: 10px;
+                    font-size: 12px;
                     color: #bbb;
                     opacity: 1;
                 }
                 :global(.slick-dots li.slick-active button:before) {
-                    color: #d97706; /* ✅ برتقالي */
+                    color: #d97706;
                 }
 
-                /* 📱 موبايل */
+                /* 📱 Responsive */
                 @media (max-width: 767px) {
                     .testimonial-section-two {
-                        padding: 50px 0;
+                        padding: 60px 0;
                     }
                     .inner-box {
-                        padding: 25px 18px;
+                        padding: 28px 20px;
                         min-height: auto;
                     }
                     .text {
-                        font-size: 15px;
+                        font-size: 16px;
+                        line-height: 1.7;
                     }
                     .name {
-                        font-size: 17px;
+                        font-size: 18px;
                     }
                     .thumb :global(img) {
                         width: 60px !important;
                         height: 60px !important;
                     }
                     .rating span {
-                        font-size: 16px;
+                        font-size: 17px;
                     }
                 }
             `}</style>

@@ -58,8 +58,8 @@ function CustomSelect({ value, onChange, options }) {
             <div
                 onClick={() => setOpen(!open)}
                 style={{
-                    padding: "12px 15px",
-                    borderRadius: "10px",
+                    padding: "14px 18px",
+                    borderRadius: "25px",
                     background: "#ff8a00",
                     color: "#000",
                     cursor: "pointer",
@@ -78,7 +78,7 @@ function CustomSelect({ value, onChange, options }) {
                     width: "100%",
                     backgroundColor: "#000",
                     color: "#fff",
-                    borderRadius: "10px",
+                    borderRadius: "15px",
                     maxHeight: "150px",
                     overflowY: "auto",
                     zIndex: 1000,
@@ -88,7 +88,7 @@ function CustomSelect({ value, onChange, options }) {
                         <li
                             key={idx}
                             onClick={() => { onChange(opt); setOpen(false); }}
-                            style={{ padding: "10px 15px", cursor: "pointer" }}
+                            style={{ padding: "10px 15px", cursor: "pointer", borderRadius: "10px" }}
                             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#333"}
                             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#000"}
                         >
@@ -199,11 +199,11 @@ export default function OfferForm() {
                     <div className="form-column order-last col-lg-6 col-md-12 col-sm-12"
                         style={{
                             flex: "1 1 50%",
-                            background: "rgba(255,255,255,0.95)",
                             padding: "30px",
-                            borderRadius: "15px",
+                            borderRadius: "30px",
                             boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
-                            marginTop: "-40px"
+                            marginTop: "-40px",
+                            background: "#fff"
                         }}>
                         <div className="inner-column">
                             <div className="discount-form">
@@ -219,8 +219,8 @@ export default function OfferForm() {
                                             value={(formData as any)[field]}
                                             onChange={handleChange}
                                             style={{
-                                                padding: "12px 15px",
-                                                borderRadius: "10px",
+                                                padding: "14px 18px",
+                                                borderRadius: "25px",
                                                 border: "1px solid #ccc",
                                                 fontSize: "16px",
                                                 outline: "none",
@@ -242,8 +242,8 @@ export default function OfferForm() {
                                         onChange={handleChange}
                                         rows={5}
                                         style={{
-                                            padding: "12px 15px",
-                                            borderRadius: "10px",
+                                            padding: "14px 18px",
+                                            borderRadius: "25px",
                                             border: "1px solid #ccc",
                                             fontSize: "16px",
                                             outline: "none",
@@ -262,9 +262,9 @@ export default function OfferForm() {
                                             background: "#ff8a00",
                                             color: "#fff",
                                             fontSize: "18px",
-                                            padding: "12px",
+                                            padding: "14px",
                                             border: "none",
-                                            borderRadius: "10px",
+                                            borderRadius: "25px",
                                             cursor: "pointer",
                                             transition: "0.3s"
                                         }}

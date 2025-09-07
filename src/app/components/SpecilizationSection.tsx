@@ -44,21 +44,18 @@ export default function SpecializationSection() {
             className="specialize-section"
             dir={currentLang === "ar" ? "rtl" : "ltr"}
             style={{
-                backgroundColor: "#f9f9f9",
-                padding: "40px 0",
+                backgroundColor: "#F9FAFB",
+                padding: "60px 0",
                 textAlign: "center",
             }}
         >
             <div className="auto-container">
                 {/* Title */}
-                <div
-                    className="sec-title"
-                    style={{ marginBottom: "30px", position: "relative" }}
-                >
+                <div className="sec-title" style={{ marginBottom: "40px", position: "relative" }}>
                     <span
                         className="float-text"
                         style={{
-                            fontSize: "60px",
+                            fontSize: "64px",
                             color: "rgba(0,0,0,0.05)",
                             fontWeight: "bold",
                             position: "absolute",
@@ -72,14 +69,29 @@ export default function SpecializationSection() {
                     </span>
                     <h2
                         style={{
-                            fontSize: "24px",
-                            fontWeight: "bold",
-                            color: "#ff914d",
+                            fontWeight: 700,
+                            fontSize: "2rem",
+                            color: "#222",
+                            textShadow: "1px 1px 3px rgba(0,0,0,0.15)",
                             position: "relative",
+                            display: "inline-block",
+                            paddingBottom: "10px",
                             zIndex: 1,
                         }}
                     >
                         {heading}
+                        <span
+                            style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: "50%",
+                                transform: "translateX(-50%)",
+                                width: "60px",
+                                height: "3px",
+                                backgroundColor: "#FF7A00", // أورنج براندينج
+                                borderRadius: "2px",
+                            }}
+                        ></span>
                     </h2>
                 </div>
 
@@ -89,15 +101,15 @@ export default function SpecializationSection() {
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 3000 }}
                     loop={true}
-                    spaceBetween={15}
+                    spaceBetween={20}
                     slidesPerView={4}
                     breakpoints={{
-                        0: { slidesPerView: 1, spaceBetween: 10 },     // موبايل صغير جدًا
-                        480: { slidesPerView: 1, spaceBetween: 10 },   // موبايل عادي
-                        768: { slidesPerView: 2, spaceBetween: 15 },   // تابلت
-                        1024: { slidesPerView: 4, spaceBetween: 15 },  // ديسكتوب
+                        0: { slidesPerView: 1, spaceBetween: 10 },
+                        480: { slidesPerView: 1, spaceBetween: 10 },
+                        768: { slidesPerView: 2, spaceBetween: 15 },
+                        1024: { slidesPerView: 4, spaceBetween: 20 },
                     }}
-                    style={{ paddingBottom: "40px" }}
+                    style={{ paddingBottom: "50px" }}
                 >
                     {services.map((service, idx) => (
                         <SwiperSlide key={idx}>
@@ -105,54 +117,50 @@ export default function SpecializationSection() {
                                 className="service-block-two"
                                 style={{
                                     background: "#fff",
-                                    borderRadius: "10px",
-                                    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                                    border: "3px solid #ff914d",
+                                    borderRadius: "12px",
+                                    boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+                                    border: "1px solid #E5E7EB", // رمادي فاتح
                                     transition: "all 0.3s ease",
                                     cursor: "pointer",
-                                    height: "100%",
+                                    overflow: "hidden",
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = "translateY(-5px)";
+                                    e.currentTarget.style.transform = "translateY(-6px) scale(1.02)";
+                                    e.currentTarget.style.boxShadow = "0 6px 16px rgba(0,0,0,0.12)";
                                     const h3 = e.currentTarget.querySelector("h3");
-                                    if (h3) h3.style.color = "#ff914d";
+                                    if (h3) h3.style.color = "#FF7A00";
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = "translateY(0)";
+                                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                                    e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.08)";
                                     const h3 = e.currentTarget.querySelector("h3");
-                                    if (h3) h3.style.color = "#545454";
+                                    if (h3) h3.style.color = "#374151";
                                 }}
                             >
                                 <div className="inner-box" style={{ textAlign: "center" }}>
-                                    <a
-                                        href={`/${currentLang}/projects`}
-                                        style={{ textDecoration: "none" }}
-                                    >
+                                    <a href={`/${currentLang}/projects`} style={{ textDecoration: "none" }}>
                                         <div className="image-box">
                                             <figure className="image" style={{ margin: 0 }}>
                                                 <Image
                                                     src={service.img}
                                                     alt={service.title}
-                                                    width={180}
-                                                    height={120}
+                                                    width={200}
+                                                    height={320}
                                                     style={{
                                                         objectFit: "cover",
                                                         display: "block",
-                                                        borderTopLeftRadius: "10px",
-                                                        borderTopRightRadius: "10px",
+                                                        width: "100%",
+                                                        height: "320px",
                                                     }}
                                                 />
                                             </figure>
                                         </div>
-                                        <div
-                                            className="caption-box"
-                                            style={{ padding: "8px 5px" }}
-                                        >
+                                        <div className="caption-box" style={{ padding: "12px 8px" }}>
                                             <h3
                                                 style={{
-                                                    fontSize: "13px",
+                                                    fontSize: "15px",
                                                     fontWeight: "600",
-                                                    color: "#545454",
+                                                    color: "#374151", // رمادي غامق
                                                     margin: 0,
                                                     transition: "color 0.3s ease",
                                                 }}
@@ -171,11 +179,11 @@ export default function SpecializationSection() {
             {/* Swiper dots styling */}
             <style jsx global>{`
                 .swiper-pagination-bullet {
-                    background: #ccc !important;
+                    background: #d1d5db !important; /* رمادي */
                     opacity: 1 !important;
                 }
                 .swiper-pagination-bullet-active {
-                    background: #ff914d !important;
+                    background: #ff7a00 !important; /* أورنج */
                 }
             `}</style>
         </section>

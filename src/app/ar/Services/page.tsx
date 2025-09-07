@@ -20,21 +20,20 @@ export default function ServicesPage() {
                     <div className="inner-container clearfix">
                         <div className="title-box">
                             <h1>تفاصيل الخدمة</h1>
-                            <span className="title">الديكورات الداخلية تتحدث عن نفسها</span>
+                            <span className="title">الأعمال الداخلية تتحدث عن نفسها</span>
                         </div>
                         <ul className="bread-crumb clearfix">
-                           
-                            <li>تفاصيل الخدمة</li>
                             <li>
                                 <Link href="/">الرئيسية</Link>
                             </li>
+                            <li>تفاصيل الخدمة</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             {/* The Suspense boundary is essential here */}
-            <Suspense fallback={<div>جار التحميل...</div>}>
+            <Suspense fallback={<div>جارٍ التحميل...</div>}>
                 <ServicesClientComponent />
             </Suspense>
 

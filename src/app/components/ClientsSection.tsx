@@ -42,7 +42,6 @@ const ClientsSection = () => {
                         textTransform: "uppercase",
                         letterSpacing: "1px",
                         fontFamily: "'Tajawal', sans-serif",
-                        textShadow: "2px 2px 6px rgba(0,0,0,0.3)",
                         margin: "0 0 8px 0",
                     }}
                 >
@@ -55,7 +54,6 @@ const ClientsSection = () => {
                             fontWeight: "700",
                             color: "#444",
                             fontFamily: "'Tajawal', sans-serif",
-                            textShadow: "2px 2px 6px rgba(0,0,0,0.25)",
                             margin: 0,
                         }}
                     >
@@ -79,12 +77,12 @@ const ClientsSection = () => {
                 <div
                     className="sponsors-outer"
                     style={{
-                        width: "120%", // increased width
-                        margin: "0 -10%", // center the wider box
+                        width: "120%",
+                        margin: "0 -10%",
                         padding: "30px",
                         borderRadius: "20px",
                         background: "chocolate",
-                        boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
+                        boxShadow: "0 8px 25px rgba(150, 150, 255, 0.7)", // 🔵 blue shadow
                         position: "relative",
                         overflow: "hidden",
                         transition: "all 0.3s ease",
@@ -120,10 +118,10 @@ const ClientsSection = () => {
                                         display: "flex",
                                         justifyContent: "center",
                                         alignItems: "center",
-                                        border: "4px solid orange",
+                                        border: "4px solid orange", // 🔥 orange border
                                         borderRadius: "10px",
                                         background: "#fff",
-                                        boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
+                                        boxShadow: "0 8px 20px rgba(255,165,0,0.4)", // 🔥 orange shadow
                                         transition: "transform 0.3s, box-shadow 0.3s",
                                     }}
                                 >
@@ -146,32 +144,6 @@ const ClientsSection = () => {
                     </ul>
                 </div>
             </div>
-
-            {/* Geometric Accents */}
-            <div
-                style={{
-                    position: "absolute",
-                    top: "15%",
-                    left: "-60px",
-                    width: "220px",
-                    height: "220px",
-                    border: "8px solid rgba(255,165,0,0.3)",
-                    transform: "rotate(45deg)",
-                    zIndex: 0,
-                }}
-            />
-            <div
-                style={{
-                    position: "absolute",
-                    bottom: "10%",
-                    right: "-80px",
-                    width: "260px",
-                    height: "260px",
-                    border: "10px dashed rgba(0,0,0,0.1)",
-                    borderRadius: "50%",
-                    zIndex: 0,
-                }}
-            />
         </section>
     );
 };

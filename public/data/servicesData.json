@@ -16,19 +16,22 @@
             "Modern Facade Cladding and Exterior Works",
             "Dedicated Project Management and Supervision"
         ],
-        "featureImage": "/images/resource/news-2.jpg",
+        "featureImage": "/images/resource/project-2.webp",
         "featureImageAlt": "Villa Interior",
         "quote": "\"Karyani House built our villa with outstanding attention to detail and professionalism. The team made the entire process smooth and stress-free.\"",
-        "quoteAuthor": "Ahmed Al Mansoori, Abu Dhabi",
         "tabs": {
             "precautions": "We ensure all construction follows strict safety protocols and adheres to Abu Dhabi building codes and regulations. Regular site inspections and quality checks are conducted throughout the project.",
             "intelligence": "Our team integrates the latest construction technologies, sustainable materials, and energy-efficient systems to deliver villas that are not only beautiful but also environmentally responsible.",
             "specializations": "We specialize in villa construction including architectural design, structural engineering, interior finishing, facade cladding, and smart home system integration to meet all your villa building needs."
+        },
+        "seo": {
+            "metaTitle": "Villa Construction in Abu Dhabi | Karyani House",
+            "metaDescription": "Karyani House specializes in villa construction in Abu Dhabi. As one of the top construction companies in Abu Dhabi, we deliver precision-built villas with excellence, modern design, and quality finishing."
         }
     },
     "structureRepair": {
         "title": "Structure Repair",
-        "mainImage": "/images/resource/struct.png",
+        "mainImage": "/images/resource/service-detail.webp",
         "mainImageAlt": "Structure Repair",
         "introStrong": "Reliable and Expert Structural Repairs",
         "introParagraph": "Our structure repair services cover a wide range of solutions to strengthen and restore the integrity of your building. We use modern techniques and materials to ensure safety and durability.",
@@ -43,19 +46,22 @@
             "Foundation Stabilization",
             "Professional Inspection and Consultation"
         ],
-        "featureImage": "/images/resource/repair.png",
+        "featureImage": "/images/resource/project-2.webp",
         "featureImageAlt": "Structure Repair Work",
         "quote": "\"Thanks to Karyani House, our building is safe and stable again. Their team was professional and efficient.\"",
-        "quoteAuthor": "Fatima Al Nahyan, Abu Dhabi",
         "tabs": {
             "precautions": "All repair work follows strict safety and quality standards, meeting local regulations and codes.",
             "intelligence": "We apply advanced repair technologies and sustainable materials for effective and long-lasting repairs.",
             "specializations": "Our specialization includes crack repair, concrete restoration, corrosion protection, and foundation stabilization."
+        },
+        "seo": {
+            "metaTitle": "Reliable Structure Repair in Abu Dhabi | Karyani House",
+            "metaDescription": "Karyani House provides expert structure repair services in Abu Dhabi. Trust our experienced team for concrete restoration, crack repair, and building maintenance by top contracting experts."
         }
     },
     "cladding": {
         "title": "Cladding Services",
-        "mainImage": "/images/resource/cladding.jpg",
+        "mainImage": "/images/resource/service-detail.webp",
         "mainImageAlt": "Cladding Services",
         "introStrong": "Modern, Durable, and Stylish Facade Solutions",
         "introParagraph": "Karyani House provides premium cladding solutions that enhance both aesthetics and durability of buildings. From aluminum composite panels to stone and glass cladding, our expertise ensures a perfect finish.",
@@ -70,16 +76,17 @@
             "Thermal and Acoustic Insulation Integration",
             "Custom Facade Design and Engineering"
         ],
-        "featureImage": "/images/resource/cladding-feature.jpg",
+        "featureImage": "/images/resource/project-2.webp",
         "featureImageAlt": "Cladding Example",
         "quote": "\"Our building’s facade was completely transformed by Karyani House. The cladding not only looks stunning but also adds long-term durability.\"",
-        "quoteAuthor": "Mohammed Al Suwaidi, Abu Dhabi",
         "tabs": {
             "precautions": "We ensure proper installation techniques with weatherproofing and fire-resistant materials for maximum safety.",
             "intelligence": "We use advanced cladding systems designed for energy efficiency, insulation, and sustainability.",
             "specializations": "We specialize in aluminum, glass, stone, and HPL cladding solutions with custom designs."
+        },
+        "seo": {
+            "metaTitle": "Professional Cladding Services in Abu Dhabi | Karyani House",
+            "metaDescription": "Enhance your building facade with Karyani House cladding services. We offer aluminum, glass, and stone cladding solutions with modern design, durability, and top construction expertise in Abu Dhabi."
         }
     }
 }
-
-

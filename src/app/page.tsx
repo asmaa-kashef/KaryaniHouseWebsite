@@ -175,6 +175,7 @@ export default function HomePage() {
           
 
                 <NewsSection />
+               
             </main>
             <Footer />
         </>
