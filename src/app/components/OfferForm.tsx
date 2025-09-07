@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import { useState, useEffect } from "react";
-import $ from "jquery";
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
 // كائن يحتوي على جميع النصوص باللغتين
@@ -44,13 +44,11 @@ const translations = {
     }
 };
 
-// Conditionally import Owl Carousel
-if (typeof window !== 'undefined') {
-    require('owl.carousel');
-}
+// Conditionally import Owl Carousel dynamically
+const OwlCarousel = dynamic(() => import('owl.carousel'), { ssr: false });
 
 // Custom Dropdown Component
-function CustomSelect({ value, onChange, options }) {
+function CustomSelect({ value, onChange, options }: { value: string, onChange: (v: string) => void, options: string[] }) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -120,17 +118,18 @@ export default function OfferForm() {
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
     useEffect(() => {
-        if ($ && $.fn.owlCarousel) {
-            $('.owl-carousel').owlCarousel({});
+        if (typeof window !== "undefined" && (window as any).$ && (window as any).$.fn.owlCarousel) {
+            (window as any).$('.owl-carousel').owlCarousel({});
         }
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleDropdownChange = (value: string) => {
-        setFormData({ ...formData, Subject: value });
+        setFormData(prev => ({ ...prev, Subject: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -216,7 +215,7 @@ export default function OfferForm() {
                                             name={field}
                                             placeholder={content.formFields[field as keyof typeof content.formFields]}
                                             required
-                                            value={(formData as any)[field]}
+                                            value={formData[field as keyof typeof formData]}
                                             onChange={handleChange}
                                             style={{
                                                 padding: "14px 18px",
