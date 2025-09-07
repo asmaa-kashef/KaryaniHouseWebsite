@@ -54,7 +54,7 @@ interface ProjectPageProps {
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
     // Await params before using its properties
-    const { slug } = await params;
+    const { slug } =  params;
     const project = await getProjectBySlug(slug);
     const canonicalUrl = `https://karyani-house.com/projects/${slug}`;
 
