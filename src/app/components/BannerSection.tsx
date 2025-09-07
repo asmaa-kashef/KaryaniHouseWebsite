@@ -1,17 +1,24 @@
-﻿"use client";
+﻿// src/components/BannerSection.js
 
-import React from "react";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+"use client";
 
-// Swiper imports
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, EffectFade } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/effect-fade";
+import React from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
-// Translation data
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
+
+// Import required modules
+import { Navigation, Autoplay } from 'swiper/modules';
+
+// Translation data for different languages
 const translations = {
     en: {
         buttonText: "Get a Free Quote",
@@ -46,53 +53,45 @@ const BannerSection = () => {
     return (
         <section className="banner-section-two">
             <Swiper
-                modules={[Autoplay, Navigation, EffectFade]}
-                navigation
-                loop
-                autoplay={{ delay: 5000 }}
-                effect="fade"
                 className="banner-carousel"
+                loop={true}
+                autoplay={{ delay: 5000, disableOnInteraction: false }}
+                modules={[Navigation, Autoplay]}
+                navigation={true}
+                slidesPerView={1}
+            // Custom fade effect can be added with an additional import and module.
+            // For a simple crossfade, you can use effect={'fade'} and import the Fade module.
+            // It's generally better to use Swiper's built-in effects than custom CSS for animations.
             >
                 {slides.map((item, idx) => (
-                    <SwiperSlide key={idx}>
-                        <div
-                            className="slide-item"
-                            style={{
-                                backgroundImage: `url(${item.bg})`,
-                                backgroundSize: "cover",
-                                backgroundPosition: "center",
-                            }}
-                        >
-                            <div className="auto-container">
-                                <div
-                                    className="content-box text-center"
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                    }}
+                    <SwiperSlide
+                        key={idx}
+                        className="slide-item"
+                        style={{ backgroundImage: `url(${item.bg})` }}
+                    >
+                        <div className="auto-container">
+                            <div
+                                className="content-box text-center"
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Link
+                                    href="#offer-form"
+                                    className="theme-btn btn-style-one"
+                                    style={{ fontSize: "20px", padding: "12px 30px" }}
                                 >
-                                    <Link
-                                        href="#offer-form"
-                                        className="theme-btn btn-style-one"
-                                        style={{ fontSize: "20px", padding: "12px 30px" }}
-                                    >
-                                        {content.buttonText}
-                                    </Link>
-                                    <h2
-                                        style={{
-                                            marginTop: "20px",
-                                            whiteSpace: "pre-line",
-                                            lineHeight: "1.3em",
-                                        }}
-                                    >
-                                        {content.slideTitles}
-                                    </h2>
-                                    <div className="video-link">
-                                        <a href={item.video} data-fancybox="gallery">
-                                            <i className="icon fa fa-play" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
+                                    {content.buttonText}
+                                </Link>
+                                <h2 style={{ marginTop: "20px", whiteSpace: "pre-line", lineHeight: "1.3em" }}>
+                                    {content.slideTitles}
+                                </h2>
+                                <div className="video-link">
+                                    <a href={item.video} data-fancybox="gallery">
+                                        <i className="icon fa fa-play" aria-hidden="true"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
