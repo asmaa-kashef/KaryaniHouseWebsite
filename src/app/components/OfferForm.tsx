@@ -1,10 +1,9 @@
 ﻿'use client';
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 
-// كائن يحتوي على جميع النصوص باللغتين
+// A single object containing all text in both languages
 const translations = {
     en: {
         title: "Book your free consultation now",
@@ -43,9 +42,6 @@ const translations = {
         error: "فشل في إرسال الرسالة. حاول مرة أخرى!"
     }
 };
-
-// Conditionally import Owl Carousel dynamically
-const OwlCarousel = dynamic(() => import('owl.carousel'), { ssr: false });
 
 // Custom Dropdown Component
 function CustomSelect({ value, onChange, options }: { value: string, onChange: (v: string) => void, options: string[] }) {
@@ -117,11 +113,8 @@ export default function OfferForm() {
 
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-    useEffect(() => {
-        if (typeof window !== "undefined" && (window as any).$ && (window as any).$.fn.owlCarousel) {
-            (window as any).$('.owl-carousel').owlCarousel({});
-        }
-    }, []);
+    // The useEffect hook for Owl Carousel has been removed entirely
+    // as it was causing build errors and is not part of this component's core functionality.
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -207,33 +200,31 @@ export default function OfferForm() {
                         <div className="inner-column">
                             <div className="discount-form">
                                 <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-
-                                    {["FirstName", "lastname", "Email", "PhoneNumber"].map((field) => (
-                                        <input
-                                            key={field}
-                                            type={field === "Email" ? "email" : "text"}
-                                            name={field}
-                                            placeholder={content.formFields[field as keyof typeof content.formFields]}
-                                            required
-                                            value={formData[field as keyof typeof formData]}
-                                            onChange={handleChange}
-                                            style={{
-                                                padding: "14px 18px",
-                                                borderRadius: "25px",
-                                                border: "1px solid #ccc",
-                                                fontSize: "16px",
-                                                outline: "none",
-                                                transition: "0.3s",
-                                                background: "#fefefe"
-                                            }}
-                                            onFocus={(e) => e.currentTarget.style.borderColor = "#ff8a00"}
-                                            onBlur={(e) => e.currentTarget.style.borderColor = "#ccc"}
-                                        />
-                                    ))}
-
-                                    {/* Custom Dropdown */}
+                                    <>
+                                        {["FirstName", "lastname", "Email", "PhoneNumber"].map((field) => (
+                                            <input
+                                                key={field}
+                                                type={field === "Email" ? "email" : "text"}
+                                                name={field}
+                                                placeholder={content.formFields[field as keyof typeof content.formFields]}
+                                                required
+                                                value={formData[field as keyof typeof formData]}
+                                                onChange={handleChange}
+                                                style={{
+                                                    padding: "14px 18px",
+                                                    borderRadius: "25px",
+                                                    border: "1px solid #ccc",
+                                                    fontSize: "16px",
+                                                    outline: "none",
+                                                    transition: "0.3s",
+                                                    background: "#fefefe"
+                                                }}
+                                                onFocus={(e) => e.currentTarget.style.borderColor = "#ff8a00"}
+                                                onBlur={(e) => e.currentTarget.style.borderColor = "#ccc"}
+                                            />
+                                        ))}
+                                    </>
                                     <CustomSelect value={formData.Subject} onChange={handleDropdownChange} options={content.dropdownOptions} />
-
                                     <textarea
                                         name="Message"
                                         placeholder={content.formFields.Message}
@@ -253,7 +244,6 @@ export default function OfferForm() {
                                         onFocus={(e) => e.currentTarget.style.borderColor = "#ff8a00"}
                                         onBlur={(e) => e.currentTarget.style.borderColor = "#ccc"}
                                     ></textarea>
-
                                     <button
                                         type="submit"
                                         disabled={status === "loading"}
@@ -272,7 +262,6 @@ export default function OfferForm() {
                                     >
                                         {status === "loading" ? content.sending : content.submitButton}
                                     </button>
-
                                     {status === "success" && <p style={{ color: "#28a745", fontWeight: "bold", textAlign: "center" }}>{content.success}</p>}
                                     {status === "error" && <p style={{ color: "#dc3545", fontWeight: "bold", textAlign: "center" }}>{content.error}</p>}
                                 </form>
