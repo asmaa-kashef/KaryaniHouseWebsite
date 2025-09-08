@@ -42,9 +42,8 @@ export default function HomePage() {
     return (
         <>
             <Header />
-
             <main>
-                {/* LocalBusiness Schema */}
+                {/* قسم البانر */}
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -156,14 +155,19 @@ export default function HomePage() {
                         ])
                     }}
                 />
-               
-                
+
                 <BannerSection />
+
+
+
+                {/* قسم التخصص */}
                 <SpecilizationSection />
-               
+
+
+
                 <ProjectsInsightChart />
                 <ProjectsCategories />
-             
+
                 <section id="offer-form" className="offer-form-section">
 
                     <OfferForm />
@@ -172,10 +176,11 @@ export default function HomePage() {
                 <ClientsSection />
                 <ProjectsSection />
 
-          
+
 
                 <NewsSection />
-               
+                {/* قسم عنا */}
+
             </main>
             <Footer />
         </>

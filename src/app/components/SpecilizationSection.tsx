@@ -14,7 +14,6 @@ export default function SpecializationSection() {
 
     const content = {
         en: {
-            floatText: "Specialization",
             heading: "Our Specialization",
             services: [
                 { img: "/images/resource/VillaConstruction.webp", title: "Villa Construction" },
@@ -25,7 +24,6 @@ export default function SpecializationSection() {
             ],
         },
         ar: {
-            floatText: "تخصصنا",
             heading: "مجالات تخصصنا",
             services: [
                 { img: "/images/resource/VillaConstruction.webp", title: "بناء الفلل" },
@@ -37,36 +35,27 @@ export default function SpecializationSection() {
         },
     };
 
-    const { floatText, heading, services } = content[currentLang];
+    const { heading, services } = content[currentLang];
 
     return (
         <section
-            className="specialize-section"
-            dir={currentLang === "ar" ? "rtl" : "ltr"}
+            {...(currentLang === "ar" ? { dir: "rtl" } : {})}
             style={{
                 backgroundColor: "#F9FAFB",
                 padding: "60px 0",
                 textAlign: "center",
             }}
         >
-            <div className="auto-container">
+            <div
+                style={{
+                    width: "100%",
+                    maxWidth: "1200px",
+                    margin: "0 auto",
+                    padding: currentLang === "ar" ? "0 15px" : "0",
+                }}
+            >
                 {/* Title */}
-                <div className="sec-title" style={{ marginBottom: "40px", position: "relative" }}>
-                    <span
-                        className="float-text"
-                        style={{
-                            fontSize: "64px",
-                            color: "rgba(0,0,0,0.05)",
-                            fontWeight: "bold",
-                            position: "absolute",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            zIndex: 0,
-                            whiteSpace: "nowrap",
-                        }}
-                    >
-                        {floatText}
-                    </span>
+                <div style={{ marginBottom: "40px", position: "relative" }}>
                     <h2
                         style={{
                             fontWeight: 700,
@@ -88,7 +77,7 @@ export default function SpecializationSection() {
                                 transform: "translateX(-50%)",
                                 width: "60px",
                                 height: "3px",
-                                backgroundColor: "#FF7A00", // أورنج براندينج
+                                backgroundColor: "#FF7A00",
                                 borderRadius: "2px",
                             }}
                         ></span>
@@ -101,46 +90,53 @@ export default function SpecializationSection() {
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 3000 }}
                     loop={true}
-                    spaceBetween={20}
                     slidesPerView={4}
                     breakpoints={{
-                        0: { slidesPerView: 1, spaceBetween: 10 },
-                        480: { slidesPerView: 1, spaceBetween: 10 },
+                        0: { slidesPerView: 1, spaceBetween: 0 },
+                        424: { slidesPerView: 1, spaceBetween: 0 },
                         768: { slidesPerView: 2, spaceBetween: 15 },
-                        1024: { slidesPerView: 4, spaceBetween: 20 },
+                        1024: { slidesPerView: 3, spaceBetween: 20 },
                     }}
                     style={{ paddingBottom: "50px" }}
                 >
                     {services.map((service, idx) => (
                         <SwiperSlide key={idx}>
                             <div
-                                className="service-block-two"
                                 style={{
-                                    background: "#fff",
-                                    borderRadius: "12px",
-                                    boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-                                    border: "1px solid #E5E7EB", // رمادي فاتح
-                                    transition: "all 0.3s ease",
-                                    cursor: "pointer",
-                                    overflow: "hidden",
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = "translateY(-6px) scale(1.02)";
-                                    e.currentTarget.style.boxShadow = "0 6px 16px rgba(0,0,0,0.12)";
-                                    const h3 = e.currentTarget.querySelector("h3");
-                                    if (h3) h3.style.color = "#FF7A00";
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = "translateY(0) scale(1)";
-                                    e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.08)";
-                                    const h3 = e.currentTarget.querySelector("h3");
-                                    if (h3) h3.style.color = "#374151";
+                                    display: "flex",
+                                    justifyContent: currentLang === "ar" ? "flex-end" : "flex-start",
+                                    alignItems: "flex-start",
+                                    width: "100%",
                                 }}
                             >
-                                <div className="inner-box" style={{ textAlign: "center" }}>
+                                <div
+                                    style={{
+                                        background: "#fff",
+                                        borderRadius: "12px",
+                                        boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+                                        border: "1px solid #E5E7EB",
+                                        transition: "all 0.3s ease",
+                                        cursor: "pointer",
+                                        overflow: "hidden",
+                                        width: "100%",
+                                        maxWidth: "100%",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = "translateY(-6px) scale(1.02)";
+                                        e.currentTarget.style.boxShadow = "0 6px 16px rgba(0,0,0,0.12)";
+                                        const h3 = e.currentTarget.querySelector("h3");
+                                        if (h3) h3.style.color = "#FF7A00";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = "translateY(0) scale(1)";
+                                        e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.08)";
+                                        const h3 = e.currentTarget.querySelector("h3");
+                                        if (h3) h3.style.color = "#374151";
+                                    }}
+                                >
                                     <a href={`/${currentLang}/projects`} style={{ textDecoration: "none" }}>
-                                        <div className="image-box">
-                                            <figure className="image" style={{ margin: 0 }}>
+                                        <div style={{ textAlign: "center" }}>
+                                            <figure style={{ margin: 0 }}>
                                                 <Image
                                                     src={service.img}
                                                     alt={service.title}
@@ -150,23 +146,24 @@ export default function SpecializationSection() {
                                                         objectFit: "cover",
                                                         display: "block",
                                                         width: "100%",
-                                                        height: "320px",
+                                                        height: "auto",
+                                                        maxHeight: "320px",
                                                     }}
                                                 />
                                             </figure>
-                                        </div>
-                                        <div className="caption-box" style={{ padding: "12px 8px" }}>
-                                            <h3
-                                                style={{
-                                                    fontSize: "15px",
-                                                    fontWeight: "600",
-                                                    color: "#374151", // رمادي غامق
-                                                    margin: 0,
-                                                    transition: "color 0.3s ease",
-                                                }}
-                                            >
-                                                {service.title}
-                                            </h3>
+                                            <div style={{ padding: "12px 8px" }}>
+                                                <h3
+                                                    style={{
+                                                        fontSize: "15px",
+                                                        fontWeight: 600,
+                                                        color: "#374151",
+                                                        margin: 0,
+                                                        transition: "color 0.3s ease",
+                                                    }}
+                                                >
+                                                    {service.title}
+                                                </h3>
+                                            </div>
                                         </div>
                                     </a>
                                 </div>
@@ -179,11 +176,11 @@ export default function SpecializationSection() {
             {/* Swiper dots styling */}
             <style jsx global>{`
                 .swiper-pagination-bullet {
-                    background: #d1d5db !important; /* رمادي */
+                    background: #d1d5db !important;
                     opacity: 1 !important;
                 }
                 .swiper-pagination-bullet-active {
-                    background: #ff7a00 !important; /* أورنج */
+                    background: #ff7a00 !important;
                 }
             `}</style>
         </section>
