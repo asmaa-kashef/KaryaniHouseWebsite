@@ -20,27 +20,27 @@ export default function FAQSection() {
                 {
                     question: "Do you do the design and the execution yourselves?",
                     answer:
-                        "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+                        "Yes, our in-house team handles both design and execution to ensure quality and consistency across all projects.",
                 },
                 {
-                    question: "Do you give Contra and After sales service?",
+                    question: "Do you provide a warranty and after-sales service?",
                     answer:
-                        "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+                        "We provide a 5-year warranty on workmanship and offer comprehensive after-sales support for any issues that arise.",
                 },
                 {
-                    question: "Will you be able to give a quote, if given the floor plan?",
+                    question: "Can you provide a quote based on a floor plan?",
                     answer:
-                        "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+                        "Absolutely! We can analyze your floor plan and provide a detailed quote tailored to your project requirements.",
                 },
                 {
-                    question: "At what stage an interior designing work could be started?",
+                    question: "At what stage should interior design work begin?",
                     answer:
-                        "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+                        "Interior design work can start once the main structure is completed, allowing our designers to plan layouts, lighting, and finishes effectively.",
                 },
                 {
-                    question: "Do you charge for giving a Proposal?",
+                    question: "Do you charge for providing a proposal?",
                     answer:
-                        "We give a Contra for a Period of 5 years and promise to rectify any fault arising out of faulty workmanship at our cost. However the guarantee does not hold good for mishandling and breakable items.",
+                        "No, our initial proposal and consultation are free of charge to help clients make informed decisions.",
                 },
             ],
         },
@@ -51,31 +51,30 @@ export default function FAQSection() {
                 {
                     question: "هل تقومون بالتصميم والتنفيذ بأنفسكم؟",
                     answer:
-                        "نمنح ضمان لمدة 5 سنوات ونتعهد بإصلاح أي خطأ ناتج عن عيوب في التنفيذ على نفقتنا. ومع ذلك، لا يشمل الضمان سوء الاستخدام أو الأشياء القابلة للكسر.",
+                        "نعم، يقوم فريقنا الداخلي بالتصميم والتنفيذ لضمان الجودة والتناسق في جميع المشاريع.",
                 },
                 {
                     question: "هل تقدمون ضمان وخدمة ما بعد البيع؟",
                     answer:
-                        "نمنح ضمان لمدة 5 سنوات ونتعهد بإصلاح أي خطأ ناتج عن عيوب في التنفيذ على نفقتنا. ومع ذلك، لا يشمل الضمان سوء الاستخدام أو الأشياء القابلة للكسر.",
+                        "نمنح ضماناً لمدة 5 سنوات على جودة التنفيذ ونقدم دعم شامل بعد البيع لأي مشكلات تظهر.",
                 },
                 {
-                    question: "هل يمكنكم إعطاء عرض سعر إذا تم تزويدكم بمخطط الأرضية؟",
+                    question: "هل يمكنكم تقديم عرض سعر استنادًا إلى مخطط الأرضية؟",
                     answer:
-                        "نمنح ضمان لمدة 5 سنوات ونتعهد بإصلاح أي خطأ ناتج عن عيوب في التنفيذ على نفقتنا. ومع ذلك، لا يشمل الضمان سوء الاستخدام أو الأشياء القابلة للكسر.",
+                        "بالطبع! يمكننا تحليل مخطط الأرضية الخاص بك وتقديم عرض سعر مفصل يتناسب مع متطلبات مشروعك.",
                 },
                 {
                     question: "في أي مرحلة يمكن بدء أعمال التصميم الداخلي؟",
                     answer:
-                        "نمنح ضمان لمدة 5 سنوات ونتعهد بإصلاح أي خطأ ناتج عن عيوب في التنفيذ على نفقتنا. ومع ذلك، لا يشمل الضمان سوء الاستخدام أو الأشياء القابلة للكسر.",
+                        "يمكن بدء أعمال التصميم الداخلي بعد اكتمال الهيكل الرئيسي، مما يتيح لمصممينا التخطيط للديكور والإضاءة والتشطيبات بشكل فعال.",
                 },
                 {
                     question: "هل تفرضون رسوماً مقابل تقديم المقترح؟",
                     answer:
-                        "نمنح ضمان لمدة 5 سنوات ونتعهد بإصلاح أي خطأ ناتج عن عيوب في التنفيذ على نفقتنا. ومع ذلك، لا يشمل الضمان سوء الاستخدام أو الأشياء القابلة للكسر.",
+                        "لا، اقتراحنا الأولي والاستشارة مجانية لمساعدة العملاء على اتخاذ قرارات مستنيرة.",
                 },
             ],
         },
-
     };
 
     const { heading, floatText, faqs } = content[currentLang];
@@ -183,6 +182,25 @@ export default function FAQSection() {
                     ))}
                 </div>
             </div>
+
+            {/* JSON-LD for SEO */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "FAQPage",
+                        mainEntity: faqs.map((faq) => ({
+                            "@type": "Question",
+                            name: faq.question,
+                            acceptedAnswer: {
+                                "@type": "Answer",
+                                text: faq.answer,
+                            },
+                        })),
+                    }),
+                }}
+            />
         </section>
     );
 }

@@ -4,7 +4,7 @@ import path from "path";
 import { promises as fs } from "fs";
 import ImageGalleryClient from "../../../components/ImageGalleryClient";
 import ContactLink from "../../../components/ContactLink";
-import Header from "../../../components/Header";
+import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 
 interface Project {

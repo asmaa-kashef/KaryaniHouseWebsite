@@ -1,6 +1,6 @@
 ﻿"use client";
 import React, { useEffect, useState } from "react";
-import Header from "../../../components/Header";
+import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
 import Link from "next/link";

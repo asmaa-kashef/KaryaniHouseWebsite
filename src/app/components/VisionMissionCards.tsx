@@ -13,13 +13,19 @@ export default function VisionMissionSection() {
             cards: [
                 {
                     title: "🌟 Our Vision",
-                    description:
-                        "To be the leading choice in interior and architectural design by delivering innovative solutions that inspire and endure.",
+                    description: (
+                        <>
+                            To be one of the leading <strong>contracting companies in Abu Dhabi</strong> by delivering innovative interior and architectural solutions that inspire and endure.
+                        </>
+                    ),
                 },
                 {
                     title: "🎯 Our Mission",
-                    description:
-                        "Providing high-quality design and execution services focused on client needs, balancing beauty and functionality.",
+                    description: (
+                        <>
+                            Providing high-quality <strong>villa construction</strong>, interior design, and execution services focused on client needs, balancing beauty and functionality.
+                        </>
+                    ),
                 },
             ],
         },
@@ -29,13 +35,19 @@ export default function VisionMissionSection() {
             cards: [
                 {
                     title: "🌟 رؤيتنا",
-                    description:
-                        "أن نكون الخيار الأول في التصميم الداخلي والهندسة المعمارية من خلال تقديم حلول مبتكرة تلهم وتدوم.",
+                    description: (
+                        <>
+                            أن نكون إحدى أبرز <strong>شركات المقاولات في أبوظبي</strong> من خلال تقديم حلول مبتكرة في التصميم الداخلي والهندسة المعمارية تلهم وتدوم.
+                        </>
+                    ),
                 },
                 {
                     title: "🎯 رسالتنا",
-                    description:
-                        "تقديم خدمات تصميم وتنفيذ عالية الجودة تركز على احتياجات العميل وتحقق التوازن بين الجمال والوظيفة.",
+                    description: (
+                        <>
+                            تقديم خدمات عالية الجودة في <strong>بناء الفلل</strong>، التصميم الداخلي والتنفيذ مع التركيز على احتياجات العميل وتحقيق التوازن بين الجمال والوظيفة.
+                        </>
+                    ),
                 },
             ],
         },
@@ -49,7 +61,7 @@ export default function VisionMissionSection() {
             dir={currentLang === "ar" ? "rtl" : "ltr"}
             style={{
                 backgroundColor: "rgb(240, 240, 240)",
-                padding: "60px 0",
+                padding: "60px 20px",
                 textAlign: "center",
             }}
         >
@@ -120,7 +132,7 @@ export default function VisionMissionSection() {
                                 boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
                                 padding: "25px",
                                 maxWidth: "400px",
-                                textAlign: "left",
+                                textAlign: currentLang === "ar" ? "right" : "left",
                                 transition: "transform 0.3s ease",
                                 color: "#fff",
                             }}

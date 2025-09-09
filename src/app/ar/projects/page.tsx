@@ -1,6 +1,6 @@
 ﻿import React, { Suspense } from "react";
 import Link from "next/link";
-import Header from "../../components/Header";
+import Header from "../../components/HomeHeader";
 import Footer from "../../components/HomeFooter";
 import ProjectsPageClient from "../../components/arProjectsPageClient";
 

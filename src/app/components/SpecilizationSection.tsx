@@ -14,23 +14,63 @@ export default function SpecializationSection() {
 
     const content = {
         en: {
-            heading: "Our Specialization",
+            heading: "Our Specialization | Top Construction Companies in Abu Dhabi",
             services: [
-                { img: "/images/resource/VillaConstruction.webp", title: "Villa Construction" },
-                { img: "/images/resource/StructureRepair.webp", title: "Structure Repair" },
-                { img: "/images/resource/cladding.webp", title: "Cladding" },
-                { img: "/images/resource/Alumnum.webp", title: "Aluminium And Glass" },
-                { img: "/images/resource/Interiordesign.webp", title: "Interior Design" },
+                {
+                    img: "/images/resource/VillaConstruction.webp",
+                    title: "Villa Construction",
+                    description: "Karyani House provides premium villa construction services in Abu Dhabi, delivering quality and precision."
+                },
+                {
+                    img: "/images/resource/StructureRepair.webp",
+                    title: "Structure Repair",
+                    description: "Expert structural repair services for residential and commercial buildings across Abu Dhabi."
+                },
+                {
+                    img: "/images/resource/cladding.webp",
+                    title: "Cladding",
+                    description: "High-quality facade cladding services by top construction companies in Abu Dhabi."
+                },
+                {
+                    img: "/images/resource/Alumnum.webp",
+                    title: "Aluminium And Glass",
+                    description: "Professional aluminium and glass solutions, designed and installed by experts in Abu Dhabi."
+                },
+                {
+                    img: "/images/resource/Interiordesign.webp",
+                    title: "Interior Design",
+                    description: "Creative interior design services for villas and commercial spaces in Abu Dhabi."
+                },
             ],
         },
         ar: {
-            heading: "مجالات تخصصنا",
+            heading: "مجالات تخصصنا | أفضل شركات المقاولات في أبوظبي",
             services: [
-                { img: "/images/resource/VillaConstruction.webp", title: "بناء الفلل" },
-                { img: "/images/resource/StructureRepair.webp", title: "ترميم الهياكل" },
-                { img: "/images/resource/cladding.webp", title: "تكسية الواجهات" },
-                { img: "/images/resource/Alumnum.webp", title: "الألمنيوم والزجاج" },
-                { img: "/images/resource/Interiordesign.webp", title: "التصميم الداخلي" },
+                {
+                    img: "/images/resource/VillaConstruction.webp",
+                    title: "بناء الفلل",
+                    description: "كرياني هاوس تقدم خدمات بناء الفلل الفاخرة في أبوظبي بجودة ودقة عالية."
+                },
+                {
+                    img: "/images/resource/StructureRepair.webp",
+                    title: "ترميم الهياكل",
+                    description: "خدمات احترافية لترميم الهياكل للمباني السكنية والتجارية في أبوظبي."
+                },
+                {
+                    img: "/images/resource/cladding.webp",
+                    title: "تكسية الواجهات",
+                    description: "خدمات تكسية الواجهات عالية الجودة من أفضل شركات المقاولات في أبوظبي."
+                },
+                {
+                    img: "/images/resource/Alumnum.webp",
+                    title: "الألمنيوم والزجاج",
+                    description: "حلول احترافية للألمنيوم والزجاج يتم تصميمها وتركيبها بواسطة خبراء في أبوظبي."
+                },
+                {
+                    img: "/images/resource/Interiordesign.webp",
+                    title: "التصميم الداخلي",
+                    description: "خدمات تصميم داخلي مبتكرة للفلل والمساحات التجارية في أبوظبي."
+                },
             ],
         },
     };
@@ -134,12 +174,16 @@ export default function SpecializationSection() {
                                         if (h3) h3.style.color = "#374151";
                                     }}
                                 >
-                                    <a href={`/${currentLang}/projects`} style={{ textDecoration: "none" }}>
-                                        <div style={{ textAlign: "center" }}>
+                                    <a
+                                        href={`/projects#${service.title.replace(/\s+/g, "-").toLowerCase()}`}
+                                        aria-label={`${service.title} projects in Abu Dhabi`}
+                                        style={{ textDecoration: "none" }}
+                                    >
+                                        <div style={{ textAlign: "center", padding: "12px 8px" }}>
                                             <figure style={{ margin: 0 }}>
                                                 <Image
                                                     src={service.img}
-                                                    alt={service.title}
+                                                    alt={`${service.title} - construction companies in Abu Dhabi`}
                                                     width={200}
                                                     height={320}
                                                     style={{
@@ -151,19 +195,27 @@ export default function SpecializationSection() {
                                                     }}
                                                 />
                                             </figure>
-                                            <div style={{ padding: "12px 8px" }}>
-                                                <h3
-                                                    style={{
-                                                        fontSize: "15px",
-                                                        fontWeight: 600,
-                                                        color: "#374151",
-                                                        margin: 0,
-                                                        transition: "color 0.3s ease",
-                                                    }}
-                                                >
-                                                    {service.title}
-                                                </h3>
-                                            </div>
+                                            <h3
+                                                style={{
+                                                    fontSize: "15px",
+                                                    fontWeight: 600,
+                                                    color: "#374151",
+                                                    margin: "8px 0 5px",
+                                                    transition: "color 0.3s ease",
+                                                }}
+                                            >
+                                                {service.title}
+                                            </h3>
+                                            <p
+                                                style={{
+                                                    fontSize: "0.85rem",
+                                                    color: "#555",
+                                                    lineHeight: 1.4,
+                                                    margin: 0,
+                                                }}
+                                            >
+                                                {service.description}
+                                            </p>
                                         </div>
                                     </a>
                                 </div>
@@ -183,6 +235,25 @@ export default function SpecializationSection() {
                     background: #ff7a00 !important;
                 }
             `}</style>
+
+            {/* JSON-LD Schema for services */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "ItemList",
+                        "itemListElement": services.map((service, index) => ({
+                            "@type": "ListItem",
+                            "position": index + 1,
+                            "name": service.title,
+                            "description": service.description,
+                            "image": `https://www.karyanihouse.com${service.img}`,
+                            "url": `https://www.karyanihouse.com/projects#${service.title.replace(/\s+/g, "-").toLowerCase()}`,
+                        })),
+                    }),
+                }}
+            />
         </section>
     );
 }

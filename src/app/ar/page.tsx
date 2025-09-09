@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
     return (
-        <>
+        <div className="rtl">
             <Header />
             <main>
                 {/* قسم البانر */}
@@ -183,6 +183,6 @@ export default function HomePage() {
                
             </main>
             <Footer />
-        </>
+        </div>
     );
 }

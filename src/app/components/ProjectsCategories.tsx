@@ -66,7 +66,7 @@ export default function ProjectsComponent() {
         fontWeight: 'bold',
         color: '#ff914d',
         display: 'block',
-        marginBottom: '5px',
+        marginBottom: '8px',
     };
 
     const h3Style: React.CSSProperties = {
@@ -79,6 +79,7 @@ export default function ProjectsComponent() {
         marginTop: '10px',
         fontSize: '14px',
         color: '#555',
+        lineHeight: 1.5,
     };
 
     const innerBoxStyle: React.CSSProperties = {
@@ -93,8 +94,8 @@ export default function ProjectsComponent() {
     return (
         <section className="projects-section-two" dir={currentLang === 'ar' ? 'rtl' : 'ltr'}>
             <div className="auto-container">
-                <div className="upper-box clearfix">
-                    <div className="sec-title">
+                <div className="upper-box clearfix" style={{ marginBottom: '40px' }}>
+                    <div className="sec-title" style={{ marginBottom: '10px' }}>
                         <span className="float-text">{content.subheading}</span>
                         <h2>{content.heading}</h2>
                     </div>
@@ -111,13 +112,13 @@ export default function ProjectsComponent() {
                     slidesPerView={1}
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 4000, disableOnInteraction: false }}
-                    style={{ paddingBottom: '40px' }}
+                    style={{ paddingBottom: '50px' }}
                 >
                     {projects.map((project, idx) => (
                         <SwiperSlide key={idx}>
                             <div className="project-block-two">
                                 <div
-                                    className="image-box"
+                                    className="image-box video-wrapper"
                                     style={{ position: 'relative', borderRadius: '12px' }}
                                 >
                                     <figure className="image">
@@ -149,7 +150,6 @@ export default function ProjectsComponent() {
                                         </div>
                                     </figure>
 
-                                    {/* الكارت نصه على الفيديو ونصه خارج الفيديو */}
                                     <div
                                         className="inner-box"
                                         style={{
@@ -163,7 +163,7 @@ export default function ProjectsComponent() {
                                         <span style={titleStyle}>{project.title}</span>
                                         <h3 style={h3Style}>{project.name}</h3>
                                         <div style={textStyle}>{project.text}</div>
-                                        <div style={{ marginTop: '15px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                        <div style={{ marginTop: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                                             <Link
                                                 href={`/${currentLang}/projects`}
                                                 style={{
@@ -213,14 +213,18 @@ export default function ProjectsComponent() {
                                         </div>
                                     </div>
 
-                                    {/* Responsive: الكارت تحت الفيديو على الموبايل */}
+                                    {/* Responsive adjustments */}
                                     <style jsx>{`
                                         @media (max-width: 768px) {
                                             .inner-box {
                                                 position: static !important;
                                                 transform: none !important;
-                                                margin-top: 15px;
+                                                margin-top: 20px;
                                                 width: 100% !important;
+                                                padding: 18px !important;
+                                            }
+                                            .video-wrapper > figure > div {
+                                                padding-top: 75% !important; /* زيادة ارتفاع الفيديو */
                                             }
                                         }
                                     `}</style>

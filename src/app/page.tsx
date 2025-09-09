@@ -1,4 +1,5 @@
 ﻿import React from "react";
+import Head from "next/head";
 import Header from "./components/HomeHeader";
 import Footer from "./components/HomeFooter";
 import ProjectsSection from "./components/ProjectsSection";
@@ -13,14 +14,12 @@ import { Metadata } from "next";
 import SpecilizationSection from "./components/SpecilizationSection";
 import BannerSection from "./components/BannerSection";
 
-
-
 export const metadata: Metadata = {
-    title: "Karyani House | Top Villa Construction Companies in Abu Dhabi",
-    description: "Karyani House, a top construction company in Abu Dhabi, offers villa construction, maintenance, crack repair, structural strengthening, and facade renovation",
+    title: "Karyani House Top Villa construction companies in abu dhabi",
+    description: "Karyani House a top construction companies in abu dhabi offers villa construction, structural repair, and strengthening. Get your free consultation today.",
     openGraph: {
-        title: "Karyani House | Top Villa Construction Companies in Abu Dhabi",
-        description: "Karyani House, a top construction company in Abu Dhabi, offers villa construction, maintenance, crack repair, structural strengthening, and facade renovation",
+        title: "Karyani House Top Villa construction companies in abu dhabi",
+        description: "Karyani House a top construction companies in abu dhabi offers villa construction, structural repair, and strengthening. Get your free consultation today.",
         url: "https://www.karyanihouse.com",
         images: [
             {
@@ -41,9 +40,14 @@ export const metadata: Metadata = {
 export default function HomePage() {
     return (
         <>
+            <Head>
+                {/* Canonical URL */}
+                <link rel="canonical" href="https://www.karyanihouse.com/" />
+            </Head>
+
             <Header />
             <main>
-                {/* قسم البانر */}
+                {/* LocalBusiness Schema */}
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -156,31 +160,53 @@ export default function HomePage() {
                     }}
                 />
 
+                {/* FAQ Schema Hidden */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "FAQPage",
+                            "mainEntity": [
+                                {
+                                    "@type": "Question",
+                                    "name": "What services does Karyani House offer?",
+                                    "acceptedAnswer": {
+                                        "@type": "Answer",
+                                        "text": "Karyani House offers villa construction, structural repair, strengthening, facade renovation, and maintenance services in Abu Dhabi."
+                                    }
+                                },
+                                {
+                                    "@type": "Question",
+                                    "name": "How can I get a free consultation?",
+                                    "acceptedAnswer": {
+                                        "@type": "Answer",
+                                        "text": "You can contact us via the website form or call us directly to schedule your free consultation."
+                                    }
+                                }
+                            ]
+                        })
+                    }}
+                />
+
+                {/* Banner Section */}
                 <BannerSection />
 
-
-
-                {/* قسم التخصص */}
+                {/* Specialization Section */}
                 <SpecilizationSection />
 
-
-
+                {/* Projects & Insights */}
                 <ProjectsInsightChart />
                 <ProjectsCategories />
 
                 <section id="offer-form" className="offer-form-section">
-
                     <OfferForm />
-
                 </section>
+
                 <ClientsSection />
                 <ProjectsSection />
 
-
-
                 <NewsSection />
-                {/* قسم عنا */}
-
             </main>
             <Footer />
         </>

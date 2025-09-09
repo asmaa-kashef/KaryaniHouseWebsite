@@ -13,29 +13,31 @@ import Image from "next/image";
 const translations = {
     en: {
         buttonText: "Get a Free Quote",
-        slideTitles: "Villa Construction\nStructure Repair\nCladding",
+        h1Keyword: "Construction Companies in Abu Dhabi",
+        services: ["Villa Construction", "Structure Repair", "Cladding"], // ← Added Villa Construction
     },
     ar: {
         buttonText: "احصل على عرض سعر مجاني",
-        slideTitles: "بناء الفلل\nترميم الهياكل\nالتكسية",
+        h1Keyword: "شركات البناء في أبوظبي",
+        services: ["بناء الفلل", "ترميم الهياكل", "التكسية"], // ← Added بناء الفلل
     },
 };
 
 const slides = [
     {
         bg: "/images/main-slider/VillaConstruction.webp",
-        video: "https://www.youtube.com/watch?v=mFhw7yfwzsc",
-        alt: "Villa Construction",
+        alt: "Construction Companies in Abu Dhabi",
+        video: "https://www.youtube.com/watch?v=8HBZdEbywE4",
     },
     {
         bg: "/images/main-slider/structure.webp",
+        alt: "Structure Repair Services",
         video: "https://www.youtube.com/watch?v=00_cHMGz5aE",
-        alt: "Structure Repair",
     },
     {
         bg: "/images/main-slider/cladding.webp",
+        alt: "Cladding Services",
         video: "https://www.youtube.com/watch?v=ngxg4FNq2Sg",
-        alt: "Cladding",
     },
 ];
 
@@ -45,11 +47,18 @@ const BannerSection = () => {
     const content = translations[currentLang];
 
     return (
-        <section style={{ width: "100%", height: "100vh", position: "relative" }}>
+        <section
+            style={{
+                width: "100%",
+                height: "100vh",
+                minHeight: "100vh",
+                position: "relative",
+            }}
+        >
             <Swiper
                 modules={[Autoplay, EffectFade, Pagination]}
                 effect="fade"
-                loop={true}
+                loop
                 autoplay={{ delay: 5000, disableOnInteraction: false }}
                 pagination={{ clickable: true }}
                 style={{ width: "100%", height: "100%" }}
@@ -75,7 +84,7 @@ const BannerSection = () => {
                                     left: 0,
                                     right: 0,
                                     bottom: 0,
-                                    background: "rgba(0,0,0,0.3)",
+                                    background: "rgba(0,0,0,0.45)",
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "center",
@@ -91,29 +100,36 @@ const BannerSection = () => {
                                         display: "inline-block",
                                         backgroundColor: "#ff914d",
                                         color: "#fff",
-                                        padding: "12px 30px",
-                                        fontSize: "20px",
+                                        padding: "clamp(10px,2vw,14px) clamp(20px,4vw,30px)",
+                                        fontSize: "clamp(16px,2.5vw,20px)",
                                         fontWeight: "bold",
                                         borderRadius: "8px",
                                         textDecoration: "none",
+                                        marginBottom: "20px",
                                     }}
                                 >
                                     {content.buttonText}
                                 </Link>
 
-                                <h2
+                                <h1
                                     style={{
-                                        marginTop: "20px",
-                                        whiteSpace: "pre-line",
-                                        lineHeight: "1.3em",
-                                        fontSize: "32px",
+                                        fontSize: "clamp(28px,5vw,48px)",
                                         fontWeight: "bold",
+                                        lineHeight: "1.4em",
+                                        marginBottom: "20px",
                                     }}
                                 >
-                                    {content.slideTitles}
-                                </h2>
+                                    {content.h1Keyword}
+                                    <br />
+                                    {content.services.map((service, i) => (
+                                        <React.Fragment key={i}>
+                                            {service}
+                                            <br />
+                                        </React.Fragment>
+                                    ))}
+                                </h1>
 
-                                <div style={{ marginTop: "20px" }}>
+                                <div style={{ marginTop: "30px" }}>
                                     <a
                                         href={item.video}
                                         data-fancybox="gallery"

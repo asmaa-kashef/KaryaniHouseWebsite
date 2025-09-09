@@ -44,9 +44,7 @@ export default function HomeHeader() {
 
 
     return (
-
-        <header className={`main-header header-style-two ${isArabic ? 'rtl' : ''}`}>
-
+        <header className="main-header header-style-two">
             {/* Header Top */}
             <div className="header-top">
                 <div className="auto-container">

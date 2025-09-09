@@ -1,7 +1,7 @@
 ﻿// src/app/Services/page.tsx
 
 import React, { Suspense } from "react";
-import Header from "../../components/Header";
+import Header from "../../components/HomeHeader";
 import Footer from "../../components/HomeFooter";
 import Link from "next/link";
 import ServicesClientComponent from "./ServicesClientComponent";

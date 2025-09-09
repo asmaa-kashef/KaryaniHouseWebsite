@@ -10,53 +10,53 @@ export default function ProcessSection() {
     const content = {
         en: {
             floatText: "Process",
-            heading: "Proven Process",
+            heading: "Our Proven Process for Contracting Projects",
             steps: [
                 {
-                    icon: <FaLightbulb size={40} />,
+                    icon: <FaLightbulb size={40} aria-label="Concept Icon" title="Concept" />,
                     title: "Concept",
-                    desc: "We start with brainstorming and innovative ideas to set the foundation.",
+                    desc: "We start with brainstorming and innovative ideas to set the foundation for your villa construction project.",
                 },
                 {
-                    icon: <FaRegCalendarAlt size={40} />,
+                    icon: <FaRegCalendarAlt size={40} aria-label="Planning Icon" title="Planning" />,
                     title: "Planning",
-                    desc: "Strategic planning ensures smooth project flow with proper milestones.",
+                    desc: "Strategic planning ensures smooth project flow with proper milestones for contracting and interior design works.",
                 },
                 {
-                    icon: <FaDraftingCompass size={40} />,
+                    icon: <FaDraftingCompass size={40} aria-label="Design Icon" title="Design" />,
                     title: "Design",
-                    desc: "Creative design tailored to your vision and project requirements.",
+                    desc: "Creative design tailored to your vision and project requirements, ensuring top-notch interior and architectural quality.",
                 },
                 {
-                    icon: <FaRocket size={40} />,
+                    icon: <FaRocket size={40} aria-label="Execution Icon" title="Execution" />,
                     title: "Execution",
-                    desc: "We bring everything to life with quality work and timely delivery.",
+                    desc: "We bring everything to life with quality work, timely delivery, and adherence to your contracting project standards.",
                 },
             ],
         },
         ar: {
             floatText: "العملية",
-            heading: "العملية المثبتة",
+            heading: "العملية المثبتة لشركات المقاولات",
             steps: [
                 {
-                    icon: <FaLightbulb size={40} />,
+                    icon: <FaLightbulb size={40} aria-label="أيقونة الفكرة" title="الفكرة" />,
                     title: "الفكرة",
-                    desc: "نبدأ بعصف ذهني وأفكار مبتكرة لتأسيس المشروع.",
+                    desc: "نبدأ بعصف ذهني وأفكار مبتكرة لتأسيس مشروع البناء الخاص بك مع كرياني هاوس.",
                 },
                 {
-                    icon: <FaRegCalendarAlt size={40} />,
+                    icon: <FaRegCalendarAlt size={40} aria-label="أيقونة التخطيط" title="التخطيط" />,
                     title: "التخطيط",
-                    desc: "التخطيط الاستراتيجي يضمن سير المشروع بسلاسة مع تحديد مراحل واضحة.",
+                    desc: "التخطيط الاستراتيجي يضمن سير المشروع بسلاسة مع تحديد مراحل واضحة لبناء الفلل والخدمات الهندسية.",
                 },
                 {
-                    icon: <FaDraftingCompass size={40} />,
+                    icon: <FaDraftingCompass size={40} aria-label="أيقونة التصميم" title="التصميم" />,
                     title: "التصميم",
-                    desc: "تصميم إبداعي مخصص لرؤيتك ومتطلبات مشروعك.",
+                    desc: "تصميم إبداعي مخصص لرؤيتك ومتطلبات مشروعك، مع ضمان الجودة العالية في التصميم الداخلي والهندسي.",
                 },
                 {
-                    icon: <FaRocket size={40} />,
+                    icon: <FaRocket size={40} aria-label="أيقونة التنفيذ" title="التنفيذ" />,
                     title: "التنفيذ",
-                    desc: "نحول كل شيء إلى واقع بجودة عالية وتسليم في الوقت المحدد.",
+                    desc: "نحول كل شيء إلى واقع بجودة عالية وتسليم في الوقت المحدد وفق معايير كرياني هاوس.",
                 },
             ],
         },
@@ -177,20 +177,20 @@ export default function ProcessSection() {
                             <div style={{ marginBottom: "15px" }}>{step.icon}</div>
 
                             {/* Title */}
-                            <h4
+                            <h3
                                 style={{
-                                    fontSize: "22px",
+                                    fontSize: "20px",
                                     fontWeight: "600",
                                     marginBottom: "15px",
                                 }}
                             >
                                 {step.title}
-                            </h4>
+                            </h3>
 
                             {/* Description */}
-                            <div style={{ fontSize: "15px", lineHeight: "1.7em" }}>
+                            <p style={{ fontSize: "15px", lineHeight: "1.7em" }}>
                                 {step.desc}
-                            </div>
+                            </p>
                         </div>
                     ))}
                 </div>

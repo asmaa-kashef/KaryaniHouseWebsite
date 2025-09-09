@@ -12,13 +12,19 @@ export default function AboutImageSection() {
     const content = {
         en: {
             heading: "Any Project For Any Scale",
-            description:
-                "Karyani House has many years of experience and specializes in designing, building, renovating, and maintaining villas, residential buildings, and commercial spaces. We provide expert services in structural repair, cladding, aluminum and glass works, interior finishing, and custom construction solutions across Abu Dhabi and the UAE.",
+            description: (
+                <>
+                    Karyani House, one of the leading <strong>contracting companies in Abu Dhabi</strong>, specializes in <strong>villa construction</strong>, interior design, renovation, and maintenance services across the UAE. We provide expert services in structural repair, cladding, aluminum and glass works, interior finishing, and custom construction solutions.
+                </>
+            ),
         },
         ar: {
             heading: "أي مشروع بأي حجم",
-            description:
-                "تمتلك كارياني هاوس سنوات عديدة من الخبرة وتتخصص في تصميم وبناء وتجديد وصيانة الفيلات والمباني السكنية والمساحات التجارية. نقدم خدمات احترافية في الإصلاحات الهيكلية، والتكسية، وأعمال الألمنيوم والزجاج، والتشطيبات الداخلية، وحلول البناء المخصصة في جميع أنحاء أبوظبي والإمارات.",
+            description: (
+                <>
+                    كرياني هاوس، إحدى أبرز <strong>شركات المقاولات في أبوظبي</strong>، متخصصة في <strong>بناء الفلل</strong>، التصميم الداخلي، التجديد، وخدمات الصيانة في جميع أنحاء الإمارات. نقدم خدمات احترافية في الإصلاحات الهيكلية، التكسية، أعمال الألمنيوم والزجاج، التشطيبات الداخلية، وحلول البناء المخصصة.
+                </>
+            ),
         },
     };
 
