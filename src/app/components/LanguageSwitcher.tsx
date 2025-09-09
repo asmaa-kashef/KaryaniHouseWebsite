@@ -16,7 +16,7 @@ export default function HomeHeader() {
 
     // تغيير اللغة مع الحفاظ على query params
     const changeLanguage = (newLang: string) => {
-        let segments = pathname.split("/").filter(Boolean);
+        const segments = pathname.split("/").filter(Boolean);
 
         if (segments[0] === "ar" || segments[0] === "en") {
             segments[0] = newLang;
