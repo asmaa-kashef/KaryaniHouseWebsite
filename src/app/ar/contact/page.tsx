@@ -5,6 +5,7 @@ import Header from "../../components/HomeHeader";
 import Footer from "../../components/HomeFooter";
 import ContactSection from "../../components/ContactSection";
 import ClientsSection from "../../components/ClientsSection";
+import ProjectsCTASection from "../../components/ProjectsCTASection";
 
 // Metadata للـ SEO
 export const metadata = {
@@ -57,7 +58,7 @@ export default function ContactPage() {
                     </div>
                 </div>
             </section>
-
+            <ProjectsCTASection />
             <ContactSection />
             <ClientsSection />
 

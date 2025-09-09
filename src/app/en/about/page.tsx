@@ -8,6 +8,8 @@ import FAQ from "../../components/FAQ";
 import Engineer from "../../components/Engineer";
 import AboutImageSection from "../../components/AboutImageSection";
 
+
+
 // Metadata for SEO
 export const metadata = {
     title: "About Us - Karyani House | Contracting Companies in Abu Dhabi",
@@ -110,6 +112,10 @@ export default function AboutPage() {
 
                 {/* Vision & Mission Section */}
                 <VisionMissionCards />
+              
+              
+              
+
 
                 {/* About Section */}
                 <AboutImageSection />

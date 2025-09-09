@@ -5,18 +5,19 @@ import Header from "../../components/HomeHeader";
 import Footer from "../../components/HomeFooter";
 import ContactSection from "../../components/ContactSection";
 import ClientsSection from "../../components/ClientsSection";
+import ProjectsCTASection from "../../components/ProjectsCTASection";
 
 // ✅ SEO Metadata
 export const metadata = {
-    title: "Karyani House home renovation abu dhabi in Abu Dhabi",
+    title: "Karyani House | home renovation abu dhabi in Abu Dhabi",
     description:
         "Get in touch with Karyani House for villa construction, interior design, home renovation, and general maintenance services in Abu Dhabi and across the UAE.",
     keywords:
         "Karyani House, contact us, villa construction Abu Dhabi, home renovation Abu Dhabi, interior design Abu Dhabi, construction companies Abu Dhabi",
     alternates: { canonical: "https://www.karyani-house.com/en/contact" },
     openGraph: {
-        title:
-            "Contact Us - Karyani House | home renovation abu dhabi in Abu Dhabi",
+      
+            title: "Karyani House | home renovation abu dhabi in Abu Dhabi",
         description:
             "Get in touch with Karyani House for villa construction, interior design, home renovation, and general maintenance services in Abu Dhabi and across the UAE.",
         url: "https://www.karyani-house.com/en/contact",
@@ -125,6 +126,7 @@ export default function ContactPage() {
                 </div>
             </section>
 
+            <ProjectsCTASection />
             <ContactSection />
             <ClientsSection />
 

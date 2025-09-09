@@ -8,8 +8,8 @@ export default function AboutButton() {
     const pathname = usePathname();
     const currentLang = pathname.startsWith("/ar") ? "ar" : "en";
 
-    const buttonText = currentLang === "ar" ? "من نحن" : "About Us";
-    const href = currentLang === "ar" ? "/ar/about" : "/en/about";
+    const buttonText = currentLang === "ar" ? "استكشف مشروعاتنا" : "Explore Our Projects";
+    const href = currentLang === "ar" ? "/ar/projects?filter=all&page=1" : "/en/projects?filter=all&page=1";
 
     return (
         <Link

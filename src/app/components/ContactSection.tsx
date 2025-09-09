@@ -49,7 +49,7 @@ export default function ContactSection() {
     const t = translations[lang];
 
     return (
-        <section className="contact-page-section" style={{ padding: "60px 0", background: "#fafafa" }}>
+        <section className="contact-page-section" style={{ padding: "60px 0", background: "rgb(240, 240, 240)" }}>
             <div
                 className="auto-container"
                 style={{
