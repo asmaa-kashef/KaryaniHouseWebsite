@@ -2,6 +2,14 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import React from "react";
+
+type Card = {
+    title: string;
+    description: React.ReactNode | string;
+    button?: string;
+    link?: string;
+};
 
 export default function ProjectsCTASection() {
     const pathname = usePathname();
@@ -89,10 +97,18 @@ export default function ProjectsCTASection() {
     const { projects, services } = content[currentLang];
 
     // === Reusable Section Renderer ===
-    const renderSection = (floatText: string, heading: string, cards: any[], isProjects = false) => (
+    const renderSection = (
+        floatText: string,
+        heading: string,
+        cards: Card[],
+        isProjects = false
+    ) => (
         <div style={{ marginBottom: "80px" }}>
             {/* Title */}
-            <div className="sec-title" style={{ marginBottom: "40px", position: "relative", textAlign: "center" }}>
+            <div
+                className="sec-title"
+                style={{ marginBottom: "40px", position: "relative", textAlign: "center" }}
+            >
                 <span
                     className="float-text"
                     style={{
@@ -190,7 +206,7 @@ export default function ProjectsCTASection() {
                         </p>
 
                         {/* Only for projects show button */}
-                        {isProjects && (
+                        {isProjects && card.button && card.link && (
                             <Link
                                 href={card.link}
                                 className="theme-btn btn-style-one"
