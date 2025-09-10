@@ -14,14 +14,14 @@ const EngineerCardsSection = () => {
             floatText: "Engineers",
             engineers: [
                 {
-                    img: '/images/resource/ENGG12.png',
+                    img: '/images/resource/Eng1.webp',
                     name: 'Engineer 1',
                     title: 'Expertise & Vision',
                     description:
                         'Innovative thinking and precise planning for modern construction challenges.',
                 },
                 {
-                    img: '/images/resource/Eng1.png',
+                    img: '/images/resource/Eng2.webp',
                     name: 'Engineer 2',
                     title: 'Smart Execution',
                     description:
@@ -34,14 +34,14 @@ const EngineerCardsSection = () => {
             floatText: "المهندسون",
             engineers: [
                 {
-                    img: '/images/resource/ENGG12.png',
+                    img: '/images/resource/Eng2.webp',
                     name: 'المهندس 1',
                     title: 'الخبرة والرؤية',
                     description:
                         'تفكير مبتكر وتخطيط دقيق لتحديات البناء الحديثة.',
                 },
                 {
-                    img: '/images/resource/Eng1.png',
+                    img: '/images/resource/Eng1.webp',
                     name: 'المهندس 2',
                     title: 'تنفيذ ذكي',
                     description:

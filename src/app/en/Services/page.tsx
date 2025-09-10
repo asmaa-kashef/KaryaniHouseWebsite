@@ -14,7 +14,7 @@ export default function ServicesPage() {
             <Header />
             <section
                 className="page-title"
-                style={{ backgroundImage: "url(/images/background/cons.jpg)" }}
+                style={{ backgroundImage: "url(/images/background/cons.webp)" }}
             >
                 <div className="auto-container">
                     <div className="inner-container clearfix">

@@ -4,7 +4,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
-
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -19,27 +18,32 @@ export default function SpecializationSection() {
                 {
                     img: "/images/resource/VillaConstruction.webp",
                     title: "Villa Construction",
-                    description: "Karyani House provides premium villa construction services in Abu Dhabi, delivering quality and precision."
+                    description: "Karyani House provides premium villa construction services in Abu Dhabi, delivering quality and precision.",
+                    link: "/en/projects?filter=Villa&page=1"
                 },
                 {
-                    img: "/images/resource/StructureRepair.webp",
+                    img: "/images/gallery/10.webp",
                     title: "Structure Repair",
-                    description: "Expert structural repair services for residential and commercial buildings across Abu Dhabi."
+                    description: "Expert structural repair services for residential and commercial buildings across Abu Dhabi.",
+                    link: "/en/projects?filter=Repair&page=1"
                 },
                 {
                     img: "/images/resource/cladding.webp",
                     title: "Cladding",
-                    description: "High-quality facade cladding services by top construction companies in Abu Dhabi."
+                    description: "High-quality facade cladding services by top construction companies in Abu Dhabi.",
+                    link: "/en/projects?filter=Cladding&page=1"
                 },
                 {
                     img: "/images/resource/Alumnum.webp",
                     title: "Aluminium And Glass",
-                    description: "Professional aluminium and glass solutions, designed and installed by experts in Abu Dhabi."
+                    description: "Professional aluminium and glass solutions, designed and installed by experts in Abu Dhabi.",
+                    link: "/en/projects?filter=all&page=1"
                 },
                 {
                     img: "/images/resource/Interiordesign.webp",
                     title: "Interior Design",
-                    description: "Creative interior design services for villas and commercial spaces in Abu Dhabi."
+                    description: "Creative interior design services for villas and commercial spaces in Abu Dhabi.",
+                    link: "/en/projects?filter=all&page=1"
                 },
             ],
         },
@@ -49,27 +53,32 @@ export default function SpecializationSection() {
                 {
                     img: "/images/resource/VillaConstruction.webp",
                     title: "بناء الفلل",
-                    description: "كرياني هاوس تقدم خدمات بناء الفلل الفاخرة في أبوظبي بجودة ودقة عالية."
+                    description: "كرياني هاوس تقدم خدمات بناء الفلل الفاخرة في أبوظبي بجودة ودقة عالية.",
+                    link: "/ar/projects?filter=Villa&page=1"
                 },
                 {
                     img: "/images/resource/StructureRepair.webp",
                     title: "ترميم الهياكل",
-                    description: "خدمات احترافية لترميم الهياكل للمباني السكنية والتجارية في أبوظبي."
+                    description: "خدمات احترافية لترميم الهياكل للمباني السكنية والتجارية في أبوظبي.",
+                    link: "/ar/projects?filter=Repair&page=1"
                 },
                 {
                     img: "/images/resource/cladding.webp",
                     title: "تكسية الواجهات",
-                    description: "خدمات تكسية الواجهات عالية الجودة من أفضل شركات المقاولات في أبوظبي."
+                    description: "خدمات تكسية الواجهات عالية الجودة من أفضل شركات المقاولات في أبوظبي.",
+                    link: "/ar/projects?filter=Cladding&page=1"
                 },
                 {
                     img: "/images/resource/Alumnum.webp",
                     title: "الألمنيوم والزجاج",
-                    description: "حلول احترافية للألمنيوم والزجاج يتم تصميمها وتركيبها بواسطة خبراء في أبوظبي."
+                    description: "حلول احترافية للألمنيوم والزجاج يتم تصميمها وتركيبها بواسطة خبراء في أبوظبي.",
+                    link: "/ar/projects?filter=all&page=1"
                 },
                 {
                     img: "/images/resource/Interiordesign.webp",
                     title: "التصميم الداخلي",
-                    description: "خدمات تصميم داخلي مبتكرة للفلل والمساحات التجارية في أبوظبي."
+                    description: "خدمات تصميم داخلي مبتكرة للفلل والمساحات التجارية في أبوظبي.",
+                    link: "/ar/projects?filter=all&page=1"
                 },
             ],
         },
@@ -175,7 +184,7 @@ export default function SpecializationSection() {
                                     }}
                                 >
                                     <a
-                                        href={`/projects#${service.title.replace(/\s+/g, "-").toLowerCase()}`}
+                                        href={service.link}
                                         aria-label={`${service.title} projects in Abu Dhabi`}
                                         style={{ textDecoration: "none" }}
                                     >
@@ -249,7 +258,7 @@ export default function SpecializationSection() {
                             "name": service.title,
                             "description": service.description,
                             "image": `https://www.karyanihouse.com${service.img}`,
-                            "url": `https://www.karyanihouse.com/projects#${service.title.replace(/\s+/g, "-").toLowerCase()}`,
+                            "url": `https://www.karyanihouse.com${service.link}`,
                         })),
                     }),
                 }}

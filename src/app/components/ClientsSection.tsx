@@ -127,7 +127,7 @@ const ClientsSection = () => {
                                 >
                                     <a href="#">
                                         <Image
-                                            src={`/images/clients/${num}.png`}
+                                            src={`/images/clients/${num}.webp`}
                                             alt={`Client ${num}`}
                                             width={120}
                                             height={120}

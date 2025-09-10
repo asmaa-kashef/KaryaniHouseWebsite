@@ -102,7 +102,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
             <Header />
             <section
                 className="page-title"
-                style={{ backgroundImage: "url(/images/background/project.jpg)" }}
+                style={{ backgroundImage: "url(/images/background/project.webp)" }}
             >
                 <div className="auto-container">
                     <div className="inner-container clearfix">

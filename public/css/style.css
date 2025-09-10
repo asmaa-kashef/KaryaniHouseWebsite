@@ -475,7 +475,7 @@ ul,li{
 	background-color:#ffffff; 
 	background-position:center center; 
 	background-repeat:no-repeat; 
-	background-image:url(../images/icons/preloader.svg);
+
 }
 
 img {
@@ -1806,7 +1806,7 @@ img {
 	top: 0;
 	height: 100%;
 	width: 100%;
-	background-image: url(../images/icons/icon-dots-dark.jpg);
+/*	background-image: url(../images/icons/icon-dots-dark.jpg);*/
 	background-repeat: repeat;
 	background-position: center;
 	content: "";
@@ -2513,7 +2513,7 @@ header-style-seven .nav-toggler:hover{
 	top: 0;
 	height: 100%;
 	width: 540px;
-	background-image: url(../images/icons/shap-1.png);
+	/*background-image: url(../images/icons/shap-1.png);*/
 	background-repeat: no-repeat;
 	background-position: right top;
 	content:"";
@@ -2785,8 +2785,8 @@ header-style-seven .nav-toggler:hover{
 	height: 660px;
 	width: 100%;
 	content: "";
-	background-image: url(../images/icons/shape-2.png);
-	background-repeat: no-repeat;
+/*	background-image: url(../images/icons/shape-2.png);
+*/	background-repeat: no-repeat;
 	background-position: center bottom;
 	background-size: 100%;
 }
@@ -6413,7 +6413,7 @@ header-style-seven .nav-toggler:hover{
 	background-size:cover;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-image: url(../images/icons/help-bg.jpg);
+	/*background-image: url(../images/icons/help-bg.jpg);*/
 }
 
 .help-box-two .inner{
@@ -7561,7 +7561,7 @@ header-style-seven .nav-toggler:hover{
 	height: 320px;
 	width: 520px;
 	bottom: -55px;
-	background-image: url(../images/icons/icon-lines.jpg);
+	/*background-image: url(../images/icons/icon-lines.jpg);*/
 	background-repeat: no-repeat;
 	background-position: center;
 	content: "";
@@ -7586,7 +7586,7 @@ header-style-seven .nav-toggler:hover{
 	top: 0;
 	height: 100%;
 	width: 38%;
-	background-image: url(../images/icons/icon-dot.png);
+	/*background-image: url(../images/icons/icon-dot.png);*/
 	background-repeat: repeat;
 	background-position: center;
 	content: "";
@@ -7598,7 +7598,7 @@ header-style-seven .nav-toggler:hover{
 	bottom: 125px;
 	height: 488px;
 	width: 320px;
-	background-image: url(../images/icons/icon-flower.png);
+	/*background-image: url(../images/icons/icon-flower.png);*/
 	background-position: center;
 	background-repeat: no-repeat;
 	content: "";
@@ -7824,7 +7824,7 @@ header-style-seven .nav-toggler:hover{
 	position: relative;
 	background-repeat: repeat;
 	background-position: center;
-	background-image: url(../images/icons/icon-lines-dark.jpg);
+	/*background-image: url(../images/icons/icon-lines-dark.jpg);*/
 	padding:135px 0;
 }
 
@@ -7924,7 +7924,7 @@ header-style-seven .nav-toggler:hover{
 	top: 140px;
 	height: 347px;
 	width: 157px;
-	background-image: url(../images/icons/icon-dots.png);
+	/*background-image: url(../images/icons/icon-dots.png);*/
 	background-repeat: no-repeat;
 	background-position: center;
 	content: "";
@@ -7936,7 +7936,7 @@ header-style-seven .nav-toggler:hover{
 	top: 55px;
 	height: 576px;
 	width: 238px;
-	background-image: url(../images/icons/pentagon.png);
+	/*background-image: url(../images/icons/pentagon.png)*/;
 	background-repeat: no-repeat;
 	background-position: center;
 	content: "";
@@ -11985,7 +11985,7 @@ header-style-seven .nav-toggler:hover{
 	-ms-appearance:none;
 	-o-appearance:none;
 	-moz-appearance:none;
-	background:#ffffff url(../images/icons/icon-select.png) right center no-repeat;
+	/*background:#ffffff url(../images/icons/icon-select.png) right center no-repeat;*/
 }
 
 .checkout-form textarea{
@@ -13129,7 +13129,7 @@ header-style-seven .nav-toggler:hover{
 }
 
 .box-layout{
-	background-image: url(../images/background/3.jpg);
+	background-image: url(../images/background/3.webp);
 	background-repeat: no-repeat;
 	background-position: center;
 	background-attachment: fixed;

@@ -551,5 +551,99 @@
             "About Karyani House: Experts in villa construction in Abu Dhabi, delivering turnkey solutions and superior craftsmanship."
         ],
         "seoKeyword": "Medium-rise building construction"
+    },
+    {
+        "id": 14,
+        "slug": "structural-repair-abu-dhabi",
+        "category": "Repair",
+        "title": "Structure Repair in Madinat Al Riyad – Abu Dhabi",
+        "location": "Al Zahiya, Abu Dhabi",
+        "projectName": "Residential Villa",
+        "zone": "Al Zahiya",
+        "permitNumber": "B1M-2023-001204-P01",
+        "firstIssueDate": "",
+        "sector": "E16",
+        "plotNumber": "E16",
+        "landUse": "Villa",
+        "plotArea": "371.61 sqm",
+        "metaTitle": "Structural Repair in Madinat Al Riyad, Abu Dhabi | Karyani House",
+        "metaDescription": "Professional structural repair and strengthening works for a residential villa in Madinat Al Riyad, Abu Dhabi. Karyani House delivered reliable and durable solutions to restore safety, integrity, and functionality.",
+        "designerAndSupervisor": "EFORCE INSPECTION CONSULTANCIES L.L.C",
+        "contractor": "KARYANI HOUSE CONTRACTING & GENERAL MAINTENANCE L.L.C",
+        "villaDescription": "Revitalize your structure without expansion. Our expertise lies in enhancing internal and external elements of buildings through meticulous repairs and modifications. We specialize in elevating structures without the need for additional construction, ensuring durability and functionality through strategic enhancement. Project Highlights: Structural repairs and strengthening design for existing G+9+R+UR Al Kossar.",
+        "images": [
+            "/images/projects/structure-repair/2/1.webp",
+            "/images/projects/structure-repair/2/2.webp",
+            "/images/projects/structure-repair/2/3.webp",
+            "/images/projects/structure-repair/2/4.webp",
+            "/images/projects/structure-repair/2/5.webp",
+            "/images/projects/structure-repair/2/6.webp"
+        ],
+        "architectImages": [
+            "/images/architecture/structure-repair/2/1.webp",
+            "/images/architecture/structure-repair/2/2.webp",
+            "/images/architecture/structure-repair/2/3.webp",
+            "/images/architecture/structure-repair/2/4.webp",
+            "/images/architecture/structure-repair/2/5.webp",
+            "/images/architecture/structure-repair/2/6.webp",
+            "/images/architecture/structure-repair/2/7.webp"
+        ],
+        "mapEmbedUrl": "https://myland.dmt.gov.ae?x=54.3769631&y=24.4936165&lng=en",
+        "h1": "Structure Repair in Madinat Al Riyad – Abu Dhabi",
+        "h2Sections": [
+            "Project Overview: Comprehensive structural repair for a residential villa in Madinat Al Riyad, Abu Dhabi.",
+            "Repair & Reinforcement: Focused on restoring integrity, durability, and safety through advanced repair methods.",
+            "Specialized Solutions: Structural strengthening, concrete repair, and modifications to enhance functionality and lifespan.",
+            "About Karyani House: Trusted experts in structural repair across Abu Dhabi, delivering reliable and long-lasting results."
+        ],
+        "seoKeyword": "Structural repair Abu Dhabi"
+    },
+    {
+        "id": 15,
+        "slug": "structural-repair-services",
+        "category": "Repair",
+        "title": "Structure Repair in Al Sader – Abu Dhabi",
+        "location": "Al Sader, Abu Dhabi",
+        "projectName": "Residential Villa",
+        "zone": "Al Sader",
+        "permitNumber": "M1-2023-000969",
+        "firstIssueDate": "",
+        "sector": "Ras Al Sader",
+        "plotNumber": "26A",
+        "landUse": "Villa",
+        "plotArea": "22344.88 sqm",
+        "metaTitle": "Structural Repair in Al Sader, Abu Dhabi | Karyani House",
+        "metaDescription": "Professional structural repair and strengthening works for a residential villa in Al Sader, Abu Dhabi. Karyani House delivered durable solutions to restore safety, integrity, and long-term functionality.",
+        "designerAndSupervisor": "EFORCE INSPECTION CONSULTANCIES L.L.C",
+        "contractor": "KARYANI HOUSE CONTRACTING & GENERAL MAINTENANCE L.L.C",
+        "villaDescription": "Revitalize your structure without expansion. Our expertise lies in enhancing internal and external elements of buildings through meticulous repairs and modifications. This project involved interior and exterior maintenance work for the existing villa without any extensions or additions. The focus was on strengthening, durability, and improving long-term performance.",
+        "images": [
+            "/images/projects/structure-repair/3/1.webp",
+            "/images/projects/structure-repair/3/2.webp",
+            "/images/projects/structure-repair/3/3.webp",
+            "/images/projects/structure-repair/3/4.webp",
+            "/images/projects/structure-repair/3/5.webp",
+            "/images/projects/structure-repair/3/6.webp"
+        ],
+        "architectImages": [
+            "/images/projects/structure-repair/3/7.webp",
+            "/images/projects/structure-repair/3/8.webp",
+            "/images/projects/structure-repair/3/9.webp",
+            "/images/projects/structure-repair/3/10.webp",
+            "/images/projects/structure-repair/3/11.webp",
+            "/images/projects/structure-repair/3/12.webp",
+            "/images/projects/structure-repair/3/13.webp"
+        ],
+        "mapEmbedUrl": "https://myland.dmt.gov.ae?x=54.6839332&y=24.6689670&lng=en",
+        "h1": "Structure Repair in Al Sader – Abu Dhabi",
+        "h2Sections": [
+            "Project Overview: Comprehensive structural repair for a residential villa in Al Sader, Abu Dhabi.",
+            "Repair & Reinforcement: Focused on restoring integrity, durability, and safety through advanced repair methods.",
+            "Specialized Solutions: Structural strengthening, concrete repair, and modifications to enhance functionality and lifespan.",
+            "About Karyani House: Trusted experts in structural repair across Abu Dhabi, delivering reliable and long-lasting results."
+        ],
+        "seoKeyword": "Structural repair Al Sader Abu Dhabi"
     }
+
+
 ]

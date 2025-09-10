@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
-// Translations
+// A single object containing all text in both languages
 const translations = {
     en: {
         title: "Book your free consultation now",
@@ -21,8 +21,7 @@ const translations = {
         submitButton: "Send Now",
         sending: "Sending...",
         success: "Message sent successfully!",
-        error: "Failed to send message. Try again!",
-        videoLabel: "Watch Video"
+        error: "Failed to send message. Try again!"
     },
     ar: {
         title: "احجز استشارتك المجانية الآن",
@@ -40,8 +39,7 @@ const translations = {
         submitButton: "أرسل الآن",
         sending: "جارٍ الإرسال...",
         success: "تم إرسال الرسالة بنجاح!",
-        error: "فشل في إرسال الرسالة. حاول مرة أخرى!",
-        videoLabel: "شاهد الفيديو"
+        error: "فشل في إرسال الرسالة. حاول مرة أخرى!"
     }
 };
 
@@ -115,6 +113,9 @@ export default function OfferForm() {
 
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
+    // The useEffect hook for Owl Carousel has been removed entirely
+    // as it was causing build errors and is not part of this component's core functionality.
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -132,10 +133,13 @@ export default function OfferForm() {
             const res = await fetch(sheetURL, {
                 method: "POST",
                 body: new URLSearchParams(formData as Record<string, string>).toString(),
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
             });
 
             const result = await res.json();
+
             if (res.ok && result.result === "success") {
                 setStatus("success");
                 setFormData({ FirstName: "", lastname: "", Email: "", PhoneNumber: "", Subject: content.dropdownOptions[0], Message: "" });
@@ -149,60 +153,22 @@ export default function OfferForm() {
     };
 
     return (
-        <section
-            className="offer-section"
-            style={{
-                backgroundImage: "url(/images/background/6.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                padding: "60px 0"
-            }}
-        >
-            {/* ✅ Structured Data for SEO */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "ContactPage",
-                        "name": "Karyani House Offer Form",
-                        "url": typeof window !== "undefined" ? window.location.href : "",
-                        "mainEntity": {
-                            "@type": "ContactPoint",
-                            "contactType": "customer support",
-                            "email": "info@karyani-house.com",
-                            "telephone": "+9710506607159",
-                            "areaServed": "AE"
-                        },
-                        "video": [
-                            {
-                                "@type": "VideoObject",
-                                "name": "Villa Construction Video",
-                                "description": "Watch our luxury villa construction process.",
-                                "thumbnailUrl": "/images/video-thumb.jpg",
-                                "uploadDate": "2025-01-01",
-                                "contentUrl": "https://www.youtube.com/watch?v=00_cHMGz5aE",
-                                "embedUrl": "https://www.youtube.com/embed/00_cHMGz5aE"
-                            },
-                            {
-                                "@type": "VideoObject",
-                                "name": "Structure Repair Video",
-                                "description": "Our structural repair and renovation services.",
-                                "thumbnailUrl": "/images/video-thumb2.jpg",
-                                "uploadDate": "2025-01-01",
-                                "contentUrl": "https://www.youtube.com/watch?v=Y6ciIuGM06c",
-                                "embedUrl": "https://www.youtube.com/embed/Y6ciIuGM06c"
-                            }
-                        ]
-                    })
-                }}
-            />
-
+        <section className="offer-section" style={{
+            backgroundImage: "url(/images/background/6.webp)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            padding: "60px 0"
+        }}>
             <div className="auto-container" style={{ maxWidth: "1200px", margin: "0 auto" }}>
                 <div style={{ display: "flex", flexDirection: "row", gap: "40px", flexWrap: "wrap", alignItems: "flex-start" }}>
+
                     {/* Left Column */}
                     <div className="content-column col-lg-6 col-md-12 col-sm-12"
-                        style={{ color: "#fff", flex: "1 1 45%", textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)" }}>
+                        style={{
+                            color: "#fff",
+                            flex: "1 1 45%",
+                            textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)"
+                        }}>
                         <div className="inner-column">
                             <span className="title">{content.title}</span>
                             <h2>
@@ -234,28 +200,30 @@ export default function OfferForm() {
                         <div className="inner-column">
                             <div className="discount-form">
                                 <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                                    {["FirstName", "lastname", "Email", "PhoneNumber"].map((field) => (
-                                        <input
-                                            key={field}
-                                            type={field === "Email" ? "email" : "text"}
-                                            name={field}
-                                            placeholder={content.formFields[field as keyof typeof content.formFields]}
-                                            required
-                                            value={formData[field as keyof typeof formData]}
-                                            onChange={handleChange}
-                                            style={{
-                                                padding: "14px 18px",
-                                                borderRadius: "25px",
-                                                border: "1px solid #ccc",
-                                                fontSize: "16px",
-                                                outline: "none",
-                                                transition: "0.3s",
-                                                background: "#fefefe"
-                                            }}
-                                            onFocus={(e) => e.currentTarget.style.borderColor = "#ff8a00"}
-                                            onBlur={(e) => e.currentTarget.style.borderColor = "#ccc"}
-                                        />
-                                    ))}
+                                    <>
+                                        {["FirstName", "lastname", "Email", "PhoneNumber"].map((field) => (
+                                            <input
+                                                key={field}
+                                                type={field === "Email" ? "email" : "text"}
+                                                name={field}
+                                                placeholder={content.formFields[field as keyof typeof content.formFields]}
+                                                required
+                                                value={formData[field as keyof typeof formData]}
+                                                onChange={handleChange}
+                                                style={{
+                                                    padding: "14px 18px",
+                                                    borderRadius: "25px",
+                                                    border: "1px solid #ccc",
+                                                    fontSize: "16px",
+                                                    outline: "none",
+                                                    transition: "0.3s",
+                                                    background: "#fefefe"
+                                                }}
+                                                onFocus={(e) => e.currentTarget.style.borderColor = "#ff8a00"}
+                                                onBlur={(e) => e.currentTarget.style.borderColor = "#ccc"}
+                                            />
+                                        ))}
+                                    </>
                                     <CustomSelect value={formData.Subject} onChange={handleDropdownChange} options={content.dropdownOptions} />
                                     <textarea
                                         name="Message"
