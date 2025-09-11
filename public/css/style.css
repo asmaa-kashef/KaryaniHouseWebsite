@@ -1802,8 +1802,8 @@ img{
 	top: 0;
 	height: 100%;
 	width: 100%;
-/*	background-image: url(../images/icons/icon-dots-dark.jpg);
-*/	background-repeat: repeat;
+/*background-image: url(../images/icons/icon-dots-dark.jpg);*/	
+    background-repeat: repeat;
 	background-position: center;
 	content: "";
 }
@@ -7552,8 +7552,8 @@ header-style-seven .nav-toggler:hover{
 	height: 320px;
 	width: 520px;
 	bottom: -55px;
-/*	background-image: url(../images/icons/icon-lines.jpg);
-*/	background-repeat: no-repeat;
+/*	background-image: url(../images/icons/icon-lines.jpg);*/	
+    background-repeat: no-repeat;
 	background-position: center;
 	content: "";
 }
