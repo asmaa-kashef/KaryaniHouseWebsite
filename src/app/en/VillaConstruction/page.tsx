@@ -105,7 +105,7 @@ export default async function BlogPage() {
                                         >
                                             <div className="inner">
                                                 <h3>
-                                                    <Link href={`/VillaConstruction/${post.slug}`}>
+                                                    <Link href={`/en/VillaConstruction/${post.slug}`}>
                                                         <span
                                                             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
                                                         />
