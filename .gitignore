@@ -43,3 +43,5 @@ next-env.d.ts
 # ignore large video files to avoid pushing them to GitHub
 /public/video/final.mp4
 /public/video/final2.mp4
+
+.vercel
