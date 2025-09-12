@@ -21,8 +21,8 @@ const nextConfig: NextConfig = {
     async redirects() {
         return [
             {
-                source: "/VillaConstruction/-contracting-companies-in-abu-dhabi-top-firms-and-industry-insights",
-                destination: "/", // الصفحة الرئيسية
+                source: "https://www.karyani-house.com/VillaConstruction/-contracting-companies-in-abu-dhabi-top-firms-and-industry-insights",
+                destination: "https://www.karyani-house.com/", // الصفحة الرئيسية
                 permanent: true,
             },
             {
