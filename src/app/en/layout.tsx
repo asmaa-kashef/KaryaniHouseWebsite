@@ -7,23 +7,35 @@ import "../../../public/css/responsive.css";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
+            <head>
+                {/* هنا كل الـ link والميتادات */}
+                <link rel="icon" href="/favicon.ico" />
+                <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+            </head>
             <body>
                 <main>{children}</main>
 
-                {/* Load jQuery and Popper first, but safely */}
-                <Script src="/js/jquery.js" strategy="afterInteractive" />
-                <Script src="/js/popper.min.js" strategy="afterInteractive" />
+                {/* JS Libraries */}
+                <Script src="/js/jquery.js" strategy="beforeInteractive" />
+                <Script src="/js/popper.min.js" strategy="beforeInteractive" />
+                <Script src="/js/bootstrap.min.js" strategy="lazyOnload" />
+                <Script src="/js/jquery.fancybox.js" strategy="lazyOnload" />
+                <Script src="/js/owl.js" strategy="lazyOnload" />
+                <Script src="/js/jquery.mCustomScrollbar.concat.min.js" strategy="lazyOnload" />
+                <Script src="/js/wow.js" strategy="lazyOnload" />
+                <Script src="/js/appear.js" strategy="lazyOnload" />
+                <Script src="/js/mixitup.js" strategy="lazyOnload" />
+                <Script src="/js/script.js" strategy="lazyOnload" />
+                <Script src="/js/color-settings.js" strategy="lazyOnload" />
 
-                {/* Other legacy scripts */}
-                <Script src="/js/bootstrap.min.js" strategy="afterInteractive" />
-                <Script src="/js/jquery.fancybox.js" strategy="afterInteractive" />
-                <Script src="/js/owl.js" strategy="afterInteractive" />
-                <Script src="/js/jquery.mCustomScrollbar.concat.min.js" strategy="afterInteractive" />
-                <Script src="/js/wow.js" strategy="afterInteractive" />
-                <Script src="/js/appear.js" strategy="afterInteractive" />
-                <Script src="/js/mixitup.js" strategy="afterInteractive" />
-                <Script src="/js/script.js" strategy="afterInteractive" />
-                <Script src="/js/color-settings.js" strategy="afterInteractive" />
+                {/* ✅ Script لنقل أي <link> من body لـ head تلقائي */}
+                <Script id="move-links-to-head" strategy="afterInteractive">
+                    {`
+            document.querySelectorAll('body link[rel="icon"], body link[rel="apple-touch-icon"]').forEach(el => {
+              document.head.appendChild(el);
+            });
+          `}
+                </Script>
             </body>
         </html>
     );
