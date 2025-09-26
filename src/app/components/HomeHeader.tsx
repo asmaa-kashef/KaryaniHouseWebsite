@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import Script from "next/script";
+
 
 // أيقونات React بدل FontAwesome
 import { FaWhatsapp, FaFacebookF, FaInstagram } from "react-icons/fa";
