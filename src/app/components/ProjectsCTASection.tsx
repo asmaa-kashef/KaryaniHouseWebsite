@@ -1,4 +1,5 @@
 ﻿"use client";
+
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import React from "react";
@@ -95,7 +96,6 @@ export default function ProjectsCTASection() {
 
     const { projects, services } = content[currentLang];
 
-    // === Reusable Section Renderer ===
     const renderSection = (
         floatText: string,
         heading: string,
@@ -103,13 +103,10 @@ export default function ProjectsCTASection() {
         isProjects = false
     ) => (
         <div style={{ marginBottom: "80px" }}>
-            {/* Title */}
             <div
-                className="sec-title"
                 style={{ marginBottom: "40px", position: "relative", textAlign: "center" }}
             >
                 <span
-                    className="float-text"
                     style={{
                         fontSize: "64px",
                         color: "rgba(255,152,0,0.08)",
@@ -150,10 +147,7 @@ export default function ProjectsCTASection() {
                     ></span>
                 </h2>
             </div>
-
-            {/* Cards */}
             <div
-                className="cards-wrapper"
                 style={{
                     display: "flex",
                     flexWrap: "wrap",
@@ -165,7 +159,6 @@ export default function ProjectsCTASection() {
                 {cards.map((card, idx) => (
                     <div
                         key={idx}
-                        className="card"
                         style={{
                             background: isProjects ? "rgb(255, 152, 0)" : "#fff",
                             borderRadius: "15px",
@@ -175,6 +168,8 @@ export default function ProjectsCTASection() {
                             textAlign: currentLang === "ar" ? "right" : "left",
                             transition: "transform 0.3s ease",
                             color: isProjects ? "#fff" : "#333",
+                            flex: "1 1 300px",
+                            cursor: "pointer",
                         }}
                         onMouseEnter={(e) => {
                             e.currentTarget.style.transform = "translateY(-6px)";
@@ -197,18 +192,15 @@ export default function ProjectsCTASection() {
                             style={{
                                 fontSize: "16px",
                                 lineHeight: "1.6",
-                                marginBottom: isProjects ? "20px" : "0",
+                                marginBottom: isProjects && card.button ? "20px" : "0",
                                 color: isProjects ? "#fff" : "#555",
                             }}
                         >
                             {card.description}
                         </p>
-
-                        {/* Only for projects show button */}
                         {isProjects && card.button && card.link && (
                             <Link
                                 href={card.link}
-                                className="theme-btn btn-style-one"
                                 style={{
                                     background: "#fff",
                                     color: "rgb(255,152,0)",
@@ -240,17 +232,14 @@ export default function ProjectsCTASection() {
 
     return (
         <section
-            className="projects-cta-section"
             dir={currentLang === "ar" ? "rtl" : "ltr"}
             style={{
                 backgroundColor: "rgb(240, 240, 240)",
                 padding: "60px 20px",
             }}
         >
-            <div className="auto-container">
-                {/* Services first */}
+            <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 15px" }}>
                 {renderSection(services.floatText, services.heading, services.cards)}
-                {/* Projects second */}
                 {renderSection(projects.floatText, projects.heading, projects.cards, true)}
             </div>
         </section>

@@ -1,6 +1,7 @@
-﻿'use client';
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 // ---------- Types ----------
@@ -69,10 +70,10 @@ const cardStyles = {
         border: "2px solid #ff914d",
         borderRadius: "18px",
         backgroundColor: "#fff",
-        padding: isMobile ? "20px" : "25px", // زيادة البادينج على الموبايل
+        padding: isMobile ? "20px" : "25px",
         width: "100%",
         maxWidth: isMobile ? "100%" : "600px",
-        minHeight: isMobile ? "320px" : "380px", // زيادة طول المربع على الموبايل
+        minHeight: isMobile ? "320px" : "380px",
         boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
         flexShrink: 0,
         display: "flex",
@@ -309,7 +310,6 @@ export default function InsightsAndReviews() {
         <section
             style={{
                 padding: "60px 20px",
-                fontFamily: "'Segoe UI', sans-serif",
                 textAlign: "center",
                 position: "relative",
                 overflow: "hidden",

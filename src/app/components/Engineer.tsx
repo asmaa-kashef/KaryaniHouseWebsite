@@ -1,4 +1,4 @@
-﻿'use client';
+﻿"use client";
 
 import React from 'react';
 import Image from 'next/image';
@@ -59,7 +59,6 @@ const EngineerCardsSection = () => {
             style={{
                 backgroundColor: '#f3f3f3',
                 padding: '60px 20px',
-                fontFamily: 'Segoe UI, sans-serif',
                 textAlign: 'center',
                 position: 'relative',
             }}

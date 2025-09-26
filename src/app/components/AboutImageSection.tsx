@@ -1,4 +1,5 @@
-﻿"use client";
+﻿// src/components/AboutImageSection.js
+"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -46,7 +47,7 @@ export default function AboutImageSection() {
             style={{
                 backgroundColor: "#f3f3f3",
                 padding: "100px 20px",
-                fontFamily: "'Poppins', Arial, sans-serif",
+                // تم حذف fontFamily من هنا لضمان توحيد الخط
             }}
         >
             <div

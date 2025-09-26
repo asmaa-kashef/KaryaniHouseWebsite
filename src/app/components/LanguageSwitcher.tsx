@@ -156,12 +156,9 @@ export default function HomeHeader() {
                                         </li>
                                         <li>
                                             <Link href={`/${lang}/about`}>{isArabic ? "من نحن" : "About"}</Link>
-                                            <ul>
-                                                <li><Link href={`/${lang}/about`}>{isArabic ? "من نحن" : "About Us"}</Link></li>
-                                                <li><Link href={`/${lang}/team`}>{isArabic ? "فريقنا" : "Our Team"}</Link></li>
-                                                <li><Link href={`/${lang}/coming-soon`}>{isArabic ? "قريباً" : "Coming Soon"}</Link></li>
-                                            </ul>
+                                           
                                         </li>
+                                        <li><Link href={`/${lang}/Services`}>{isArabic ? "خدماتنا" : "Services"}</Link></li>
                                         <li><Link href={`/${lang}/Services`}>{isArabic ? "خدماتنا" : "Services"}</Link></li>
                                         <li><Link href={`/${lang}/projects`}>{isArabic ? "مشاريعنا" : "Projects"}</Link></li>
                                         <li><Link href={`/${lang}/VillaConstruction`}>{isArabic ? "المدونة" : "Blog"}</Link></li>

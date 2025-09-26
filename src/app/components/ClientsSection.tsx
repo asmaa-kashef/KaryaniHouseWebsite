@@ -1,4 +1,5 @@
 ﻿"use client";
+
 import React from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -41,7 +42,6 @@ const ClientsSection = () => {
                         color: "#222",
                         textTransform: "uppercase",
                         letterSpacing: "1px",
-                        fontFamily: "'Tajawal', sans-serif",
                         margin: "0 0 8px 0",
                     }}
                 >
@@ -53,7 +53,6 @@ const ClientsSection = () => {
                             fontSize: "24px",
                             fontWeight: "700",
                             color: "#444",
-                            fontFamily: "'Tajawal', sans-serif",
                             margin: 0,
                         }}
                     >
@@ -82,7 +81,7 @@ const ClientsSection = () => {
                         padding: "30px",
                         borderRadius: "20px",
                         background: "chocolate",
-                        boxShadow: "0 8px 25px rgba(150, 150, 255, 0.7)", // 🔵 blue shadow
+                        boxShadow: "0 8px 25px rgba(150, 150, 255, 0.7)",
                         position: "relative",
                         overflow: "hidden",
                         transition: "all 0.3s ease",

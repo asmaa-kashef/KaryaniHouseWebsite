@@ -1,8 +1,11 @@
-﻿// app/layout.tsx
+﻿
 import Script from "next/script";
 import "../../../public/css/bootstrap.css";
 import "../../../public/css/style.css";
 import "../../../public/css/responsive.css";
+
+// تعريف نظام الخطوط القياسي
+const systemFontStack = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif';
 
 export const metadata = {
     title: 'My Next.js App',
@@ -16,20 +19,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 {/* Meta Pixel Code */}
                 <Script id="meta-pixel" strategy="afterInteractive">
                     {`
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '1254073446082094');
-            fbq('track', 'PageView');
-          `}
+                    !function(f,b,e,v,n,t,s)
+                    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                    n.queue=[];t=b.createElement(e);t.async=!0;
+                    t.src=v;s=b.getElementsByTagName(e)[0];
+                    s.parentNode.insertBefore(t,s)}(window, document,'script',
+                    'https://connect.facebook.net/en_US/fbevents.js');
+                    fbq('init', '1254073446082094');
+                    fbq('track', 'PageView');
+                  `}
                 </Script>
             </head>
-            <body>
+            {/* هنا نطبق نظام الخطوط على وسم <body> */}
+            <body style={{ fontFamily: systemFontStack }}>
                 <main>{children}</main>
 
                 {/* This section loads all the necessary JavaScript files. */}

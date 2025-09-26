@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Slider from 'react-slick';
 
 // Types
 interface TestimonialContent {
@@ -33,18 +32,6 @@ interface Project {
     name: string;
 }
 
-// Slider settings
-const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 600,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3500,
-    arrows: false,
-};
-
 // Main Component
 const InsightsAndReviews = ({
     content,
@@ -59,6 +46,7 @@ const InsightsAndReviews = ({
     const [reviews, setReviews] = useState<TestimonialItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
     // Fetch reviews
     useEffect(() => {
@@ -86,6 +74,16 @@ const InsightsAndReviews = ({
         fetchReviews();
     }, []);
 
+    // Slider logic
+    useEffect(() => {
+        if (reviews.length > 1) {
+            const interval = setInterval(() => {
+                setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+            }, 3500); // Autoplay speed
+            return () => clearInterval(interval);
+        }
+    }, [reviews]);
+
     const totalProjects = safeProjects.length;
     const villaCount = safeProjects.filter(p => p.type === 'Villa Construction').length;
     const structureCount = safeProjects.filter(p => p.type === 'Structure Repair').length;
@@ -109,54 +107,67 @@ const InsightsAndReviews = ({
 
             {/* Reviews Slider on the Right */}
             <div style={{ flex: 1 }}>
-                <div className="sec-title" style={{ textAlign: 'center', marginBottom: '30px' }}>
-                    <span className="float-text">{safeContent.testimonialSection.title}</span>
+                <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+                    <span style={{ fontSize: '18px', color: '#ff914d', fontWeight: 'bold' }}>{safeContent.testimonialSection.title}</span>
                     <h2 style={{ fontSize: '32px', color: '#ff914d' }}>{safeContent.testimonialSection.heading}</h2>
                 </div>
 
-                <Slider {...sliderSettings}>
-                    {reviews.map((item, idx) => (
-                        <div key={idx} style={{ marginBottom: '30px' }}>
+                {reviews.length > 0 && (
+                    <div style={{ position: 'relative' }}>
+                        {reviews.map((item, idx) => (
                             <div
+                                key={idx}
                                 style={{
-                                    background: '#fff',
-                                    borderRadius: '20px',
-                                    padding: '35px',
-                                    border: '5px solid #d97706',
-                                    textAlign: 'center',
+                                    transition: 'opacity 0.6s ease-in-out',
+                                    opacity: idx === currentReviewIndex ? 1 : 0,
+                                    position: idx === currentReviewIndex ? 'relative' : 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
                                     minHeight: '320px',
-                                    boxShadow: '0 6px 18px rgba(0,0,0,0.05)',
                                 }}
                             >
-                                <div style={{ fontSize: '18px', fontStyle: 'italic', color: 'orange', marginBottom: '20px' }}>
-                                    “{item.text}”
-                                </div>
-                                <div>
-                                    <div style={{ marginBottom: '10px' }}>
-                                        <Image
-                                            src={item.image}
-                                            alt={item.name}
-                                            width={80}
-                                            height={80}
-                                            style={{ borderRadius: '50%', border: '3px solid #d97706' }}
-                                        />
+                                <div
+                                    style={{
+                                        background: '#fff',
+                                        borderRadius: '20px',
+                                        padding: '35px',
+                                        border: '5px solid #d97706',
+                                        textAlign: 'center',
+                                        height: '100%',
+                                        boxShadow: '0 6px 18px rgba(0,0,0,0.05)',
+                                    }}
+                                >
+                                    <div style={{ fontSize: '18px', fontStyle: 'italic', color: 'orange', marginBottom: '20px' }}>
+                                        “{item.text}”
                                     </div>
-                                    <h5 style={{ fontSize: '20px', fontWeight: 600, color: '#111', marginBottom: '5px' }}>
-                                        {item.name}
-                                    </h5>
-                                    <span style={{ display: 'block', color: '#666', marginBottom: '10px' }}>{item.date}</span>
-                                    <span>
-                                        {Array(item.rating).fill(0).map((_, i) => (
-                                            <span key={i} style={{ color: '#f59e0b', fontSize: '20px', margin: '0 1px' }}>
-                                                ★
-                                            </span>
-                                        ))}
-                                    </span>
+                                    <div>
+                                        <div style={{ marginBottom: '10px' }}>
+                                            <Image
+                                                src={item.image}
+                                                alt={item.name}
+                                                width={80}
+                                                height={80}
+                                                style={{ borderRadius: '50%', border: '3px solid #d97706' }}
+                                            />
+                                        </div>
+                                        <h5 style={{ fontSize: '20px', fontWeight: 600, color: '#111', marginBottom: '5px' }}>
+                                            {item.name}
+                                        </h5>
+                                        <span style={{ display: 'block', color: '#666', marginBottom: '10px' }}>{item.date}</span>
+                                        <span>
+                                            {Array(item.rating).fill(0).map((_, i) => (
+                                                <span key={i} style={{ color: '#f59e0b', fontSize: '20px', margin: '0 1px' }}>
+                                                    ★
+                                                </span>
+                                            ))}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </Slider>
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );

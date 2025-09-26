@@ -130,30 +130,7 @@ const Footer = () => {
             </div>
 
             {/* Footer Bottom */}
-            <div className="footer-bottom">
-                <div className="auto-container">
-                    <div className="inner-container clearfix">
-                        <div className="social-links">
-                            <ul className="social-icon-two">
-                                <li><a href="#" aria-label="Facebook"><i className="fa fa-facebook"></i></a></li>
-                                <li><a href="#" aria-label="Twitter"><i className="fa fa-twitter"></i></a></li>
-                                <li><a href="#" aria-label="Google Plus"><i className="fa fa-google-plus"></i></a></li>
-                                <li><a href="#" aria-label="Instagram"><i className="fa fa-instagram"></i></a></li>
-                                <li><a href="#" aria-label="Whatsapp"><i className="fa fa-whatsapp"></i></a></li>
-                            </ul>
-                        </div>
-                        <div className="copyright-text">
-                            <a
-                                href="https://karyanihouse.github.io/Catalogue"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {content.copyright}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </footer>
     );
 };
