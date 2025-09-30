@@ -17,7 +17,7 @@ export default function SpecializationSection() {
             description:
               
     <>
-        Looking for the < strong > top construction company in Abu Dhabi</strong> to execute your project with the highest quality and professionalism ? <strong>Karyani House</strong> is your ideal partner.We specialize in <strong>modern and luxury villa construction</strong>, providing < strong > comprehensive building maintenance and renovation solutions</strong >, from < strong > structural design</strong > to < strong > finishing touches</strong >.Our extensive experience and skilled team ensure your project is executed < strong > meticulously</strong >, meeting all your expectations and leaving you fully satisfied, while adhering to the highest < strong > safety and quality standards</strong >.
+        Looking for the < strong > top construction companies in Abu Dhabi</strong> to execute your project with the highest quality and professionalism ? <strong>Karyani House</strong> is your ideal partner.We specialize in <strong>modern and luxury villa construction</strong>, providing < strong > comprehensive building maintenance and renovation solutions</strong >, from < strong > structural design</strong > to < strong > finishing touches</strong >.Our extensive experience and skilled team ensure your project is executed < strong > meticulously</strong >, meeting all your expectations and leaving you fully satisfied, while adhering to the highest < strong > safety and quality standards</strong >.
     </>,
 
             services: [
@@ -63,7 +63,7 @@ export default function SpecializationSection() {
             description:
               
                 <>
-        تبحث عن<strong> أفضل شركة مقاولات في أبوظبي</strong> لتنفيذ مشروعك بأعلى جودة واحترافية؟ <strong>كرياني هاوس</strong> هي شركتك المثالية.نحن متخصصون في < strong > بناء الفلل الحديثة والفاخرة</strong >، وتقديم حلول < strong > الصيانة والترميم الشاملة للمباني</strong >، بدءًا من < strong > تصميم الهيكل</strong > وحتى < strong > التشطيبات النهائية</strong >.خبرتنا الطويلة وفريقنا المتميز يضمنان لك تنفيذ مشروعك بطريقة < strong > متقنة</strong > تلبي كل توقعاتك وتجعلك راضيًا تمامًا عن النتيجة، مع الالتزام بأعلى < strong > معايير السلامة والجودة</strong >.
+                    تبحث عن<strong> أفضل شركات المقاولات في ابوظبي</strong> لتنفيذ مشروعك بأعلى جودة واحترافية؟ <strong>كرياني هاوس</strong> هي شركتك المثالية.نحن متخصصون في < strong > بناء الفلل الحديثة والفاخرة</strong >، وتقديم حلول < strong > الصيانة والترميم الشاملة للمباني</strong >، بدءًا من < strong > تصميم الهيكل</strong > وحتى < strong > التشطيبات النهائية</strong >.خبرتنا الطويلة وفريقنا المتميز يضمنان لك تنفيذ مشروعك بطريقة < strong > متقنة</strong > تلبي كل توقعاتك وتجعلك راضيًا تمامًا عن النتيجة، مع الالتزام بأعلى < strong > معايير السلامة والجودة</strong >.
                 </>,
 
             services: [

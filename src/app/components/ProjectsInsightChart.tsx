@@ -36,7 +36,7 @@ const translations = {
     en: {
         insightsTitle: "Customer Reviews and Projects Insights",
         descriptionBold:
-            "Relying on Karyani House as the top construction company in Abu Dhabi means precise execution that makes your project stand out among the finest villas in the region, adding high investment value.",
+            "Relying on Karyani House as the top construction companies in Abu Dhabi means precise execution that makes your project stand out among the finest villas in the region, adding high investment value.",
         discoverText:
             "Discover the strength and growth of our projects! 🌟 Each project shows the completed work and ongoing progress clearly.",
         callToAction: "📞 Call Us Now",
@@ -52,7 +52,7 @@ const translations = {
     ar: {
         insightsTitle: "آراء العملاء وإحصائيات المشاريع",
         descriptionBold:
-            "الاعتماد على كرياني هاوس كأفضل شركة مقاولات في أبوظبي يعني حصولك على تنفيذ متقن يجعل مشروعك يبرز بين أفضل الفلل في المنطقة ويضيف قيمة استثمارية عالية.",
+            "الاعتماد على كرياني هاوس كأفضل شركات المقاولات في ابوظبي يعني حصولك على تنفيذ متقن يجعل مشروعك يبرز بين أفضل الفلل في المنطقة ويضيف قيمة استثمارية عالية.",
         discoverText:
             "اكتشف قوة ونمو مشاريعنا! 🌟 كل مشروع يوضح الأعمال المنجزة والتقدم المستمر بوضوح.",
         callToAction: "📞 اتصل بنا الآن",
