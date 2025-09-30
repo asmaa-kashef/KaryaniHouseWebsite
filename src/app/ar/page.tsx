@@ -13,14 +13,17 @@ import NewsSection from "../components/NewsSection";
 import ProjectsInsightChart from "../components/ProjectsInsightChart";
 import { Metadata } from "next";
 import BannerSection from "../components/BannerSection";
+import TextContent from "../components/TextContent";
+import TextContentcontact from "../components/TextContentcontact";
+import TextContentvilla from "../components/TextContentvilla";
 
 
 export const metadata: Metadata = {
-    title: "كرياني هاوس | أفضل شركات بناء الفلل في أبوظبي",
-    description: "كرياني هاوس، واحدة من أفضل شركات البناء في أبوظبي، تقدم خدمات بناء الفلل، والصيانة، وإصلاح التشققات، وتقوية الهيكل، وتجديد الواجهات",
+    title: "شركات مقاولات في ابوظبي | كرياني هاوس – بناء فلل وصيانة",
+    description: "!كرياني هاوس – شركات مقاولات في ابوظبي. نقدم خدمات بناء الفلل، صيانة المباني، إصلاح التشققات، وتجديد الواجهات. تواصل معنا الآن لاختيار شركتك الأمثل",
     openGraph: {
-        title: "كرياني هاوس | أفضل شركات بناء الفلل في أبوظبي",
-        description: "كرياني هاوس، واحدة من أفضل شركات البناء في أبوظبي، تقدم خدمات بناء الفلل، والصيانة، وإصلاح التشققات، وتقوية الهيكل، وتجديد الواجهات",
+        title: "افضل شركة مقاولات في ابوظبي | كرياني هاوس – بناء فلل وصيانة",
+        description: "!كرياني هاوس – شركات مقاولات في ابوظبي. نقدم خدمات بناء الفلل، صيانة المباني، إصلاح التشققات، وتجديد الواجهات. تواصل معنا الآن لاختيار شركتك الأمثل",
         url: "https://www.karyanihouse.com",
         images: [
             {
@@ -32,8 +35,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "كرياني هاوس | أفضل شركات بناء الفلل في أبوظبي",
-        description: "كرياني هاوس، واحدة من أفضل شركات البناء في أبوظبي، تقدم خدمات بناء الفلل، والصيانة، وإصلاح التشققات، وتقوية الهيكل، وتجديد الواجهات",
+        title: "شركات مقاولات في ابوظبي | كرياني هاوس – بناء فلل وصيانة",
+        description: "!كرياني هاوس – شركات مقاولات في ابوظبي. نقدم خدمات بناء الفلل، صيانة المباني، إصلاح التشققات، وتجديد الواجهات. تواصل معنا الآن لاختيار شركتك الأمثل",
         images: ["https://www.karyanihouse.com/images/main-slider/construction.webp"],
     },
 };
@@ -167,15 +170,16 @@ export default function HomePage() {
 
                 <ProjectsInsightChart />
                 <ProjectsCategories />
-
+                <TextContentvilla />
                 <section id="offer-form" className="offer-form-section">
 
                     <OfferForm />
 
                 </section>
+                <TextContentcontact />
                 <ClientsSection />
                 <ProjectsSection />
-
+                <TextContent/>
                
 
                 <NewsSection />

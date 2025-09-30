@@ -13,6 +13,9 @@ import ProjectsInsightChart from "./components/ProjectsInsightChart";
 import { Metadata } from "next";
 import SpecilizationSection from "./components/SpecilizationSection";
 import BannerSection from "./components/BannerSection";
+import TextContentcontact from "./components/TextContentcontact";
+import TextContent from "./components/TextContent";
+import TextContentvilla from "./components/TextContentvilla";
 
 export const metadata: Metadata = {
     title: "Karyani House Top Villa construction companies in abu dhabi",
@@ -198,14 +201,15 @@ export default function HomePage() {
                 {/* Projects & Insights */}
                 <ProjectsInsightChart />
                 <ProjectsCategories />
-
+                <TextContentvilla />
                 <section id="offer-form" className="offer-form-section">
                     <OfferForm />
                 </section>
 
+                <TextContentcontact />
                 <ClientsSection />
                 <ProjectsSection />
-
+                <TextContent/>
                 <NewsSection />
             </main>
             <Footer />

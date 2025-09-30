@@ -14,93 +14,111 @@ export default function SpecializationSection() {
     const content = {
         en: {
             heading: "Our Specialization | Top Construction Companies in Abu Dhabi",
+            description:
+              
+    <>
+        Looking for the < strong > top construction company in Abu Dhabi</strong> to execute your project with the highest quality and professionalism ? <strong>Karyani House</strong> is your ideal partner.We specialize in <strong>modern and luxury villa construction</strong>, providing < strong > comprehensive building maintenance and renovation solutions</strong >, from < strong > structural design</strong > to < strong > finishing touches</strong >.Our extensive experience and skilled team ensure your project is executed < strong > meticulously</strong >, meeting all your expectations and leaving you fully satisfied, while adhering to the highest < strong > safety and quality standards</strong >.
+    </>,
+
             services: [
                 {
                     img: "/images/resource/VillaConstruction.webp",
                     title: "Villa Construction",
-                    description: "Karyani House provides premium villa construction services in Abu Dhabi, delivering quality and precision.",
-                    link: "/en/projects?filter=Villa&page=1"
+                    description:
+                        "Karyani House provides premium villa construction services in Abu Dhabi, delivering quality and precision.",
+                    link: "/en/projects?filter=Villa&page=1",
                 },
                 {
                     img: "/images/gallery/10.webp",
                     title: "Structure Repair",
-                    description: "Expert structural repair services for residential and commercial buildings across Abu Dhabi.",
-                    link: "/en/projects?filter=Repair&page=1"
+                    description:
+                        "Expert structural repair services for residential and commercial buildings across Abu Dhabi.",
+                    link: "/en/projects?filter=Repair&page=1",
                 },
                 {
                     img: "/images/resource/cladding.webp",
                     title: "Cladding",
-                    description: "High-quality facade cladding services by top construction companies in Abu Dhabi.",
-                    link: "/en/projects?filter=Cladding&page=1"
+                    description:
+                        "High-quality facade cladding services by top construction companies in Abu Dhabi.",
+                    link: "/en/projects?filter=Cladding&page=1",
                 },
                 {
                     img: "/images/resource/Alumnum.webp",
                     title: "Aluminium And Glass",
-                    description: "Professional aluminium and glass solutions, designed and installed by experts in Abu Dhabi.",
-                    link: "/en/projects?filter=all&page=1"
+                    description:
+                        "Professional aluminium and glass solutions, designed and installed by experts in Abu Dhabi.",
+                    link: "/en/projects?filter=all&page=1",
                 },
                 {
                     img: "/images/resource/Interiordesign.webp",
                     title: "Interior Design",
-                    description: "Creative interior design services for villas and commercial spaces in Abu Dhabi.",
-                    link: "/en/projects?filter=all&page=1"
+                    description:
+                        "Creative interior design services for villas and commercial spaces in Abu Dhabi.",
+                    link: "/en/projects?filter=all&page=1",
                 },
             ],
         },
         ar: {
-            heading: "مجالات تخصصنا | أفضل شركات المقاولات في أبوظبي",
+            heading: "مجالات تخصصنا | افضل شركات المقاولات في ابوظبي",
+            description:
+              
+                <>
+        تبحث عن<strong> أفضل شركة مقاولات في أبوظبي</strong> لتنفيذ مشروعك بأعلى جودة واحترافية؟ <strong>كرياني هاوس</strong> هي شركتك المثالية.نحن متخصصون في < strong > بناء الفلل الحديثة والفاخرة</strong >، وتقديم حلول < strong > الصيانة والترميم الشاملة للمباني</strong >، بدءًا من < strong > تصميم الهيكل</strong > وحتى < strong > التشطيبات النهائية</strong >.خبرتنا الطويلة وفريقنا المتميز يضمنان لك تنفيذ مشروعك بطريقة < strong > متقنة</strong > تلبي كل توقعاتك وتجعلك راضيًا تمامًا عن النتيجة، مع الالتزام بأعلى < strong > معايير السلامة والجودة</strong >.
+                </>,
+
             services: [
                 {
                     img: "/images/resource/VillaConstruction.webp",
                     title: "بناء الفلل",
-                    description: "كرياني هاوس تقدم خدمات بناء الفلل الفاخرة في أبوظبي بجودة ودقة عالية.",
-                    link: "/ar/projects?filter=Villa&page=1"
+                    description:
+                        "كرياني هاوس تقدم خدمات بناء الفلل الفاخرة في أبوظبي بجودة ودقة عالية.",
+                    link: "/ar/projects?filter=Villa&page=1",
                 },
                 {
                     img: "/images/resource/StructureRepair.webp",
                     title: "ترميم الهياكل",
-                    description: "خدمات احترافية لترميم الهياكل للمباني السكنية والتجارية في أبوظبي.",
-                    link: "/ar/projects?filter=Repair&page=1"
+                    description:
+                        "خدمات احترافية لترميم الهياكل للمباني السكنية والتجارية في أبوظبي.",
+                    link: "/ar/projects?filter=Repair&page=1",
                 },
                 {
                     img: "/images/resource/cladding.webp",
                     title: "تكسية الواجهات",
-                    description: "خدمات تكسية الواجهات عالية الجودة من أفضل شركات المقاولات في أبوظبي.",
-                    link: "/ar/projects?filter=Cladding&page=1"
+                    description:
+                        "خدمات تكسية الواجهات عالية الجودة من أفضل شركات المقاولات في أبوظبي.",
+                    link: "/ar/projects?filter=Cladding&page=1",
                 },
                 {
                     img: "/images/resource/Alumnum.webp",
                     title: "الألمنيوم والزجاج",
-                    description: "حلول احترافية للألمنيوم والزجاج يتم تصميمها وتركيبها بواسطة خبراء في أبوظبي.",
-                    link: "/ar/projects?filter=all&page=1"
+                    description:
+                        "حلول احترافية للألمنيوم والزجاج يتم تصميمها وتركيبها بواسطة خبراء في أبوظبي.",
+                    link: "/ar/projects?filter=all&page=1",
                 },
                 {
                     img: "/images/resource/Interiordesign.webp",
                     title: "التصميم الداخلي",
-                    description: "خدمات تصميم داخلي مبتكرة للفلل والمساحات التجارية في أبوظبي.",
-                    link: "/ar/projects?filter=all&page=1"
+                    description:
+                        "خدمات تصميم داخلي مبتكرة للفلل والمساحات التجارية في أبوظبي.",
+                    link: "/ar/projects?filter=all&page=1",
                 },
             ],
         },
     };
 
-    const { heading, services } = content[currentLang];
+    const { heading, description, services } = content[currentLang];
 
     return (
         <section
             {...(currentLang === "ar" ? { dir: "rtl" } : {})}
-            style={{
-                backgroundColor: "#F9FAFB",
-                padding: "60px 0",
-                textAlign: "center",
-            }}
+            style={{ backgroundColor: "#F9FAFB", padding: "60px 0", textAlign: "center" }}
         >
             <div
                 style={{
                     width: "100%",
                     maxWidth: "1200px",
                     margin: "0 auto",
-                    padding: currentLang === "ar" ? "0 15px" : "0",
+                    padding: "0", // لا نضع padding للسلايدر هنا
                 }}
             >
                 {/* Title */}
@@ -232,18 +250,35 @@ export default function SpecializationSection() {
                         </SwiperSlide>
                     ))}
                 </Swiper>
+
+                {/* Description below slider with padding responsive */}
+                <div
+                    style={{
+                        fontSize: "1rem",
+                        color: "#333",
+                        lineHeight: 1.6,
+                        marginTop: "20px",
+                        textAlign: currentLang === "ar" ? "right" : "left",
+                        paddingLeft: "15px",
+                        paddingRight: "15px",
+                        maxWidth: "1200px",
+                        margin: "20px auto 0",
+                    }}
+                >
+                    {description}
+                </div>
             </div>
 
             {/* Swiper dots styling */}
             <style jsx global>{`
-                .swiper-pagination-bullet {
-                    background: #d1d5db !important;
-                    opacity: 1 !important;
-                }
-                .swiper-pagination-bullet-active {
-                    background: #ff7a00 !important;
-                }
-            `}</style>
+        .swiper-pagination-bullet {
+          background: #d1d5db !important;
+          opacity: 1 !important;
+        }
+        .swiper-pagination-bullet-active {
+          background: #ff7a00 !important;
+        }
+      `}</style>
 
             {/* JSON-LD Schema for services */}
             <script
@@ -252,13 +287,13 @@ export default function SpecializationSection() {
                     __html: JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "ItemList",
-                        "itemListElement": services.map((service, index) => ({
+                        itemListElement: services.map((service, index) => ({
                             "@type": "ListItem",
-                            "position": index + 1,
-                            "name": service.title,
-                            "description": service.description,
-                            "image": `https://www.karyanihouse.com${service.img}`,
-                            "url": `https://www.karyanihouse.com${service.link}`,
+                            position: index + 1,
+                            name: service.title,
+                            description: service.description,
+                            image: `https://www.karyanihouse.com${service.img}`,
+                            url: `https://www.karyanihouse.com${service.link}`,
                         })),
                     }),
                 }}

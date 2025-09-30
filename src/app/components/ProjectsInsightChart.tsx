@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import React, { useEffect, useState } from "react";
-
 import { usePathname } from "next/navigation";
 
 // ---------- Types ----------
@@ -36,6 +35,8 @@ interface Review {
 const translations = {
     en: {
         insightsTitle: "Customer Reviews and Projects Insights",
+        descriptionBold:
+            "Relying on Karyani House as the top construction company in Abu Dhabi means precise execution that makes your project stand out among the finest villas in the region, adding high investment value.",
         discoverText:
             "Discover the strength and growth of our projects! 🌟 Each project shows the completed work and ongoing progress clearly.",
         callToAction: "📞 Call Us Now",
@@ -50,6 +51,8 @@ const translations = {
     },
     ar: {
         insightsTitle: "آراء العملاء وإحصائيات المشاريع",
+        descriptionBold:
+            "الاعتماد على كرياني هاوس كأفضل شركة مقاولات في أبوظبي يعني حصولك على تنفيذ متقن يجعل مشروعك يبرز بين أفضل الفلل في المنطقة ويضيف قيمة استثمارية عالية.",
         discoverText:
             "اكتشف قوة ونمو مشاريعنا! 🌟 كل مشروع يوضح الأعمال المنجزة والتقدم المستمر بوضوح.",
         callToAction: "📞 اتصل بنا الآن",
@@ -158,7 +161,9 @@ function ReviewsCard({ reviews, lang, isMobile }: ReviewsCardProps) {
                 textAlign: isArabic ? "right" : "left",
             }}
         >
-            <h3 style={cardStyles.heading(isMobile)}>⭐ {content.insightsTitle.split(" and ")[0]}</h3>
+            <h3 style={cardStyles.heading(isMobile)}>
+                ⭐ {content.insightsTitle.split(" and ")[0]}
+            </h3>
 
             {reviews.length === 0 ? (
                 <p style={{ textAlign: "center", color: "#555" }}>
@@ -223,12 +228,11 @@ export default function InsightsAndReviews() {
     const [isMobile, setIsMobile] = useState(false);
     const [reviews, setReviews] = useState<Review[]>([]);
 
-    // detect screen width
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 480);
         };
-        handleResize(); // run on mount
+        handleResize();
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
@@ -264,7 +268,6 @@ export default function InsightsAndReviews() {
         data.map((proj) => proj.parts.map(() => 0))
     );
 
-    // Animate bars
     useEffect(() => {
         let frame = 0;
         const maxFrames = 60;
@@ -284,7 +287,6 @@ export default function InsightsAndReviews() {
         return () => clearInterval(interval);
     }, []);
 
-    // Fetch Google Reviews
     useEffect(() => {
         const fetchReviews = async () => {
             try {
@@ -317,69 +319,6 @@ export default function InsightsAndReviews() {
                 direction: isArabic ? "rtl" : "ltr",
             }}
         >
-            {/* ✅ Review Schema JSON-LD */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "LocalBusiness",
-                        "name": "Karyani House",
-                        "aggregateRating": {
-                            "@type": "AggregateRating",
-                            "ratingValue": reviews.length
-                                ? (
-                                    reviews.reduce((a, b) => a + b.rating, 0) /
-                                    reviews.length
-                                ).toFixed(1)
-                                : 0,
-                            "reviewCount": reviews.length,
-                            "bestRating": 5,
-                            "worstRating": 1,
-                        },
-                        "review": reviews.map((rev) => ({
-                            "@type": "Review",
-                            "author": rev.author,
-                            "datePublished": new Date().toISOString(),
-                            "reviewBody": rev.text,
-                            "reviewRating": {
-                                "@type": "Rating",
-                                "ratingValue": rev.rating,
-                                "bestRating": 5,
-                                "worstRating": 1,
-                            },
-                        })),
-                    }),
-                }}
-            />
-
-            <h2
-                style={{
-                    fontWeight: 700,
-                    fontSize: isMobile ? "1.6rem" : "2rem",
-                    color: "#222",
-                    textShadow: "1px 1px 3px rgba(0,0,0,0.15)",
-                    marginBottom: "40px",
-                    position: "relative",
-                    display: "inline-block",
-                    paddingBottom: "10px",
-                }}
-            >
-                {content.insightsTitle}
-                <span
-                    style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: "70px",
-                        height: "3px",
-                        backgroundColor: "#FF7A00",
-                        borderRadius: "2px",
-                    }}
-                ></span>
-            </h2>
-
             {/* Flex Container */}
             <div
                 style={{
@@ -477,6 +416,23 @@ export default function InsightsAndReviews() {
                 {/* Reviews Card */}
                 <ReviewsCard reviews={reviews} lang={currentLang} isMobile={isMobile} />
             </div>
+
+            {/* Bold Justified Text Below */}
+            <p
+                style={{
+                    fontWeight: "bold",
+                    textAlign: "justify",
+                    marginTop: "50px",
+                    fontSize: isMobile ? "1rem" : "1.15rem",
+                    lineHeight: 1.8,
+                    color: "#222",
+                    maxWidth: "900px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                }}
+            >
+                {content.descriptionBold}
+            </p>
         </section>
     );
 }

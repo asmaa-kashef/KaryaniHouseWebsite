@@ -17,7 +17,7 @@ const translations = {
     },
     ar: {
         buttonText: "احصل على عرض سعر مجاني",
-        h1Keyword: "شركات البناء في أبوظبي",
+        h1Keyword: "شركات مقاولات في ابوظبي",
         services: ["بناء الفلل", "ترميم الهياكل", "التكسية"], // ← Added بناء الفلل
     },
 };
@@ -119,14 +119,22 @@ const BannerSection = () => {
                                     }}
                                 >
                                     {content.h1Keyword}
-                                    <br />
-                                    {content.services.map((service, i) => (
-                                        <React.Fragment key={i}>
-                                            {service}
-                                            <br />
-                                        </React.Fragment>
-                                    ))}
                                 </h1>
+
+                                {content.services.map((service, i) => (
+                                    <div
+                                        key={i}
+                                        style={{
+                                            fontSize: "clamp(24px,4vw,36px)", // نفس حجم H2
+                                            fontWeight: "bold",
+                                            lineHeight: "1.4em",
+                                            marginBottom: "15px",
+                                        }}
+                                    >
+                                        {service}
+                                    </div>
+                                ))}
+
 
                                 <div style={{ marginTop: "30px" }}>
                                     <a
