@@ -1,10 +1,4 @@
-﻿// src/app/layout.tsx
-import Script from "next/script";
-
-// لا حاجة لاستيراد أي خط من next/font/google
-// لأننا سنستخدم خطوط النظام
-// import { Poppins } from 'next/font/google';
-
+﻿import Script from "next/script";
 import "../../public/css/bootstrap.css";
 import "../../public/css/style.css";
 import "../../public/css/responsive.css";
@@ -36,7 +30,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     fbq('track', 'PageView');
                   `}
                 </Script>
+
+                {/* Google Ads / gtag.js */}
+                <Script
+                    strategy="afterInteractive"
+                    src="https://www.googletagmanager.com/gtag/js?id=AW-17581341992"
+                />
+                <Script id="google-ads-gtag" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'AW-17581341992');
+                    `}
+                </Script>
             </head>
+
             {/* هنا نطبق نظام الخطوط على وسم <body> */}
             <body style={{ fontFamily: systemFontStack }}>
                 <main>{children}</main>
