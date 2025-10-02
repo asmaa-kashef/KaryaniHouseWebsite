@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 // ترجمة النصوص
 const translations = {
@@ -114,6 +114,7 @@ function CustomSelect({ value, onChange, options }: { value: string, onChange: (
 
 export default function ContactSection() {
     const pathname = usePathname();
+    const router = useRouter();
     const currentLang = pathname.startsWith("/ar") ? "ar" : "en";
     const content = translations[currentLang];
 
@@ -129,7 +130,7 @@ export default function ContactSection() {
         Message: ""
     });
 
-    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -148,12 +149,15 @@ export default function ContactSection() {
             const res = await fetch(sheetURL, {
                 method: "POST",
                 body: new URLSearchParams(formData as Record<string, string>).toString(),
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }
             });
             const result = await res.json();
+
             if (res.ok && result.result === "success") {
-                setStatus("success");
                 setFormData({ FirstName: "", LastName: "", Company: "", Email: "", PhoneNumber: "", Subject: content.dropdownOptions[0], Message: "" });
+
+                // Redirect إلى صفحة الشكر حسب اللغة
+                router.push(currentLang === "ar" ? "/ar/thank-you" : "/en/thank-you");
             } else {
                 setStatus("error");
             }
@@ -165,7 +169,6 @@ export default function ContactSection() {
 
     return (
         <section className="contact-page-section" style={{ padding: "60px 0", background: "rgb(240, 240, 240)" }}>
-            {/* Grid responsive */}
             <div className="auto-container">
                 <style jsx>{`
                     .auto-container {
@@ -188,7 +191,7 @@ export default function ContactSection() {
                     }
                     .form-grid {
                         display: grid;
-                        grid-template-columns: 1fr; /* موبايل: عمود واحد */
+                        grid-template-columns: 1fr;
                         gap: 15px;
                     }
                 `}</style>
@@ -219,7 +222,6 @@ export default function ContactSection() {
                         <button type="submit" style={buttonStyle}>
                             {status === "loading" ? content.sending : content.submitButton}
                         </button>
-                        {status === "success" && <p style={{ color: "#28a745", textAlign: "center" }}>{content.success}</p>}
                         {status === "error" && <p style={{ color: "#dc3545", textAlign: "center" }}>{content.error}</p>}
                     </form>
                 </div>

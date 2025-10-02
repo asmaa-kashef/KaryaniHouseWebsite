@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 // A single object containing all text in both languages
 const translations = {
@@ -97,6 +97,7 @@ function CustomSelect({ value, onChange, options }: { value: string, onChange: (
 
 export default function OfferForm() {
     const pathname = usePathname();
+    const router = useRouter();
     const currentLang = pathname.startsWith("/ar") ? "ar" : "en";
     const content = translations[currentLang];
 
@@ -112,9 +113,6 @@ export default function OfferForm() {
     });
 
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-    // The useEffect hook for Owl Carousel has been removed entirely
-    // as it was causing build errors and is not part of this component's core functionality.
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -142,7 +140,8 @@ export default function OfferForm() {
 
             if (res.ok && result.result === "success") {
                 setStatus("success");
-                setFormData({ FirstName: "", lastname: "", Email: "", PhoneNumber: "", Subject: content.dropdownOptions[0], Message: "" });
+                // إعادة التوجيه بعد الإرسال
+                router.push(currentLang === "ar" ? "/ar/thank-you" : "/en/thank-you");
             } else {
                 setStatus("error");
             }
@@ -200,30 +199,28 @@ export default function OfferForm() {
                         <div className="inner-column">
                             <div className="discount-form">
                                 <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                                    <>
-                                        {["FirstName", "lastname", "Email", "PhoneNumber"].map((field) => (
-                                            <input
-                                                key={field}
-                                                type={field === "Email" ? "email" : "text"}
-                                                name={field}
-                                                placeholder={content.formFields[field as keyof typeof content.formFields]}
-                                                required
-                                                value={formData[field as keyof typeof formData]}
-                                                onChange={handleChange}
-                                                style={{
-                                                    padding: "14px 18px",
-                                                    borderRadius: "25px",
-                                                    border: "1px solid #ccc",
-                                                    fontSize: "16px",
-                                                    outline: "none",
-                                                    transition: "0.3s",
-                                                    background: "#fefefe"
-                                                }}
-                                                onFocus={(e) => e.currentTarget.style.borderColor = "#ff8a00"}
-                                                onBlur={(e) => e.currentTarget.style.borderColor = "#ccc"}
-                                            />
-                                        ))}
-                                    </>
+                                    {["FirstName", "lastname", "Email", "PhoneNumber"].map((field) => (
+                                        <input
+                                            key={field}
+                                            type={field === "Email" ? "email" : "text"}
+                                            name={field}
+                                            placeholder={content.formFields[field as keyof typeof content.formFields]}
+                                            required
+                                            value={formData[field as keyof typeof formData]}
+                                            onChange={handleChange}
+                                            style={{
+                                                padding: "14px 18px",
+                                                borderRadius: "25px",
+                                                border: "1px solid #ccc",
+                                                fontSize: "16px",
+                                                outline: "none",
+                                                transition: "0.3s",
+                                                background: "#fefefe"
+                                            }}
+                                            onFocus={(e) => e.currentTarget.style.borderColor = "#ff8a00"}
+                                            onBlur={(e) => e.currentTarget.style.borderColor = "#ccc"}
+                                        />
+                                    ))}
                                     <CustomSelect value={formData.Subject} onChange={handleDropdownChange} options={content.dropdownOptions} />
                                     <textarea
                                         name="Message"
@@ -262,7 +259,6 @@ export default function OfferForm() {
                                     >
                                         {status === "loading" ? content.sending : content.submitButton}
                                     </button>
-                                    {status === "success" && <p style={{ color: "#28a745", fontWeight: "bold", textAlign: "center" }}>{content.success}</p>}
                                     {status === "error" && <p style={{ color: "#dc3545", fontWeight: "bold", textAlign: "center" }}>{content.error}</p>}
                                 </form>
                             </div>
