@@ -577,6 +577,7 @@ img{
 	-ms-transition: all 300ms ease;
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
+	font-weight:700;
 }
 
 .main-header .top-left .contact-list li a:hover{

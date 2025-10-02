@@ -1236,13 +1236,14 @@
 		margin-top: 0px;
 	}
 
-	.main-header .top-left{
-		display: none;
-	}
-
-	.main-header .top-right{
+	.main-header .top-left {
 		text-align: center;
 		width: 100%;
+	}
+
+	.main-header .top-right {
+	
+		display: none;
 	}
 
 	.main-header .top-right ul{

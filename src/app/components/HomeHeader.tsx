@@ -43,6 +43,8 @@ export default function HomeHeader() {
                     <div className="inner-container clearfix">
                         <div className="top-left">
                             <ul className="contact-list clearfix">
+                                {/* Language Dropdown */}
+                                
                                 <li>
                                     <MdEmail className="inline-block mr-1" />
                                     <a href="mailto:info@karyani-house.com">info@karyani-house.com</a>
@@ -51,22 +53,6 @@ export default function HomeHeader() {
                                     <MdPhone className="inline-block mr-1" />
                                     <a href="tel:+9710506607159">+971-050-6607159</a>
                                 </li>
-                            </ul>
-                        </div>
-
-                        <div className="top-right">
-                            <ul className="social-icon-four clearfix flex items-center gap-3">
-                                <li>
-                                    <a href="#"><FaWhatsapp /></a>
-                                </li>
-                                <li>
-                                    <a href="#"><FaFacebookF /></a>
-                                </li>
-                                <li>
-                                    <a href="#"><FaInstagram /></a>
-                                </li>
-
-                                {/* Language Dropdown */}
                                 <li style={{ position: "relative" }}>
                                     <button
                                         onClick={toggleLangDropdown}
@@ -117,6 +103,22 @@ export default function HomeHeader() {
                                         )}
                                     </ul>
                                 </li>
+                         
+                            </ul>
+                        </div>
+
+                        <div className="top-right">
+                            <ul className="social-icon-four clearfix flex items-center gap-3">
+                                <li>
+                                    <a href="#"><FaWhatsapp /></a>
+                                </li>
+                                <li>
+                                    <a href="#"><FaFacebookF /></a>
+                                </li>
+                                <li>
+                                    <a href="#"><FaInstagram /></a>
+                                </li>
+
                             </ul>
                         </div>
                     </div>

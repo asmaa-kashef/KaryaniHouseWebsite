@@ -165,13 +165,34 @@ export default function ContactSection() {
 
     return (
         <section className="contact-page-section" style={{ padding: "60px 0", background: "rgb(240, 240, 240)" }}>
-            <div className="auto-container" style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "30px",
-                alignItems: "stretch",
-                direction: currentLang === "ar" ? "rtl" : "ltr",
-            }}>
+            {/* Grid responsive */}
+            <div className="auto-container">
+                <style jsx>{`
+                    .auto-container {
+                        display: grid;
+                        grid-template-columns: 1fr;
+                        gap: 30px;
+                        align-items: stretch;
+                        direction: ${currentLang === "ar" ? "rtl" : "ltr"};
+                    }
+                    @media (min-width: 768px) {
+                        .auto-container {
+                            grid-template-columns: 1fr 1fr;
+                        }
+                        .form-grid {
+                            grid-template-columns: 1fr 1fr;
+                        }
+                        .contact-info-grid {
+                            grid-template-columns: repeat(3, 1fr);
+                        }
+                    }
+                    .form-grid {
+                        display: grid;
+                        grid-template-columns: 1fr; /* موبايل: عمود واحد */
+                        gap: 15px;
+                    }
+                `}</style>
+
                 {/* Form Column */}
                 <div style={boxStyle}>
                     <div style={{ marginBottom: "20px" }}>
@@ -186,7 +207,7 @@ export default function ContactSection() {
                     </div>
 
                     <form onSubmit={handleSubmit}>
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px" }}>
+                        <div className="form-grid">
                             <input type="text" name="FirstName" placeholder={content.formFields.FirstName} value={formData.FirstName} onChange={handleChange} style={inputStyle} required />
                             <input type="text" name="LastName" placeholder={content.formFields.LastName} value={formData.LastName} onChange={handleChange} style={inputStyle} required />
                             <input type="text" name="Company" placeholder={content.formFields.Company} value={formData.Company} onChange={handleChange} style={inputStyle} />
@@ -217,10 +238,10 @@ export default function ContactSection() {
             </div>
 
             {/* Contact Info */}
-            <div style={{
+            <div className="contact-info-grid" style={{
                 marginTop: "50px",
                 display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
+                gridTemplateColumns: "1fr",
                 gap: "20px",
             }}>
                 <div style={infoBoxStyle}>
