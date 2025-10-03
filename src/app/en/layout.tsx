@@ -6,8 +6,8 @@ import "../../../public/css/responsive.css";
 // تعريف نظام الخطوط القياسي
 const systemFontStack = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif';
 
-// **ملاحظة: لقد قمت بحذف كود GTM من هذا الملف كما طلبت.**
-// الآن يجب تفعيل تتبع Google Ads و Google Analytics بالكامل من داخل Google Tag Manager فقط.
+// **هذا هو الرقم التعريفي الوحيد لجوجل الذي يجب وضعه في الموقع**
+const GTM_ID = 'GTM-WWD2X2H4';
 
 export const metadata = {
     title: 'My Next.js App',
@@ -19,7 +19,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en">
             <head>
                 {/* ---------------------------------------------------- */}
-                {/* 1. Meta Pixel Code - كود فيسبوك (تم إضافته كما أرسلتِ) */}
+                {/* 1. GOOGLE TAG MANAGER (GTM) - الجزء الأول في الـ <HEAD> */}
+                {/* هذا الكود مسؤول عن تشغيل كل من Google Ads و Google Analytics من خلال GTM */}
+                <Script id="google-tag-manager" strategy="afterInteractive">
+                    {`
+                    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                    })(window,document,'script','dataLayer','${GTM_ID}');
+                    `}
+                </Script>
+                {/* ---------------------------------------------------- */}
+
+                {/* 2. Meta Pixel Code - كود فيسبوك (لا يزال موجوداً) */}
                 <Script id="meta-pixel" strategy="afterInteractive">
                     {`
                     !function(f,b,e,v,n,t,s)
@@ -34,15 +47,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     fbq('track', 'PageView');
                     `}
                 </Script>
-                {/* ---------------------------------------------------- */}
-                {/* **تنبيه:** أكواد Google Tag Manager أو Google Ads أو Google Analytics لم تعد موجودة في هذا الملف. */}
+                {/* **تنبيه:** أكواد Google Ads أو Google Analytics لم تعد موجودة في هذا الملف. */}
 
             </head>
 
             {/* هنا نطبق نظام الخطوط على وسم <body> */}
             <body style={{ fontFamily: systemFontStack }}>
                 {/* ---------------------------------------------------- */}
-                {/* تم حذف الجزء الثاني من كود GTM الذي كان هنا (<noscript>) */}
+                {/* 3. GOOGLE TAG MANAGER (GTM) - الجزء الثاني في بداية الـ <BODY> */}
+                <noscript>
+                    <iframe
+                        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+                        height="0"
+                        width="0"
+                        style={{ display: 'none', visibility: 'hidden' }}
+                    ></iframe>
+                </noscript>
                 {/* ---------------------------------------------------- */}
 
                 <main>{children}</main>
