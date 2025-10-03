@@ -1,11 +1,13 @@
-﻿
-import Script from "next/script";
+﻿import Script from "next/script";
 import "../../../public/css/bootstrap.css";
 import "../../../public/css/style.css";
 import "../../../public/css/responsive.css";
 
 // تعريف نظام الخطوط القياسي
 const systemFontStack = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif';
+
+// **ملاحظة: لقد قمت بحذف كود GTM من هذا الملف كما طلبت.**
+// الآن يجب تفعيل تتبع Google Ads و Google Analytics بالكامل من داخل Google Tag Manager فقط.
 
 export const metadata = {
     title: 'My Next.js App',
@@ -16,7 +18,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <head>
-                {/* Meta Pixel Code */}
+                {/* ---------------------------------------------------- */}
+                {/* 1. Meta Pixel Code - كود فيسبوك (تم إضافته كما أرسلتِ) */}
                 <Script id="meta-pixel" strategy="afterInteractive">
                     {`
                     !function(f,b,e,v,n,t,s)
@@ -29,11 +32,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     'https://connect.facebook.net/en_US/fbevents.js');
                     fbq('init', '1254073446082094');
                     fbq('track', 'PageView');
-                  `}
+                    `}
                 </Script>
+                {/* ---------------------------------------------------- */}
+                {/* **تنبيه:** أكواد Google Tag Manager أو Google Ads أو Google Analytics لم تعد موجودة في هذا الملف. */}
+
             </head>
+
             {/* هنا نطبق نظام الخطوط على وسم <body> */}
             <body style={{ fontFamily: systemFontStack }}>
+                {/* ---------------------------------------------------- */}
+                {/* تم حذف الجزء الثاني من كود GTM الذي كان هنا (<noscript>) */}
+                {/* ---------------------------------------------------- */}
+
                 <main>{children}</main>
 
                 {/* This section loads all the necessary JavaScript files. */}

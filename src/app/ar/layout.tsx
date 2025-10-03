@@ -6,6 +6,9 @@ import "../../../public/css/responsive.css";
 // تعريف نظام الخطوط القياسي
 const systemFontStack = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif';
 
+// **هذا هو الرقم التعريفي الوحيد لجوجل الذي يجب وضعه في الموقع**
+const GTM_ID = 'GTM-WWD2X2H4';
+
 export const metadata = {
     title: 'My Next.js App',
     description: 'A responsive website built with Next.js.',
@@ -15,7 +18,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="ar">
             <head>
-                {/* Meta Pixel Code */}
+                {/* ---------------------------------------------------- */}
+                {/* 1. GOOGLE TAG MANAGER (GTM) - الجزء الأول في الـ <HEAD> */}
+                {/* هذا الكود مسؤول عن تشغيل كل من Google Ads و Google Analytics من خلال GTM */}
+                <Script id="google-tag-manager" strategy="afterInteractive">
+                    {`
+                    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                    })(window,document,'script','dataLayer','${GTM_ID}');
+                    `}
+                </Script>
+                {/* ---------------------------------------------------- */}
+
+                {/* 2. Meta Pixel Code - كود فيسبوك (لا يزال موجوداً) */}
                 <Script id="meta-pixel" strategy="afterInteractive">
                     {`
                     !function(f,b,e,v,n,t,s)
@@ -28,26 +45,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     'https://connect.facebook.net/en_US/fbevents.js');
                     fbq('init', '1254073446082094');
                     fbq('track', 'PageView');
-                  `}
-                </Script>
-
-                {/* Google Ads / gtag.js */}
-                <Script
-                    strategy="afterInteractive"
-                    src="https://www.googletagmanager.com/gtag/js?id=AW-17581341992"
-                />
-                <Script id="google-ads-gtag" strategy="afterInteractive">
-                    {`
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'AW-17581341992');
                     `}
                 </Script>
+
             </head>
 
             {/* هنا نطبق نظام الخطوط على وسم <body> */}
             <body style={{ fontFamily: systemFontStack }}>
+                {/* ---------------------------------------------------- */}
+                {/* 3. GOOGLE TAG MANAGER (GTM) - الجزء الثاني في بداية الـ <BODY> */}
+                <noscript>
+                    <iframe
+                        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+                        height="0"
+                        width="0"
+                        style={{ display: 'none', visibility: 'hidden' }}
+                    ></iframe>
+                </noscript>
+                {/* ---------------------------------------------------- */}
+
                 <main>{children}</main>
 
                 {/* This section loads all the necessary JavaScript files. */}
