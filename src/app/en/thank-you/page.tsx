@@ -1,11 +1,16 @@
 ﻿'use client';
 
+import Head from 'next/head';
 import Header from "../../components/HomeHeader";
 import Footer from "../../components/HomeFooter";
 
 export default function ThankYouPage() {
     return (
         <>
+            <Head>
+                <title>Thank You | Karyani House Construction</title>
+                <meta name="description" content="Your request has been successfully received. We will contact you soon to provide the best construction and repair services. For more information, contact Karyani House Construction." />
+            </Head>
             <Header />
             <main style={{
                 display: "flex",

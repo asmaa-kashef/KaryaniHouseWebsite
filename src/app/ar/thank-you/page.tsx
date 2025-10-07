@@ -1,11 +1,14 @@
-﻿'use client';
-
+﻿import Head from 'next/head';
 import Header from "../../components/HomeHeader";
 import Footer from "../../components/HomeFooter";
 
 export default function ThankYouPage() {
     return (
         <>
+            <Head>
+                <title>شكرًا لك | شركة كارياني هاوس للبناء</title>
+                <meta name="description" content="تم استلام طلبك بنجاح. سنتواصل معك قريبًا لتقديم أفضل خدمات البناء والترميم. لمزيد من المعلومات، اتصل بشركة كارياني هاوس للبناء." />
+            </Head>
             <Header />
             <main style={{
                 display: "flex",
