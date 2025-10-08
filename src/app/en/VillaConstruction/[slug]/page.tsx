@@ -38,8 +38,7 @@ type HeadingItem = {
     level: number;
 };
 
-const WORDPRESS_API_BASE = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2";
-
+const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
 function getTextFromChildren(children: DOMNode[]): string {
     return children
@@ -76,8 +75,6 @@ function extractHeadings(html: string): HeadingItem[] {
     parse(html, options);
     return headings;
 }
-
-
 
 export default function VillaConstructionDetail() {
     const params = useParams();
@@ -116,12 +113,68 @@ export default function VillaConstructionDetail() {
     const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "General";
 
     const headings = extractHeadings(post.content.rendered);
-    const parsedContent = parse(post.content.rendered);
+
+    // Parse content and force h1-h6 to use system font and black color
+    const parsedContent = parse(post.content.rendered, {
+        replace: (domNode) => {
+            if (domNode.type === "tag") {
+                const element = domNode as Element;
+
+                // العناوين H1-H6
+                if (/^h[1-6]$/.test(element.name)) {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;"
+                    };
+                }
+
+                // القوائم UL و OL
+                if (element.name === "ul" || element.name === "ol") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "margin: 1em 0; padding-left: 1.8em; color: black; direction: ltr; list-style-position: outside;list-style-type: disc;"
+                    };
+                }
+
+                // عناصر القائمة LI
+                if (element.name === "li") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "margin-bottom: 0.8em; list-style-type: disc;"
+                       
+                    };
+                }
+
+                // الصور
+                if (element.name === "img") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "max-width: 100%; height: auto; margin: 1em 0; border-radius: 8px;"
+                    };
+                }
+
+                // الفقرات
+                if (element.name === "p") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "margin-bottom: 1em; color: black;"
+                    };
+                }
+
+                // blockquote
+                if (element.name === "blockquote") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "border-left: 4px solid #db2777; padding-left: 1em; color: black; font-style: italic; margin: 1em 0;"
+                    };
+                }
+            }
+        },
+    });
+
 
     return (
-      
         <>
-
             <Header />
             {/* Page Title */}
             <section
@@ -131,7 +184,10 @@ export default function VillaConstructionDetail() {
                 <div className="auto-container">
                     <div className="inner-container clearfix">
                         <div className="title-box">
-                            <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                            <h1
+                                dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                                style={{ fontFamily: "system-ui, math", color: "black" }}
+                            />
                             <span className="title">{category}</span>
                         </div>
                         <ul className="bread-crumb clearfix">
@@ -166,7 +222,10 @@ export default function VillaConstructionDetail() {
                                     <div className="inner-box">
                                         <div className="caption-box">
                                             <div className="inner">
-                                                <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                                                <h3
+                                                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                                                    style={{ fontFamily: "system-ui, math", color: "black" }}
+                                                />
                                                 <ul className="info">
                                                     <li>{date}</li>
                                                     <li>{author}</li>
@@ -175,7 +234,9 @@ export default function VillaConstructionDetail() {
 
                                                 {/* Table of Contents */}
                                                 {headings.length > 0 && (
-                                                    <nav className="toc" aria-label="Table of Contents"
+                                                    <nav
+                                                        className="toc"
+                                                        aria-label="Table of Contents"
                                                         style={{
                                                             background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                                             borderRadius: "23px",
@@ -183,12 +244,23 @@ export default function VillaConstructionDetail() {
                                                             marginBottom: "55px",
                                                             color: "black",
                                                             fontWeight: "bold",
-                                                        }}>
-                                                        <h3>Table of Contents</h3>
-                                                        <ul>
+                                                        }}
+                                                    >
+                                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>Table of Contents</h3>
+                                                        <ul style={{ paddingLeft: "1.8em", listStyle: "none" }}>
                                                             {headings.map(({ id, text, level }, index) => (
-                                                                <li key={`${id}-${index}`} style={{ marginLeft: `${(level - 2) * 20}px` }}>
-                                                                    <a href={`#${id}`} style={{ textDecoration: "none", cursor: "pointer", color: "black" }}>
+                                                                <li
+                                                                    key={`${id}-${index}`}
+                                                                    style={{
+                                                                        marginLeft: `${(level - 2) * 20}px`, // لتدرج المستوى
+                                                                        marginBottom: "0.8em",
+                                                                        listStyle: "none", // نخفي النقاط
+                                                                    }}
+                                                                >
+                                                                    <a
+                                                                        href={`#${id}`}
+                                                                        style={{ textDecoration: "none", cursor: "pointer", color: "black" }}
+                                                                    >
                                                                         {text}
                                                                     </a>
                                                                 </li>
@@ -222,7 +294,7 @@ export default function VillaConstructionDetail() {
                                 {/* Schedule a Site Visit */}
                                 <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
-                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black", fontFamily: "system-ui, math" }}>
                                         <strong>Schedule a Site Visit</strong>
                                     </h3>
                                     {["/video/final2.mp4", "/video/final.mp4"].map((src, index) => (
@@ -249,7 +321,7 @@ export default function VillaConstructionDetail() {
                                 {/* Best Construction Company */}
                                 <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
-                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black", fontFamily: "system-ui, math" }}>
                                         <strong>Do You Need the Best <br /> Construction Company in Abu Dhabi?</strong>
                                     </h3>
                                     <p className="text-sm text-black-700 mb-2" style={{ color: "black" }}>
@@ -272,7 +344,7 @@ export default function VillaConstructionDetail() {
                                 {/* Categories */}
                                 <div className="sidebar-widget categories">
                                     <div className="sidebar-title">
-                                        <h3>Our Company Service</h3>
+                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>Our Company Service</h3>
                                     </div>
                                     <ul className="cat-list">
                                         {["Villa Construction", "Structure Repair", "Cladding", "Interior Works", "Alumnium and Glass"].map((cat, index) => (
@@ -286,7 +358,7 @@ export default function VillaConstructionDetail() {
                                 {/* Get a Free Quote */}
                                 <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "12px", marginBottom: "55px" }}>
-                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black" }}>
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black", fontFamily: "system-ui, math" }}>
                                         <strong>Get a Free Quote</strong>
                                     </h3>
                                     <a href="tel:+9710506607159" style={{ color: "black", fontWeight: "bold", fontSize: "1.1rem", textDecoration: "underline", cursor: "pointer", display: "inline-block", marginTop: "8px" }}>
@@ -297,7 +369,7 @@ export default function VillaConstructionDetail() {
                                 {/* Recent Posts */}
                                 <div className="sidebar-widget latest-news">
                                     <div className="sidebar-title">
-                                        <h3>Recent Post</h3>
+                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>Recent Post</h3>
                                     </div>
                                     <div className="widget-content">
                                         {recentPosts.length === 0 && <p>No recent posts found.</p>}
@@ -312,7 +384,7 @@ export default function VillaConstructionDetail() {
                                                         </Link>
                                                     </div>
                                                     <h3>
-                                                        <Link href={`/VillaConstruction/${recent.slug}`} className="post-title-link">
+                                                        <Link href={`/VillaConstruction/${recent.slug}`} className="post-title-link" style={{ fontFamily: "system-ui, math", color: "black" }}>
                                                             <span dangerouslySetInnerHTML={{ __html: recent.title.rendered }} />
                                                         </Link>
                                                     </h3>
@@ -326,7 +398,7 @@ export default function VillaConstructionDetail() {
                                 {/* Tags */}
                                 <div className="sidebar-widget tags" style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
                                     <div className="sidebar-title">
-                                        <h3>Our Construction Services</h3>
+                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>Our Construction Services</h3>
                                     </div>
                                     <ul className="tag-list clearfix" style={{ color: "black" }}>
                                         {["Landing Mining", "Building Staff", "Material Supply", "Consultancy", "Architecture", "Crane Services"].map((tag, index) => (
@@ -347,9 +419,3 @@ export default function VillaConstructionDetail() {
         </>
     );
 }
-
-
-
-
-
-      

@@ -119,7 +119,7 @@ h1,h2,h3,h4,h5,h6 {
 	margin:0px;
 	background:none;
 	line-height:1.2em;
-	font-family: 'Rubik', sans-serif;
+	
 }
 
 textarea{
@@ -8884,9 +8884,9 @@ header-style-seven .nav-toggler:hover{
 
 .blog-detail .news-block-two .caption-box p{
 	position: relative;
-	font-size: 14px;
+	font-size: 20px;
 	line-height: 30px;
-	color: #777777;
+	color: black;
 	font-weight: 400;
 	margin-bottom: 30px;
 }

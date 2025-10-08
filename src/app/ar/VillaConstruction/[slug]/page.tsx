@@ -38,7 +38,7 @@ type HeadingItem = {
     level: number;
 };
 
-const WORDPRESS_API_BASE = "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2";
+const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
 
 function getTextFromChildren(children: DOMNode[]): string {

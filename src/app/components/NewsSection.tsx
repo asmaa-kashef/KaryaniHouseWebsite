@@ -29,7 +29,7 @@ export default function NewsSection() {
     useEffect(() => {
         async function getPosts() {
             const res = await fetch(
-                "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2/posts?_embed&per_page=4",
+                "https://blog.karyani-house.com/wp-json/wp/v2/posts?_embed&per_page=4",
                 { next: { revalidate: 60 } }
             );
             if (!res.ok) throw new Error("Failed to fetch posts");

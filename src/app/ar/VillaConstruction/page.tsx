@@ -19,7 +19,7 @@ type Post = {
 };
 
 const WORDPRESS_API_URL =
-    "https://karyaniconstruction.karyani-house.com/wp-json/wp/v2/posts?_embed";
+    "https://blog.karyani-house.com/wp-json/wp/v2/posts?_embed";
 
 // تعريف الدالة هنا
 const getPosts = async (): Promise<Post[]> => {
