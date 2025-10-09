@@ -114,7 +114,7 @@ export default function VillaConstructionDetail() {
 
     const headings = extractHeadings(post.content.rendered);
 
-    // Parse content and force h1-h6 to use system font and black color
+    // Parse content and apply styles
     const parsedContent = parse(post.content.rendered, {
         replace: (domNode) => {
             if (domNode.type === "tag") {
@@ -125,6 +125,46 @@ export default function VillaConstructionDetail() {
                     element.attribs = {
                         ...element.attribs,
                         style: "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;"
+                    };
+                }
+
+                // الجداول
+                if (element.name === "table") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "width: 100%; border-collapse: collapse; margin: 1em 0; border: 1px solid #ddd; background-color: #f9f9f9;"
+                    };
+                }
+
+                // رأس الجدول
+                if (element.name === "thead") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "background-color: #eaeaea;"
+                    };
+                }
+
+                // صفوف الجدول
+                if (element.name === "tr") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "border-bottom: 1px solid #ddd;"
+                    };
+                }
+
+                // خلايا رأس الجدول
+                if (element.name === "th") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: bold; color: black;"
+                    };
+                }
+
+                // خلايا جسم الجدول
+                if (element.name === "td") {
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "padding: 12px; border: 1px solid #ddd; color: black;"
                     };
                 }
 
@@ -141,7 +181,6 @@ export default function VillaConstructionDetail() {
                     element.attribs = {
                         ...element.attribs,
                         style: "margin-bottom: 0.8em; list-style-type: disc;"
-                       
                     };
                 }
 
@@ -171,7 +210,6 @@ export default function VillaConstructionDetail() {
             }
         },
     });
-
 
     return (
         <>
