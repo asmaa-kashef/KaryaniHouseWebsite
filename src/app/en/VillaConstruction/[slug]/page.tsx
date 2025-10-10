@@ -437,6 +437,52 @@ export default function VillaConstructionDetail() {
                                         ))}
                                     </ul>
                                 </div>
+                                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
+                                    style={{ background: "linear-gradient(to bottom right, #d1f4ff, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "#1f2937", fontFamily: "system-ui, math" }}>
+                                        <strong>Book a Free Engineering Consultation</strong>
+                                    </h3>
+                                    <p className="text-sm text-gray-800 mb-4" style={{ color: "#1f2937" }}>
+                                        Our experts are ready to help you plan your next project.
+                                    </p>
+                                    <Link href="/consultation"
+                                        className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
+                                        style={{ backgroundColor: "#2563eb" }}
+                                    >
+                                        <span className="text-yellow-400">📐</span> Book Now
+                                    </Link>
+                                </div>
+                                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
+                                    style={{ background: "linear-gradient(to bottom right, #c2f0c2, #ffe9b5)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "#1f2937", fontFamily: "system-ui, math" }}>
+                                        <strong>Become a Partner</strong>
+                                    </h3>
+                                    <p className="text-sm text-gray-800 mb-4" style={{ color: "#1f2937" }}>
+                                        We welcome collaborations with architects, suppliers, and contractors.
+                                    </p>
+                                    <Link href="/partnership"
+                                        className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
+                                        style={{ backgroundColor: "#059669" }}
+                                    >
+                                        <span className="text-yellow-400">🤝</span> Apply Now
+                                    </Link>
+                                </div>
+                                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
+                                    style={{ background: "linear-gradient(to bottom right, #fcd5ce, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
+                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "#1f2937", fontFamily: "system-ui, math" }}>
+                                        <strong>Request a Custom Quote</strong>
+                                    </h3>
+                                    <p className="text-sm text-gray-800 mb-4" style={{ color: "#1f2937" }}>
+                                        Get a tailored estimate that fits your budget and needs.
+                                    </p>
+                                    <Link href="/quote"
+                                        className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
+                                        style={{ backgroundColor: "#b91c1c" }}
+                                    >
+                                        <span className="text-yellow-400">💰</span> Get Quote
+                                    </Link>
+                                </div>
+                            
 
                             </aside>
                         </div>
