@@ -36,6 +36,7 @@ export default function FaqAccordion({ htmlContent }: FaqAccordionProps) {
         setFaqs(extractedFaqs);
     }, [htmlContent]);
 
+
     if (faqs.length === 0) return null;
 
     const labels = {

@@ -57,7 +57,7 @@ function getTextFromChildren(children: DOMNode[]): string {
 
 function extractHeadings(html: string): HeadingItem[] {
     const headings: HeadingItem[] = [];
-    const stopCollecting = false;
+    let stopCollecting = false;
 
     const options: HTMLReactParserOptions = {
         replace: (domNode) => {
