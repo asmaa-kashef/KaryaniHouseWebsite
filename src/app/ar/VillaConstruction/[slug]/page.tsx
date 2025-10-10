@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
-import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
+import parse, { Element, DOMNode, HTMLReactParserOptions, Text, domToReact } from "html-react-parser";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -77,6 +77,26 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
+// هذه هي الخيارات الجديدة التي ستقوم بتعديل الـ SVG
+// استخدام !important لضمان الأولوية
+const parsedContentOptions: HTMLReactParserOptions = {
+    replace: (domNode) => {
+        if (domNode instanceof Element && domNode.name === "svg") {
+            const newStyle = {
+                ...domNode.attribs.style,
+                height: "15px", // تعيين الارتفاع
+                width: "15px",  // تعيين العرض
+            };
+
+            const filteredAttribs = Object.fromEntries(
+                Object.entries(domNode.attribs).filter(([key]) => key !== 'height' && key !== 'width')
+            );
+
+            // هنا يتم تطبيق الارتفاع والعرض كخصائص مباشرة لتجاوز CSS
+            return <svg {...filteredAttribs} style={newStyle} height="15px" width="15px">{domToReact(domNode.children, parsedContentOptions)}</svg>;
+        }
+    },
+};
 
 
 export default function VillaConstructionDetail() {
@@ -116,10 +136,10 @@ export default function VillaConstructionDetail() {
     const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "General";
 
     const headings = extractHeadings(post.content.rendered);
-    const parsedContent = parse(post.content.rendered);
+    const parsedContent = parse(post.content.rendered, parsedContentOptions);
 
     return (
-      
+
         <>
 
             <Header />
@@ -347,9 +367,3 @@ export default function VillaConstructionDetail() {
         </>
     );
 }
-
-
-
-
-
-      

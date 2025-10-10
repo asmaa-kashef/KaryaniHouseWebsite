@@ -1,135 +1,82 @@
-﻿import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import Header from "../../components/HomeHeader";
-import Footer from "../../components/HomeFooter";
+﻿"use client";
+import { useEffect, useState } from "react";
+import { Plus, Minus } from "lucide-react";
 
-type Post = {
-    id: number;
-    slug: string;
-    title: { rendered: string };
-    excerpt: { rendered: string };
-    date: string;
-    author: number;
-    _embedded?: {
-        "wp:featuredmedia"?: {
-            source_url: string;
-        }[];
+export default function FAQSection() {
+    const [faqs, setFaqs] = useState([]);
+    const [openIndex, setOpenIndex] = useState(null);
+
+    useEffect(() => {
+        const fetchFAQs = async () => {
+            try {
+                const res = await fetch("https://blog.karyani-house.com/wp-json/wp/v2/posts?_embed");
+                const posts = await res.json();
+
+                let extractedFaqs = [];
+
+                posts.forEach((post) => {
+                    const html = post.content?.rendered || "";
+                    const container = document.createElement("div");
+                    container.innerHTML = html;
+
+                    const faqItems = container.querySelectorAll(".uagb-faq-child");
+                    faqItems.forEach((item) => {
+                        const question = item.querySelector(".uagb-question")?.innerText || "";
+                        const answer = item.querySelector(".uagb-faq-content")?.innerHTML || "";
+                        if (question && answer) {
+                            extractedFaqs.push({ question, answer });
+                        }
+                    });
+                });
+
+                setFaqs(extractedFaqs);
+            } catch (err) {
+                console.error("Error fetching FAQs:", err);
+            }
+        };
+
+        fetchFAQs();
+    }, []);
+
+    const toggleFAQ = (index) => {
+        setOpenIndex(openIndex === index ? null : index);
     };
-};
-
-const WORDPRESS_API_URL =
-    "https://blog.karyani-house.com/wp-json/wp/v2/posts?_embed";
-
-// تعريف الدالة هنا
-const getPosts = async (): Promise<Post[]> => {
-    const res = await fetch(WORDPRESS_API_URL, { next: { revalidate: 60 } });
-    if (!res.ok) {
-        throw new Error("Failed to fetch posts");
-    }
-    return res.json();
-};
-
-export default async function BlogPage() {
-    const posts = await getPosts();
 
     return (
-        <div className="rtl">
-            <Header />
-            <section
-                className="page-title"
-                style={{ backgroundImage: "url(/images/background/construction.webp)" }}
-            >
-                <div className="auto-container">
-                    <div className="inner-container clearfix">
-                        <div className="title-box">
-                            <h1>News Detail</h1>
-                            <span className="title">The Interior speak for themselves</span>
+        <section className="bg-[#fffbea] py-12 px-6">
+            <div className="max-w-3xl mx-auto">
+                <h2 className="text-4xl font-bold mb-8">FAQs</h2>
+
+                {faqs.length === 0 ? (
+                    <p className="text-gray-500">Loading FAQs...</p>
+                ) : (
+                    faqs.map((faq, index) => (
+                        <div
+                            key={index}
+                            className="border border-gray-300 bg-white mb-3 rounded-sm shadow-sm overflow-hidden transition-all duration-300"
+                        >
+                            <button
+                                className="flex justify-between items-center w-full p-4 text-left font-medium text-gray-800"
+                                onClick={() => toggleFAQ(index)}
+                            >
+                                {faq.question}
+                                {openIndex === index ? (
+                                    <Minus size={18} className="text-gray-600" />
+                                ) : (
+                                    <Plus size={18} className="text-gray-600" />
+                                )}
+                            </button>
+
+                            <div
+                                className={`px-4 pb-4 text-gray-700 leading-relaxed transition-max-height duration-300 ease-in-out ${openIndex === index ? "max-h-96" : "max-h-0"
+                                    }`}
+                            >
+                                <div dangerouslySetInnerHTML={{ __html: faq.answer }} />
+                            </div>
                         </div>
-                        <ul className="bread-crumb clearfix">
-                            <li>
-                                <Link href="/">Home</Link>
-                            </li>
-                            <li>Blog Detail</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <section className="blog-section">
-                <div className="auto-container">
-                    <div className="row">
-                        {posts.map((post) => {
-                            const featuredImage =
-                                post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
-                                "/images/default-news.jpg";
-
-                            return (
-                                <div
-                                    key={post.id}
-                                    className="news-block-two col-lg-6 col-md-12 col-sm-12"
-                                >
-                                    <div className="inner-box">
-                                        <div
-                                            className="image-box"
-                                            style={{
-                                                position: "relative",
-                                                width: "100%",
-                                                height: "300px",
-                                                borderRadius: "8px",
-                                                overflow: "hidden",
-                                            }}
-                                        >
-                                            <Image
-                                                src={featuredImage}
-                                                alt={post.title.rendered}
-                                                fill
-                                                style={{ objectFit: "cover" }}
-                                                sizes="(max-width: 768px) 100vw, 600px"
-                                            />
-                                        </div>
-                                        <div className="overlay-box">
-                                            <Link href={`/blog/${post.slug}`}>
-                                                <i className="fa fa-link"></i>
-                                            </Link>
-                                        </div>
-                                        <div
-                                            className="caption-box"
-                                            style={{
-                                                minHeight: "180px",
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                justifyContent: "space-between",
-                                                padding: "15px",
-                                            }}
-                                        >
-                                            <div className="inner">
-                                                <h3>
-                                                    <Link href={`/ar/VillaConstruction/${post.slug}`}>
-                                                        <span
-                                                            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                                                        />
-                                                    </Link>
-                                                </h3>
-                                                <ul className="info" style={{ marginTop: "10px" }}>
-                                                    <li>{new Date(post.date).toLocaleDateString()}</li>
-                                                    <li>
-                                                        <a href="#">Author #{post.author}</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Comments</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </section>
-            <Footer />
-        </div>
+                    ))
+                )}
+            </div>
+        </section>
     );
 }

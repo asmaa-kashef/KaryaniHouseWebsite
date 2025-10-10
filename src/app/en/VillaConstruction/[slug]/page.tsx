@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
+import FAQAccordion from "../../../components/FAQAccordion";
+import TableOfContents from "../../../components/TableOfContents";
 import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
 import Link from "next/link";
 import Image from "next/image";
@@ -76,7 +78,10 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
+
 export default function VillaConstructionDetail() {
+  
+
     const params = useParams();
     const slug = params?.slug as string;
 
@@ -115,7 +120,20 @@ export default function VillaConstructionDetail() {
     const headings = extractHeadings(post.content.rendered);
 
     // Parse content and apply styles
-    const parsedContent = parse(post.content.rendered, {
+    function removeFaqSection(html: string): string {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = html;
+
+        // حذف كل العناصر اللي ليها علاقة بالـ FAQ
+        const faqElements = wrapper.querySelectorAll('[class*="uagb-faq"]');
+        faqElements.forEach((el) => el.remove());
+
+        return wrapper.innerHTML;
+    }
+
+    const cleanedContent = post?.content?.rendered ? removeFaqSection(post.content.rendered) : "";
+
+    const parsedContent = parse(cleanedContent, {
         replace: (domNode) => {
             if (domNode.type === "tag") {
                 const element = domNode as Element;
@@ -124,7 +142,8 @@ export default function VillaConstructionDetail() {
                 if (/^h[1-6]$/.test(element.name)) {
                     element.attribs = {
                         ...element.attribs,
-                        style: "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;"
+                        style:
+                            "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;",
                     };
                 }
 
@@ -132,7 +151,8 @@ export default function VillaConstructionDetail() {
                 if (element.name === "table") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "width: 100%; border-collapse: collapse; margin: 1em 0; border: 1px solid #ddd; background-color: #f9f9f9;"
+                        style:
+                            "width: 100%; border-collapse: collapse; margin: 1em 0; border: 1px solid #ddd; background-color: #f9f9f9;",
                     };
                 }
 
@@ -140,7 +160,7 @@ export default function VillaConstructionDetail() {
                 if (element.name === "thead") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "background-color: #eaeaea;"
+                        style: "background-color: #eaeaea;",
                     };
                 }
 
@@ -148,7 +168,7 @@ export default function VillaConstructionDetail() {
                 if (element.name === "tr") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "border-bottom: 1px solid #ddd;"
+                        style: "border-bottom: 1px solid #ddd;",
                     };
                 }
 
@@ -156,7 +176,8 @@ export default function VillaConstructionDetail() {
                 if (element.name === "th") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: bold; color: black;"
+                        style:
+                            "padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: bold; color: black;",
                     };
                 }
 
@@ -164,7 +185,7 @@ export default function VillaConstructionDetail() {
                 if (element.name === "td") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "padding: 12px; border: 1px solid #ddd; color: black;"
+                        style: "padding: 12px; border: 1px solid #ddd; color: black;",
                     };
                 }
 
@@ -172,7 +193,8 @@ export default function VillaConstructionDetail() {
                 if (element.name === "ul" || element.name === "ol") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "margin: 1em 0; padding-left: 1.8em; color: black; direction: ltr; list-style-position: outside;list-style-type: disc;"
+                        style:
+                            "margin: 1em 0; padding-left: 1.8em; color: black; direction: ltr; list-style-position: outside; list-style-type: disc;",
                     };
                 }
 
@@ -180,7 +202,7 @@ export default function VillaConstructionDetail() {
                 if (element.name === "li") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "margin-bottom: 0.8em; list-style-type: disc;"
+                        style: "margin-bottom: 0.8em; list-style-type: disc;",
                     };
                 }
 
@@ -188,7 +210,7 @@ export default function VillaConstructionDetail() {
                 if (element.name === "img") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "max-width: 100%; height: auto; margin: 1em 0; border-radius: 8px;"
+                        style: "max-width: 100%; height: auto; margin: 1em 0; border-radius: 8px;",
                     };
                 }
 
@@ -196,7 +218,7 @@ export default function VillaConstructionDetail() {
                 if (element.name === "p") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "margin-bottom: 1em; color: black;"
+                        style: "margin-bottom: 1em; color: black;",
                     };
                 }
 
@@ -204,12 +226,14 @@ export default function VillaConstructionDetail() {
                 if (element.name === "blockquote") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "border-left: 4px solid #db2777; padding-left: 1em; color: black; font-style: italic; margin: 1em 0;"
+                        style:
+                            "border-left: 4px solid #db2777; padding-left: 1em; color: black; font-style: italic; margin: 1em 0;",
                     };
                 }
             }
         },
     });
+
 
     return (
         <>
@@ -271,43 +295,10 @@ export default function VillaConstructionDetail() {
                                                 </ul>
 
                                                 {/* Table of Contents */}
-                                                {headings.length > 0 && (
-                                                    <nav
-                                                        className="toc"
-                                                        aria-label="Table of Contents"
-                                                        style={{
-                                                            background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
-                                                            borderRadius: "23px",
-                                                            padding: "28px",
-                                                            marginBottom: "55px",
-                                                            color: "black",
-                                                            fontWeight: "bold",
-                                                        }}
-                                                    >
-                                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>Table of Contents</h3>
-                                                        <ul style={{ paddingLeft: "1.8em", listStyle: "none" }}>
-                                                            {headings.map(({ id, text, level }, index) => (
-                                                                <li
-                                                                    key={`${id}-${index}`}
-                                                                    style={{
-                                                                        marginLeft: `${(level - 2) * 20}px`, // لتدرج المستوى
-                                                                        marginBottom: "0.8em",
-                                                                        listStyle: "none", // نخفي النقاط
-                                                                    }}
-                                                                >
-                                                                    <a
-                                                                        href={`#${id}`}
-                                                                        style={{ textDecoration: "none", cursor: "pointer", color: "black" }}
-                                                                    >
-                                                                        {text}
-                                                                    </a>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </nav>
-                                                )}
+                                                <TableOfContents headings={headings} />
 
                                                 <div className="entry-content">{parsedContent}</div>
+                                                <FAQAccordion htmlContent={post.content.rendered} />
                                             </div>
                                         </div>
                                     </div>
