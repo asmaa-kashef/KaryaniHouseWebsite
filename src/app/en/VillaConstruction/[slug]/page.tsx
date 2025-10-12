@@ -1,5 +1,4 @@
-﻿"use client";
-import React, { useEffect, useState } from "react";
+﻿import React from "react";
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
@@ -7,9 +6,7 @@ import TableOfContents from "../../../components/TableOfContents";
 import BlogBackground from "../../../components/BlogBackground";
 import Sidebar from "../../../components/Sidebar";
 import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
-import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 
 // Types
 interface WPEmbeddedMedia {
@@ -36,13 +33,66 @@ type Post = {
     };
 };
 
+const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
+
+// ✅ دالة توليد الميتا تاجز الديناميكية
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+    try {
+        const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${params.slug}&_embed`, {
+            next: { revalidate: 60 },
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch metadata");
+
+        const data = await res.json();
+        const post = data[0];
+
+        if (!post)
+            return {
+                title: "Post Not Found - Karyani House Blog",
+                description: "This post does not exist or has been removed.",
+            };
+
+        const featuredImage =
+            post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-blog.jpg";
+
+        const cleanDescription = post.content.rendered
+            .replace(/<[^>]+>/g, "")
+            .replace(/\s+/g, " ")
+            .slice(0, 150);
+
+        return {
+            title: post.title.rendered + " - Karyani House Blog",
+            description: cleanDescription,
+            openGraph: {
+                title: post.title.rendered,
+                description: cleanDescription,
+                url: `https://blog.karyani-house.com/${params.slug}`,
+                type: "article",
+                images: [{ url: featuredImage }],
+            },
+            twitter: {
+                card: "summary_large_image",
+                title: post.title.rendered,
+                description: cleanDescription,
+                images: [featuredImage],
+            },
+        };
+    } catch (error) {
+        console.error("Error generating metadata:", error);
+        return {
+            title: "Karyani House Blog",
+            description:
+                "Explore expert articles about villa construction, interior design, and facade cladding in Abu Dhabi.",
+        };
+    }
+}
+
 type HeadingItem = {
     id: string;
     text: string;
     level: number;
 };
-
-const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
 function getTextFromChildren(children: DOMNode[]): string {
     return children
@@ -80,39 +130,29 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
+function removeFaqSection(html: string): string {
+    return html.replace(/<div[^>]*class="[^"]*uagb-faq[^"]*"[^>]*>[\s\S]*?<\/div>/gi, "");
+}
 
+// ✅ Server Component Page
+interface Props {
+    params: { slug: string };
+}
 
-export default function VillaConstructionDetail() {
-  
+export default async function VillaConstructionDetail({ params }: Props) {
+    const slug = params.slug;
 
-    const params = useParams();
-    const slug = params?.slug as string;
+    const [postRes, recentRes] = await Promise.all([
+        fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`),
+        fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`),
+    ]);
 
-    const [post, setPost] = useState<Post | null>(null);
-    const [recentPosts, setRecentPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(true);
+    const postData: Post[] = await postRes.json();
+    const recentData: Post[] = await recentRes.json();
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const postRes = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`);
-                const postData: Post[] = await postRes.json();
-                setPost(postData[0] || null);
+    const post = postData[0] || null;
+    const recentPosts = recentData || [];
 
-                const recentRes = await fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`);
-                const recentData: Post[] = await recentRes.json();
-                setRecentPosts(recentData || []);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        if (slug) fetchData();
-    }, [slug]);
-
-    if (loading) return <p>Loading...</p>;
     if (!post) return <p>Post not found</p>;
 
     const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
@@ -121,19 +161,6 @@ export default function VillaConstructionDetail() {
     const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "General";
 
     const headings = extractHeadings(post.content.rendered);
-
-    // Parse content and apply styles
-    function removeFaqSection(html: string): string {
-        const wrapper = document.createElement("div");
-        wrapper.innerHTML = html;
-
-        // حذف كل العناصر اللي ليها علاقة بالـ FAQ
-        const faqElements = wrapper.querySelectorAll('[class*="uagb-faq"]');
-        faqElements.forEach((el) => el.remove());
-
-        return wrapper.innerHTML;
-    }
-
     const cleanedContent = post?.content?.rendered ? removeFaqSection(post.content.rendered) : "";
 
     const parsedContent = parse(cleanedContent, {
@@ -141,7 +168,6 @@ export default function VillaConstructionDetail() {
             if (domNode.type === "tag") {
                 const element = domNode as Element;
 
-                // العناوين H1-H6
                 if (/^h[1-6]$/.test(element.name)) {
                     element.attribs = {
                         ...element.attribs,
@@ -150,7 +176,6 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // الجداول
                 if (element.name === "table") {
                     element.attribs = {
                         ...element.attribs,
@@ -159,23 +184,14 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // رأس الجدول
                 if (element.name === "thead") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "background-color: #eaeaea;",
-                    };
+                    element.attribs = { ...element.attribs, style: "background-color: #eaeaea;" };
                 }
 
-                // صفوف الجدول
                 if (element.name === "tr") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "border-bottom: 1px solid #ddd;",
-                    };
+                    element.attribs = { ...element.attribs, style: "border-bottom: 1px solid #ddd;" };
                 }
 
-                // خلايا رأس الجدول
                 if (element.name === "th") {
                     element.attribs = {
                         ...element.attribs,
@@ -184,7 +200,6 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // خلايا جسم الجدول
                 if (element.name === "td") {
                     element.attribs = {
                         ...element.attribs,
@@ -192,7 +207,6 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // القوائم UL و OL
                 if (element.name === "ul" || element.name === "ol") {
                     element.attribs = {
                         ...element.attribs,
@@ -201,7 +215,6 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // عناصر القائمة LI
                 if (element.name === "li") {
                     element.attribs = {
                         ...element.attribs,
@@ -209,15 +222,14 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // الصور
                 if (element.name === "img") {
                     element.attribs = {
                         ...element.attribs,
-                        style: "max-width: 100%; height: auto; margin: 1em 0; border-radius: 8px;",
+                        style:
+                            "max-width: 100%; height: auto; margin: 1em 0; border-radius: 8px;",
                     };
                 }
 
-                // الفقرات
                 if (element.name === "p") {
                     element.attribs = {
                         ...element.attribs,
@@ -225,7 +237,6 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // blockquote
                 if (element.name === "blockquote") {
                     element.attribs = {
                         ...element.attribs,
@@ -237,25 +248,47 @@ export default function VillaConstructionDetail() {
         },
     });
 
+    // Schema Markup (JSON-LD)
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: post.title.rendered,
+        description: cleanedContent.slice(0, 150),
+        image: image || "/images/default-blog.jpg",
+        author: {
+            "@type": "Person",
+            name: author,
+        },
+        publisher: {
+            "@type": "Organization",
+            name: "Karyani House Blog",
+            logo: {
+                "@type": "ImageObject",
+                url: "/images/logo.png", // Replace with your actual logo URL
+            },
+        },
+        datePublished: post.date,
+        dateModified: post.date,
+        url: `https://blog.karyani-house.com/${slug}`,
+    };
 
     return (
         <>
             <Header />
-            {/* Page Title */}
-            <BlogBackground
-                title={post.title.rendered}
-                category={category}
-            />
+            <BlogBackground title={post.title.rendered} category={category} />
 
-            {/* Main Content + Sidebar */}
+            {/* Inject JSON-LD Schema in the head */}
+            <script type="application/ld+json">{JSON.stringify(schema)}</script>
+
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
-
-                        {/* Main Content */}
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             {image && (
-                                <div className="image-box" style={{ position: "relative", width: "100%", height: "400px" }}>
+                                <div
+                                    className="image-box"
+                                    style={{ position: "relative", width: "100%", height: "400px" }}
+                                >
                                     <Image
                                         src={image}
                                         alt={post.title.rendered}
@@ -281,7 +314,6 @@ export default function VillaConstructionDetail() {
                                                     <li>{category}</li>
                                                 </ul>
 
-                                                {/* Table of Contents */}
                                                 <TableOfContents headings={headings} />
 
                                                 <div className="entry-content">{parsedContent}</div>
@@ -293,17 +325,10 @@ export default function VillaConstructionDetail() {
                             </div>
                         </div>
 
-                        {/* Sidebar */}
                         <Sidebar recentPosts={recentPosts} />
-
                     </div>
                 </div>
             </div>
-
-
-       
-
-
 
             <Footer />
         </>
