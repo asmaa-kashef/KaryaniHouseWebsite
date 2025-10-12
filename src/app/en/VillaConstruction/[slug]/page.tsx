@@ -14,6 +14,7 @@ interface PageProps {
     params: {
         slug: string;
     };
+    // Add this line
     searchParams?: { [key: string]: string | string[] | undefined };
 }
 
@@ -146,10 +147,10 @@ function removeFaqSection(html: string): string {
 }
 
 // ✅ الصفحة الرئيسية للتفاصيل
-export default async function VillaConstructionDetail({
-    params,
-}: PageProps): Promise<JSX.Element> {
-    const { slug } = params;
+export default async function VillaConstructionDetail(
+    props: PageProps
+): Promise<JSX.Element> {
+    const { slug } = props.params;
 
     const [postRes, recentRes] = await Promise.all([
         fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`, { next: { revalidate: 60 } }),
