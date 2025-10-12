@@ -9,10 +9,12 @@ import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-reac
 import Image from "next/image";
 
 // ✅ النوع الصحيح لـ props في Next.js 15
+// ✅ النوع الصحيح والمكتمل لـ props في Next.js
 interface PageProps {
     params: {
         slug: string;
     };
+    searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 // =======================
@@ -44,7 +46,58 @@ type Post = {
 
 const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
+// ✅ دالة توليد الميتا تاجز الديناميكية
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+    try {
+        const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${params.slug}&_embed`, {
+            next: { revalidate: 60 },
+        });
 
+        if (!res.ok) throw new Error("Failed to fetch metadata");
+
+        const data = await res.json();
+        const post = data[0];
+
+        if (!post)
+            return {
+                title: "Post Not Found - Karyani House Blog",
+                description: "This post does not exist or has been removed.",
+            };
+
+        const featuredImage =
+            post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-blog.jpg";
+
+        const cleanDescription = post.content.rendered
+            .replace(/<[^>]+>/g, "")
+            .replace(/\s+/g, " ")
+            .slice(0, 150);
+
+        return {
+            title: post.title.rendered + " - Karyani House Blog",
+            description: cleanDescription,
+            openGraph: {
+                title: post.title.rendered,
+                description: cleanDescription,
+                url: `https://blog.karyani-house.com/${params.slug}`,
+                type: "article",
+                images: [{ url: featuredImage }],
+            },
+            twitter: {
+                card: "summary_large_image",
+                title: post.title.rendered,
+                description: cleanDescription,
+                images: [featuredImage],
+            },
+        };
+    } catch (error) {
+        console.error("Error generating metadata:", error);
+        return {
+            title: "Karyani House Blog",
+            description:
+                "Explore expert articles about villa construction, interior design, and facade cladding in Abu Dhabi.",
+        };
+    }
+}
 
 type HeadingItem = {
     id: string;
