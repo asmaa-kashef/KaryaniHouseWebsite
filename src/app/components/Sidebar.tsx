@@ -4,8 +4,21 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+// Define type for a single post
+interface Post {
+    id: number;
+    slug: string;
+    title: {
+        rendered: string;
+    };
+    _embedded: {
+        "wp:featuredmedia"?: Array<{ source_url: string }>;
+        author?: Array<{ name: string }>;
+    };
+}
+
 type SidebarProps = {
-    recentPosts: any[];
+    recentPosts: Post[];
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ recentPosts }) => {
