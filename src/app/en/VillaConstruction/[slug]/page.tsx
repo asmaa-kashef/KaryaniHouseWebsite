@@ -8,7 +8,16 @@ import Sidebar from "../../../components/Sidebar";
 import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
 import Image from "next/image";
 
-// Types
+// ✅ النوع الصحيح لـ props في Next.js 15
+interface PageProps {
+    params: {
+        slug: string;
+    };
+}
+
+// =======================
+// أنواع بيانات WordPress
+// =======================
 interface WPEmbeddedMedia {
     source_url: string;
 }
@@ -134,18 +143,19 @@ function removeFaqSection(html: string): string {
     return html.replace(/<div[^>]*class="[^"]*uagb-faq[^"]*"[^>]*>[\s\S]*?<\/div>/gi, "");
 }
 
-// ✅ Server Component Page
-interface Props {
-    params: { slug: string };
-}
-
-export default async function VillaConstructionDetail({ params }: Props) {
-    const slug = params.slug;
+// ✅ الصفحة الرئيسية للتفاصيل
+export default async function VillaConstructionDetail({
+    params,
+}: PageProps): Promise<JSX.Element> {
+    const { slug } = params;
 
     const [postRes, recentRes] = await Promise.all([
-        fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`),
-        fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`),
+        fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`, { next: { revalidate: 60 } }),
+        fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`, { next: { revalidate: 60 } }),
     ]);
+
+    if (!postRes.ok) throw new Error("Failed to load post data");
+    if (!recentRes.ok) throw new Error("Failed to load recent posts");
 
     const postData: Post[] = await postRes.json();
     const recentData: Post[] = await recentRes.json();
@@ -153,7 +163,15 @@ export default async function VillaConstructionDetail({ params }: Props) {
     const post = postData[0] || null;
     const recentPosts = recentData || [];
 
-    if (!post) return <p>Post not found</p>;
+    if (!post) {
+        return (
+            <div style={{ padding: "4rem", textAlign: "center" }}>
+                <Header />
+                <h2>Post not found</h2>
+                <Footer />
+            </div>
+        );
+    }
 
     const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
     const author = post._embedded?.author?.[0]?.name || "Unknown author";
@@ -225,8 +243,7 @@ export default async function VillaConstructionDetail({ params }: Props) {
                 if (element.name === "img") {
                     element.attribs = {
                         ...element.attribs,
-                        style:
-                            "max-width: 100%; height: auto; margin: 1em 0; border-radius: 8px;",
+                        style: "max-width: 100%; height: auto; margin: 1em 0; border-radius: 8px;",
                     };
                 }
 
@@ -248,7 +265,7 @@ export default async function VillaConstructionDetail({ params }: Props) {
         },
     });
 
-    // Schema Markup (JSON-LD)
+    // ✅ Schema Markup (JSON-LD)
     const schema = {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -264,7 +281,7 @@ export default async function VillaConstructionDetail({ params }: Props) {
             name: "Karyani House Blog",
             logo: {
                 "@type": "ImageObject",
-                url: "/images/logo.png", // Replace with your actual logo URL
+                url: "/images/logo.png",
             },
         },
         datePublished: post.date,
@@ -272,12 +289,12 @@ export default async function VillaConstructionDetail({ params }: Props) {
         url: `https://blog.karyani-house.com/${slug}`,
     };
 
+    // ✅ واجهة الصفحة النهائية
     return (
         <>
             <Header />
             <BlogBackground title={post.title.rendered} category={category} />
 
-            {/* Inject JSON-LD Schema in the head */}
             <script type="application/ld+json">{JSON.stringify(schema)}</script>
 
             <div className="sidebar-page-container">
@@ -299,6 +316,7 @@ export default async function VillaConstructionDetail({ params }: Props) {
                                     />
                                 </div>
                             )}
+
                             <div className="blog-detail">
                                 <div className="news-block-two">
                                     <div className="inner-box">
@@ -325,6 +343,7 @@ export default async function VillaConstructionDetail({ params }: Props) {
                             </div>
                         </div>
 
+                        {/* ✅ السايدبار */}
                         <Sidebar recentPosts={recentPosts} />
                     </div>
                 </div>
