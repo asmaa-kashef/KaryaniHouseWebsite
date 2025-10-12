@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
@@ -46,11 +46,8 @@ type Post = {
 
 const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
-// ✅ توليد الميتاداتا الديناميكية
-export async function generateMetadata(
-    { params }: Props,
-    parent: ResolvingMetadata
-): Promise<Metadata> {
+// ✅ توليد الميتاداتا الديناميكية (من غير parent)
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
     try {
         const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${params.slug}&_embed`, {
             next: { revalidate: 60 },
