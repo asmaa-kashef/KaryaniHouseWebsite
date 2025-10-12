@@ -1,4 +1,5 @@
 ﻿import React from "react";
+import type { Metadata, ResolvingMetadata } from "next";
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
@@ -8,15 +9,13 @@ import Sidebar from "../../../components/Sidebar";
 import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
 import Image from "next/image";
 
-// ✅ النوع الصحيح لـ props في Next.js 15
-// ✅ النوع الصحيح والمكتمل لـ props في Next.js
-interface PageProps {
-    params: {
-        slug: string;
-    };
-    // Add this line
-    searchParams?: { [key: string]: string | string[] | undefined };
-}
+// ✅ لتفادي خطأ Type mismatch في build
+export const dynamicParams = true;
+
+// ✅ النوع الموحد للـ params
+type Props = {
+    params: { slug: string };
+};
 
 // =======================
 // أنواع بيانات WordPress
@@ -47,8 +46,11 @@ type Post = {
 
 const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
-// ✅ دالة توليد الميتا تاجز الديناميكية
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+// ✅ توليد الميتاداتا الديناميكية
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
     try {
         const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${params.slug}&_embed`, {
             next: { revalidate: 60 },
@@ -147,10 +149,8 @@ function removeFaqSection(html: string): string {
 }
 
 // ✅ الصفحة الرئيسية للتفاصيل
-export default async function VillaConstructionDetail(
-    props: PageProps
-): Promise<JSX.Element> {
-    const { slug } = props.params;
+export default async function VillaConstructionDetail({ params }: Props): Promise<JSX.Element> {
+    const { slug } = params;
 
     const [postRes, recentRes] = await Promise.all([
         fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`, { next: { revalidate: 60 } }),
