@@ -46,7 +46,7 @@ const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
 // ✅ الخطوة 2: إنشاء دالة generateMetadata
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { slug } = params;
+    const { slug } = await params;
 
     try {
         // ✅ الخطوة 3: جلب الميتا تايتل والديسكربشن هنا
@@ -117,7 +117,7 @@ function removeFaqSection(html: string): string {
 
 // ✅ مكون الصفحة الرئيسي - Async Server Component
 export default async function VillaConstructionDetail({ params }: Props) {
-    const { slug } = params;
+    const { slug } = await params;
 
     // Fetch post and recent posts
     const [postRes, recentRes] = await Promise.all([
