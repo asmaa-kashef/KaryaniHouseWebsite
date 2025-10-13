@@ -9,16 +9,6 @@ import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-reac
 import Image from "next/image";
 
 // Types
-interface WPEmbeddedMedia {
-    source_url: string;
-}
-interface WPAuthor {
-    name: string;
-}
-interface WPTerm {
-    name: string;
-}
-
 type Post = {
     id: number;
     slug: string;
@@ -26,10 +16,9 @@ type Post = {
     content: { rendered: string };
     date: string;
     author: number;
-    _embedded?: {
-        "wp:featuredmedia"?: WPEmbeddedMedia[];
-        author?: WPAuthor[];
-        "wp:term"?: WPTerm[][];
+    _embedded: {  // ✅ غير اختياري ليتوافق مع Sidebar
+        "wp:featuredmedia"?: { source_url: string }[];
+        author?: { name: string }[];
     };
 };
 
@@ -87,7 +76,6 @@ type Props = {
     params: Promise<{ slug: string }>;
 };
 
-
 // ✅ Async Server Component
 export default async function VillaConstructionDetail({ params }: Props) {
     const { slug } = await params;
@@ -105,15 +93,20 @@ export default async function VillaConstructionDetail({ params }: Props) {
     const postData: Post[] = await postRes.json();
     const recentData: Post[] = await recentRes.json();
 
-    const post = postData[0] || null;
+    const post = postData[0];
     if (!post) return <p>Post not found</p>;
 
-    const recentPosts = recentData || [];
+    // ✅ Ensure _embedded always exists
+    post._embedded = post._embedded || {};
+    const recentPosts: Post[] = (recentData || []).map(p => ({
+        ...p,
+        _embedded: p._embedded || {},
+    }));
 
-    const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
-    const author = post._embedded?.author?.[0]?.name || "Unknown author";
+    const image = post._embedded["wp:featuredmedia"]?.[0]?.source_url || "";
+    const author = post._embedded.author?.[0]?.name || "Unknown author";
     const date = new Date(post.date).toLocaleDateString("ar-EG");
-    const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "General";
+    const category = "General";
 
     const headings = extractHeadings(post.content.rendered);
     const cleanedContent = post.content?.rendered ? removeFaqSection(post.content.rendered) : "";
@@ -123,78 +116,21 @@ export default async function VillaConstructionDetail({ params }: Props) {
             if (domNode.type === "tag") {
                 const element = domNode as Element;
 
-                // Headings
                 if (/^h[1-6]$/.test(element.name)) {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;",
-                    };
+                    element.attribs = { ...element.attribs, style: "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;" };
                 }
-
-                // Tables
                 if (element.name === "table") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style:
-                            "width: 100%; border-collapse: collapse; margin: 1em 0; border: 1px solid #ddd; background-color: #f9f9f9;",
-                    };
+                    element.attribs = { ...element.attribs, style: "width:100%; border-collapse:collapse; margin:1em 0; border:1px solid #ddd; background-color:#f9f9f9;" };
                 }
-                if (element.name === "thead") {
-                    element.attribs = { ...element.attribs, style: "background-color: #eaeaea;" };
-                }
-                if (element.name === "tr") {
-                    element.attribs = { ...element.attribs, style: "border-bottom: 1px solid #ddd;" };
-                }
-                if (element.name === "th") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style:
-                            "padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: bold; color: black;",
-                    };
-                }
-                if (element.name === "td") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "padding: 12px; border: 1px solid #ddd; color: black;",
-                    };
-                }
-
-                // Lists
-                if (element.name === "ul" || element.name === "ol") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style:
-                            "margin: 1em 0; padding-left: 1.8em; color: black; direction: ltr; list-style-position: outside; list-style-type: disc;",
-                    };
-                }
-                if (element.name === "li") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "margin-bottom: 0.8em; list-style-type: disc;",
-                    };
-                }
-
-                // Images
-                if (element.name === "img") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "max-width: 100%; height: auto; margin: 1em 0; border-radius: 8px;",
-                    };
-                }
-
-                // Paragraphs
-                if (element.name === "p") {
-                    element.attribs = { ...element.attribs, style: "margin-bottom: 1em; color: black;" };
-                }
-
-                // Blockquotes
-                if (element.name === "blockquote") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style:
-                            "border-left: 4px solid #db2777; padding-left: 1em; color: black; font-style: italic; margin: 1em 0;",
-                    };
-                }
+                if (element.name === "thead") element.attribs = { ...element.attribs, style: "background-color: #eaeaea;" };
+                if (element.name === "tr") element.attribs = { ...element.attribs, style: "border-bottom:1px solid #ddd;" };
+                if (element.name === "th") element.attribs = { ...element.attribs, style: "padding:12px; text-align:left; border:1px solid #ddd; font-weight:bold; color:black;" };
+                if (element.name === "td") element.attribs = { ...element.attribs, style: "padding:12px; border:1px solid #ddd; color:black;" };
+                if (element.name === "ul" || element.name === "ol") element.attribs = { ...element.attribs, style: "margin:1em 0; padding-left:1.8em; color:black; direction:ltr; list-style-position:outside; list-style-type:disc;" };
+                if (element.name === "li") element.attribs = { ...element.attribs, style: "margin-bottom:0.8em; list-style-type:disc;" };
+                if (element.name === "img") element.attribs = { ...element.attribs, style: "max-width:100%; height:auto; margin:1em 0; border-radius:8px;" };
+                if (element.name === "p") element.attribs = { ...element.attribs, style: "margin-bottom:1em; color:black;" };
+                if (element.name === "blockquote") element.attribs = { ...element.attribs, style: "border-left:4px solid #db2777; padding-left:1em; color:black; font-style:italic; margin:1em 0;" };
             }
         },
     });
@@ -209,18 +145,8 @@ export default async function VillaConstructionDetail({ params }: Props) {
                     <div className="row clearfix">
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             {image && (
-                                <div
-                                    className="image-box"
-                                    style={{ position: "relative", width: "100%", height: "400px" }}
-                                >
-                                    <Image
-                                        src={image}
-                                        alt={post.title.rendered}
-                                        fill
-                                        style={{ objectFit: "cover", borderRadius: "8px" }}
-                                        sizes="(max-width: 768px) 100vw, 800px"
-                                        priority
-                                    />
+                                <div className="image-box" style={{ position: "relative", width: "100%", height: "400px" }}>
+                                    <Image src={image} alt={post.title.rendered} fill style={{ objectFit: "cover", borderRadius: "8px" }} sizes="(max-width:768px) 100vw,800px" priority />
                                 </div>
                             )}
 
@@ -229,10 +155,7 @@ export default async function VillaConstructionDetail({ params }: Props) {
                                     <div className="inner-box">
                                         <div className="caption-box">
                                             <div className="inner">
-                                                <h3
-                                                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                                                    style={{ fontFamily: "system-ui, math", color: "black" }}
-                                                />
+                                                <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered }} style={{ fontFamily: "system-ui, math", color: "black" }} />
                                                 <ul className="info">
                                                     <li>{date}</li>
                                                     <li>{author}</li>
