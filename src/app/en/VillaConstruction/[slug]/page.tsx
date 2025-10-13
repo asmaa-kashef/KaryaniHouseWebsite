@@ -84,8 +84,9 @@ function removeFaqSection(html: string): string {
 
 // ✅ Correct Props type (main fix)
 type Props = {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 };
+
 
 // ✅ Async Server Component
 export default async function VillaConstructionDetail({ params }: Props) {
