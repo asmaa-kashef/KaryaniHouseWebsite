@@ -77,33 +77,37 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
-// Server-side manipulation without document
+// Remove FAQ section from content before rendering
 function removeFaqSection(html: string): string {
-    // Removing all elements with class containing "uagb-faq" (for FAQ sections)
     return html.replace(/<div[^>]*class="[^"]*uagb-faq[^"]*"[^>]*>[\s\S]*?<\/div>/gi, "");
 }
 
-// Server Component
-interface Props {
+// ✅ Correct Props type (main fix)
+type Props = {
     params: { slug: string };
-}
+};
 
+// ✅ Async Server Component
 export default async function VillaConstructionDetail({ params }: Props) {
-    const slug = params.slug;
+    const { slug } = await params;
 
     // Fetch Post and Recent Posts
     const [postRes, recentRes] = await Promise.all([
-        fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`),
-        fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`),
+        fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`, { cache: "no-store" }),
+        fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`, { cache: "no-store" }),
     ]);
+
+    if (!postRes.ok || !recentRes.ok) {
+        throw new Error("Failed to fetch data from WordPress API.");
+    }
 
     const postData: Post[] = await postRes.json();
     const recentData: Post[] = await recentRes.json();
 
     const post = postData[0] || null;
-    const recentPosts = recentData || [];
-
     if (!post) return <p>Post not found</p>;
+
+    const recentPosts = recentData || [];
 
     const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
     const author = post._embedded?.author?.[0]?.name || "Unknown author";
@@ -111,22 +115,22 @@ export default async function VillaConstructionDetail({ params }: Props) {
     const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "General";
 
     const headings = extractHeadings(post.content.rendered);
-
-    const cleanedContent = post?.content?.rendered ? removeFaqSection(post.content.rendered) : "";
+    const cleanedContent = post.content?.rendered ? removeFaqSection(post.content.rendered) : "";
 
     const parsedContent = parse(cleanedContent, {
         replace: (domNode) => {
             if (domNode.type === "tag") {
                 const element = domNode as Element;
 
+                // Headings
                 if (/^h[1-6]$/.test(element.name)) {
                     element.attribs = {
                         ...element.attribs,
-                        style:
-                            "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;",
+                        style: "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;",
                     };
                 }
 
+                // Tables
                 if (element.name === "table") {
                     element.attribs = {
                         ...element.attribs,
@@ -134,15 +138,12 @@ export default async function VillaConstructionDetail({ params }: Props) {
                             "width: 100%; border-collapse: collapse; margin: 1em 0; border: 1px solid #ddd; background-color: #f9f9f9;",
                     };
                 }
-
                 if (element.name === "thead") {
                     element.attribs = { ...element.attribs, style: "background-color: #eaeaea;" };
                 }
-
                 if (element.name === "tr") {
                     element.attribs = { ...element.attribs, style: "border-bottom: 1px solid #ddd;" };
                 }
-
                 if (element.name === "th") {
                     element.attribs = {
                         ...element.attribs,
@@ -150,11 +151,14 @@ export default async function VillaConstructionDetail({ params }: Props) {
                             "padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: bold; color: black;",
                     };
                 }
-
                 if (element.name === "td") {
-                    element.attribs = { ...element.attribs, style: "padding: 12px; border: 1px solid #ddd; color: black;" };
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "padding: 12px; border: 1px solid #ddd; color: black;",
+                    };
                 }
 
+                // Lists
                 if (element.name === "ul" || element.name === "ol") {
                     element.attribs = {
                         ...element.attribs,
@@ -162,11 +166,14 @@ export default async function VillaConstructionDetail({ params }: Props) {
                             "margin: 1em 0; padding-left: 1.8em; color: black; direction: ltr; list-style-position: outside; list-style-type: disc;",
                     };
                 }
-
                 if (element.name === "li") {
-                    element.attribs = { ...element.attribs, style: "margin-bottom: 0.8em; list-style-type: disc;" };
+                    element.attribs = {
+                        ...element.attribs,
+                        style: "margin-bottom: 0.8em; list-style-type: disc;",
+                    };
                 }
 
+                // Images
                 if (element.name === "img") {
                     element.attribs = {
                         ...element.attribs,
@@ -174,10 +181,12 @@ export default async function VillaConstructionDetail({ params }: Props) {
                     };
                 }
 
+                // Paragraphs
                 if (element.name === "p") {
                     element.attribs = { ...element.attribs, style: "margin-bottom: 1em; color: black;" };
                 }
 
+                // Blockquotes
                 if (element.name === "blockquote") {
                     element.attribs = {
                         ...element.attribs,
@@ -199,7 +208,10 @@ export default async function VillaConstructionDetail({ params }: Props) {
                     <div className="row clearfix">
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             {image && (
-                                <div className="image-box" style={{ position: "relative", width: "100%", height: "400px" }}>
+                                <div
+                                    className="image-box"
+                                    style={{ position: "relative", width: "100%", height: "400px" }}
+                                >
                                     <Image
                                         src={image}
                                         alt={post.title.rendered}
@@ -210,6 +222,7 @@ export default async function VillaConstructionDetail({ params }: Props) {
                                     />
                                 </div>
                             )}
+
                             <div className="blog-detail">
                                 <div className="news-block-two">
                                     <div className="inner-box">
@@ -226,7 +239,6 @@ export default async function VillaConstructionDetail({ params }: Props) {
                                                 </ul>
 
                                                 <TableOfContents headings={headings} />
-
                                                 <div className="entry-content">{parsedContent}</div>
                                                 <FAQAccordion htmlContent={post.content.rendered} />
                                             </div>
