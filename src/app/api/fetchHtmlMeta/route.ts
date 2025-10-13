@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import cheerio from "cheerio";
-
+import * as cheerio from "cheerio";
 export async function GET(request: NextRequest) {
     const url = request.nextUrl.searchParams.get("url");
     if (!url) {
