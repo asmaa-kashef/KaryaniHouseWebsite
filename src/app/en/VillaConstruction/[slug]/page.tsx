@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import { Metadata} from 'next'; // ✅ الخطوة 1: استيراد Metadata
+import { Metadata } from 'next';
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
@@ -10,7 +10,6 @@ import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-reac
 import Image from "next/image";
 import * as cheerio from "cheerio";
 import axios from "axios";
-
 
 // Types
 type Post = {
@@ -37,19 +36,17 @@ type HeadingItem = {
     level: number;
 };
 
-// Props Type for both Page and generateMetadata
 type Props = {
     params: Promise<{ slug: string }>;
 };
 
 const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
-// ✅ الخطوة 2: إنشاء دالة generateMetadata
+// Generate Metadata
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
 
     try {
-        // ✅ الخطوة 3: جلب الميتا تايتل والديسكربشن هنا
         const externalUrl = `https://blog.karyani-house.com/${slug}/`;
         const { data: rawHtml } = await axios.get(externalUrl);
         const $ = cheerio.load(rawHtml);
@@ -57,14 +54,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         const metaTitle = $("title").text();
         const metaDescription = $('meta[name="description"]').attr("content") || "";
 
-        // ✅ الخطوة 4: إرجاع كائن الميتا
         return {
             title: metaTitle,
             description: metaDescription,
         };
     } catch (error) {
         console.error("Failed to generate metadata:", error);
-        // في حالة الفشل، يمكن إرجاع قيم افتراضية
         return {
             title: "Blog Post",
             description: "Failed to load description.",
@@ -72,8 +67,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 
-
-// Helper functions (تبقى كما هي)
+// Helper functions
 function getTextFromChildren(children: DOMNode[]): string {
     return children
         .map((child) => {
@@ -114,8 +108,7 @@ function removeFaqSection(html: string): string {
     return html.replace(/<div[^>]*class="[^"]*uagb-faq[^"]*"[^>]*>[\s\S]*?<\/div>/gi, "");
 }
 
-
-// ✅ مكون الصفحة الرئيسي - Async Server Component
+// Main Component
 export default async function VillaConstructionDetail({ params }: Props) {
     const { slug } = await params;
 
@@ -162,29 +155,41 @@ export default async function VillaConstructionDetail({ params }: Props) {
         },
     });
 
-    // ✅ الخطوة 5: تم حذف كود axios و cheerio من هنا لأنه الآن في generateMetadata
-    // لم نعد بحاجة إلى المتغيرات metaTitle و metaDescription داخل المكون
+    // Schema JSON-LD
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://blog.karyani-house.com/${slug}/`
+        },
+        "headline": post.title.rendered,
+        "description": post._embedded?.yoast_head_json?.[0]?.description || "",
+        "image": image ? [image] : [],
+        "author": {
+            "@type": "Person",
+            "name": author
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Karyani House",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://blog.karyani-house.com/path-to-logo.png"
+            }
+        },
+        "datePublished": post.date,
+        "dateModified": post.date
+    };
 
     return (
         <>
             <Header />
-            <BlogBackground title={post.title.rendered} category={category} />
 
-            {/* ❌ تم حذف هذا الجزء لأنه لم يعد ضرورياً */}
-            {/* <div className="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-12 gap-8">
-                <div className="md:col-span-9">
-                    <h1 className="text-3xl font-bold mb-4">{post.title.rendered}</h1>
-                    <p className="text-sm text-gray-500 mb-2">
-                        Published on {new Date(post.date).toLocaleDateString()}
-                    </p>
-                    <div className="mb-4">
-                        <strong>Meta Title:</strong> {metaTitle}
-                        <br />
-                        <strong>Meta Description:</strong> {metaDescription}
-                    </div>
-                </div>
-            </div> 
-            */}
+            {/* JSON-LD Schema */}
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+
+            <BlogBackground title={post.title.rendered} category={category} />
 
             <div className="sidebar-page-container">
                 <div className="auto-container">
