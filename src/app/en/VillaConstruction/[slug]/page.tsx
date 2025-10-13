@@ -39,7 +39,7 @@ type HeadingItem = {
 
 // Props Type for both Page and generateMetadata
 type Props = {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 };
 
 const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
