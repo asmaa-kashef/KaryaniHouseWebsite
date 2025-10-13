@@ -1,4 +1,6 @@
-﻿import React from "react";
+﻿// app/en/VillaConstruction/[slug]/page.tsx
+import React from "react";
+import type { Metadata } from "next";
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
@@ -9,7 +11,7 @@ import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-reac
 import Image from "next/image";
 
 // Types
-type Post = {
+export type Post = {
     id: number;
     slug: string;
     title: { rendered: string };
@@ -30,6 +32,7 @@ type HeadingItem = {
 
 const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
+// Utility functions
 function getTextFromChildren(children: DOMNode[]): string {
     return children
         .map((child) => {
@@ -66,17 +69,65 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
-// Remove FAQ section from content before rendering
 function removeFaqSection(html: string): string {
     return html.replace(/<div[^>]*class="[^"]*uagb-faq[^"]*"[^>]*>[\s\S]*?<\/div>/gi, "");
 }
 
-// ✅ Correct Props type (main fix)
-type Props = {
-    params: Promise<{ slug: string }>;
-};
+// ---------------------- Generate Metadata ----------------------
+type PageProps = { params: { slug: string } };
 
-// ✅ Async Server Component
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    try {
+        const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${params.slug}&_embed`, {
+            next: { revalidate: 60 },
+        });
+        if (!res.ok) throw new Error("Failed to fetch metadata");
+
+        const data: Post[] = await res.json();
+        const post = data[0];
+
+        if (!post) {
+            return {
+                title: "Post Not Found - Karyani House Blog",
+                description: "This post does not exist or has been removed.",
+            };
+        }
+
+        const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-blog.jpg";
+        const cleanDescription = post.content.rendered
+            .replace(/<[^>]+>/g, "")
+            .replace(/\s+/g, " ")
+            .slice(0, 150);
+
+        return {
+            title: post.title.rendered + " - Karyani House Blog",
+            description: cleanDescription,
+            openGraph: {
+                title: post.title.rendered,
+                description: cleanDescription,
+                url: `https://blog.karyani-house.com/${params.slug}`,
+                type: "article",
+                images: [{ url: featuredImage }],
+            },
+            twitter: {
+                card: "summary_large_image",
+                title: post.title.rendered,
+                description: cleanDescription,
+                images: [featuredImage],
+            },
+        };
+    } catch (error) {
+        console.error("Error generating metadata:", error);
+        return {
+            title: "Karyani House Blog",
+            description: "Explore expert articles about villa construction, interior design, and facade cladding in Abu Dhabi.",
+        };
+    }
+}
+
+// ---------------------- Page Component ----------------------
+type Props = { params: Promise<{ slug: string }> };
+
 export default async function VillaConstructionDetail({ params }: Props) {
     const { slug } = await params;
 
@@ -86,9 +137,7 @@ export default async function VillaConstructionDetail({ params }: Props) {
         fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`, { cache: "no-store" }),
     ]);
 
-    if (!postRes.ok || !recentRes.ok) {
-        throw new Error("Failed to fetch data from WordPress API.");
-    }
+    if (!postRes.ok || !recentRes.ok) throw new Error("Failed to fetch data from WordPress API.");
 
     const postData: Post[] = await postRes.json();
     const recentData: Post[] = await recentRes.json();
@@ -96,12 +145,8 @@ export default async function VillaConstructionDetail({ params }: Props) {
     const post = postData[0];
     if (!post) return <p>Post not found</p>;
 
-    // ✅ Ensure _embedded always exists
     post._embedded = post._embedded || {};
-    const recentPosts: Post[] = (recentData || []).map(p => ({
-        ...p,
-        _embedded: p._embedded || {},
-    }));
+    const recentPosts: Post[] = (recentData || []).map((p) => ({ ...p, _embedded: p._embedded || {} }));
 
     const image = post._embedded["wp:featuredmedia"]?.[0]?.source_url || "";
     const author = post._embedded.author?.[0]?.name || "Unknown author";
@@ -109,19 +154,14 @@ export default async function VillaConstructionDetail({ params }: Props) {
     const category = "General";
 
     const headings = extractHeadings(post.content.rendered);
-    const cleanedContent = post.content?.rendered ? removeFaqSection(post.content.rendered) : "";
+    const cleanedContent = removeFaqSection(post.content.rendered);
 
     const parsedContent = parse(cleanedContent, {
         replace: (domNode) => {
             if (domNode.type === "tag") {
                 const element = domNode as Element;
-
-                if (/^h[1-6]$/.test(element.name)) {
-                    element.attribs = { ...element.attribs, style: "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;" };
-                }
-                if (element.name === "table") {
-                    element.attribs = { ...element.attribs, style: "width:100%; border-collapse:collapse; margin:1em 0; border:1px solid #ddd; background-color:#f9f9f9;" };
-                }
+                if (/^h[1-6]$/.test(element.name)) element.attribs = { ...element.attribs, style: "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;" };
+                if (element.name === "table") element.attribs = { ...element.attribs, style: "width:100%; border-collapse:collapse; margin:1em 0; border:1px solid #ddd; background-color:#f9f9f9;" };
                 if (element.name === "thead") element.attribs = { ...element.attribs, style: "background-color: #eaeaea;" };
                 if (element.name === "tr") element.attribs = { ...element.attribs, style: "border-bottom:1px solid #ddd;" };
                 if (element.name === "th") element.attribs = { ...element.attribs, style: "padding:12px; text-align:left; border:1px solid #ddd; font-weight:bold; color:black;" };
