@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import { Metadata, ResolvingMetadata } from 'next'; // ✅ الخطوة 1: استيراد Metadata
+import { Metadata} from 'next'; // ✅ الخطوة 1: استيراد Metadata
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
