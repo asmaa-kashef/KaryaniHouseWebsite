@@ -1,6 +1,4 @@
-﻿// app/en/VillaConstruction/[slug]/page.tsx
-import React from "react";
-import type { Metadata } from "next";
+﻿import React from "react";
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
@@ -9,16 +7,17 @@ import BlogBackground from "../../../components/BlogBackground";
 import Sidebar from "../../../components/Sidebar";
 import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
 import Image from "next/image";
+import type { Metadata } from "next";
 
 // Types
-export type Post = {
+type Post = {
     id: number;
     slug: string;
     title: { rendered: string };
     content: { rendered: string };
     date: string;
     author: number;
-    _embedded: {  // ✅ غير اختياري ليتوافق مع Sidebar
+    _embedded: {
         "wp:featuredmedia"?: { source_url: string }[];
         author?: { name: string }[];
     };
@@ -32,7 +31,7 @@ type HeadingItem = {
 
 const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
-// Utility functions
+// Helper functions
 function getTextFromChildren(children: DOMNode[]): string {
     return children
         .map((child) => {
@@ -73,19 +72,23 @@ function removeFaqSection(html: string): string {
     return html.replace(/<div[^>]*class="[^"]*uagb-faq[^"]*"[^>]*>[\s\S]*?<\/div>/gi, "");
 }
 
-// ---------------------- Generate Metadata ----------------------
-type PageProps = { params: { slug: string } };
+// Props
+type Props = {
+    params: Promise<{ slug: string }>;
+};
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+// ✅ generateMetadata
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { slug } = await params;
+
     try {
-        const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${params.slug}&_embed`, {
+        const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`, {
             next: { revalidate: 60 },
         });
         if (!res.ok) throw new Error("Failed to fetch metadata");
 
         const data: Post[] = await res.json();
         const post = data[0];
-
         if (!post) {
             return {
                 title: "Post Not Found - Karyani House Blog",
@@ -94,10 +97,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         }
 
         const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-blog.jpg";
-        const cleanDescription = post.content.rendered
-            .replace(/<[^>]+>/g, "")
-            .replace(/\s+/g, " ")
-            .slice(0, 150);
+        const cleanDescription = post.content.rendered.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").slice(0, 150);
 
         return {
             title: post.title.rendered + " - Karyani House Blog",
@@ -105,7 +105,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             openGraph: {
                 title: post.title.rendered,
                 description: cleanDescription,
-                url: `https://blog.karyani-house.com/${params.slug}`,
+                url: `https://blog.karyani-house.com/${slug}`,
                 type: "article",
                 images: [{ url: featuredImage }],
             },
@@ -125,13 +125,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 }
 
-// ---------------------- Page Component ----------------------
-type Props = { params: Promise<{ slug: string }> };
-
+// ✅ Async Server Component
 export default async function VillaConstructionDetail({ params }: Props) {
     const { slug } = await params;
 
-    // Fetch Post and Recent Posts
+    // Fetch post and recent posts
     const [postRes, recentRes] = await Promise.all([
         fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`, { cache: "no-store" }),
         fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`, { cache: "no-store" }),
@@ -141,7 +139,6 @@ export default async function VillaConstructionDetail({ params }: Props) {
 
     const postData: Post[] = await postRes.json();
     const recentData: Post[] = await recentRes.json();
-
     const post = postData[0];
     if (!post) return <p>Post not found</p>;
 
@@ -179,7 +176,6 @@ export default async function VillaConstructionDetail({ params }: Props) {
         <>
             <Header />
             <BlogBackground title={post.title.rendered} category={category} />
-
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
@@ -189,7 +185,6 @@ export default async function VillaConstructionDetail({ params }: Props) {
                                     <Image src={image} alt={post.title.rendered} fill style={{ objectFit: "cover", borderRadius: "8px" }} sizes="(max-width:768px) 100vw,800px" priority />
                                 </div>
                             )}
-
                             <div className="blog-detail">
                                 <div className="news-block-two">
                                     <div className="inner-box">
@@ -201,7 +196,6 @@ export default async function VillaConstructionDetail({ params }: Props) {
                                                     <li>{author}</li>
                                                     <li>{category}</li>
                                                 </ul>
-
                                                 <TableOfContents headings={headings} />
                                                 <div className="entry-content">{parsedContent}</div>
                                                 <FAQAccordion htmlContent={post.content.rendered} />
@@ -211,12 +205,10 @@ export default async function VillaConstructionDetail({ params }: Props) {
                                 </div>
                             </div>
                         </div>
-
                         <Sidebar recentPosts={recentPosts} />
                     </div>
                 </div>
             </div>
-
             <Footer />
         </>
     );
