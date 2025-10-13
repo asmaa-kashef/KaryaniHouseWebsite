@@ -1,5 +1,4 @@
 ﻿import React from "react";
-import type { Metadata } from "next";
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
@@ -9,17 +8,7 @@ import Sidebar from "../../../components/Sidebar";
 import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
 import Image from "next/image";
 
-// ✅ لتفادي خطأ Type mismatch في build
-export const dynamicParams = true;
-
-// ✅ النوع الموحد للـ params
-type Props = {
-    params: { slug: string };
-};
-
-// =======================
-// أنواع بيانات WordPress
-// =======================
+// Types
 interface WPEmbeddedMedia {
     source_url: string;
 }
@@ -44,66 +33,13 @@ type Post = {
     };
 };
 
-const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
-
-// ✅ توليد الميتاداتا الديناميكية (من غير parent)
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    try {
-        const res = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${params.slug}&_embed`, {
-            next: { revalidate: 60 },
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch metadata");
-
-        const data = await res.json();
-        const post = data[0];
-
-        if (!post)
-            return {
-                title: "Post Not Found - Karyani House Blog",
-                description: "This post does not exist or has been removed.",
-            };
-
-        const featuredImage =
-            post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-blog.jpg";
-
-        const cleanDescription = post.content.rendered
-            .replace(/<[^>]+>/g, "")
-            .replace(/\s+/g, " ")
-            .slice(0, 150);
-
-        return {
-            title: post.title.rendered + " - Karyani House Blog",
-            description: cleanDescription,
-            openGraph: {
-                title: post.title.rendered,
-                description: cleanDescription,
-                url: `https://blog.karyani-house.com/${params.slug}`,
-                type: "article",
-                images: [{ url: featuredImage }],
-            },
-            twitter: {
-                card: "summary_large_image",
-                title: post.title.rendered,
-                description: cleanDescription,
-                images: [featuredImage],
-            },
-        };
-    } catch (error) {
-        console.error("Error generating metadata:", error);
-        return {
-            title: "Karyani House Blog",
-            description:
-                "Explore expert articles about villa construction, interior design, and facade cladding in Abu Dhabi.",
-        };
-    }
-}
-
 type HeadingItem = {
     id: string;
     text: string;
     level: number;
 };
+
+const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
 function getTextFromChildren(children: DOMNode[]): string {
     return children
@@ -141,21 +77,25 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
+// Server-side manipulation without document
 function removeFaqSection(html: string): string {
+    // Removing all elements with class containing "uagb-faq" (for FAQ sections)
     return html.replace(/<div[^>]*class="[^"]*uagb-faq[^"]*"[^>]*>[\s\S]*?<\/div>/gi, "");
 }
 
-// ✅ الصفحة الرئيسية للتفاصيل
-export default async function VillaConstructionDetail({ params }: Props): Promise<JSX.Element> {
-    const { slug } = params;
+// Server Component
+interface Props {
+    params: { slug: string };
+}
 
+export default async function VillaConstructionDetail({ params }: Props) {
+    const slug = params.slug;
+
+    // Fetch Post and Recent Posts
     const [postRes, recentRes] = await Promise.all([
-        fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`, { next: { revalidate: 60 } }),
-        fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`, { next: { revalidate: 60 } }),
+        fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`),
+        fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`),
     ]);
-
-    if (!postRes.ok) throw new Error("Failed to load post data");
-    if (!recentRes.ok) throw new Error("Failed to load recent posts");
 
     const postData: Post[] = await postRes.json();
     const recentData: Post[] = await recentRes.json();
@@ -163,15 +103,7 @@ export default async function VillaConstructionDetail({ params }: Props): Promis
     const post = postData[0] || null;
     const recentPosts = recentData || [];
 
-    if (!post) {
-        return (
-            <div style={{ padding: "4rem", textAlign: "center" }}>
-                <Header />
-                <h2>Post not found</h2>
-                <Footer />
-            </div>
-        );
-    }
+    if (!post) return <p>Post not found</p>;
 
     const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
     const author = post._embedded?.author?.[0]?.name || "Unknown author";
@@ -179,6 +111,7 @@ export default async function VillaConstructionDetail({ params }: Props): Promis
     const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "General";
 
     const headings = extractHeadings(post.content.rendered);
+
     const cleanedContent = post?.content?.rendered ? removeFaqSection(post.content.rendered) : "";
 
     const parsedContent = parse(cleanedContent, {
@@ -219,10 +152,7 @@ export default async function VillaConstructionDetail({ params }: Props): Promis
                 }
 
                 if (element.name === "td") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "padding: 12px; border: 1px solid #ddd; color: black;",
-                    };
+                    element.attribs = { ...element.attribs, style: "padding: 12px; border: 1px solid #ddd; color: black;" };
                 }
 
                 if (element.name === "ul" || element.name === "ol") {
@@ -234,10 +164,7 @@ export default async function VillaConstructionDetail({ params }: Props): Promis
                 }
 
                 if (element.name === "li") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "margin-bottom: 0.8em; list-style-type: disc;",
-                    };
+                    element.attribs = { ...element.attribs, style: "margin-bottom: 0.8em; list-style-type: disc;" };
                 }
 
                 if (element.name === "img") {
@@ -248,10 +175,7 @@ export default async function VillaConstructionDetail({ params }: Props): Promis
                 }
 
                 if (element.name === "p") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "margin-bottom: 1em; color: black;",
-                    };
+                    element.attribs = { ...element.attribs, style: "margin-bottom: 1em; color: black;" };
                 }
 
                 if (element.name === "blockquote") {
@@ -265,47 +189,17 @@ export default async function VillaConstructionDetail({ params }: Props): Promis
         },
     });
 
-    // ✅ Schema Markup (JSON-LD)
-    const schema = {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        headline: post.title.rendered,
-        description: cleanedContent.slice(0, 150),
-        image: image || "/images/default-blog.jpg",
-        author: {
-            "@type": "Person",
-            name: author,
-        },
-        publisher: {
-            "@type": "Organization",
-            name: "Karyani House Blog",
-            logo: {
-                "@type": "ImageObject",
-                url: "/images/logo.png",
-            },
-        },
-        datePublished: post.date,
-        dateModified: post.date,
-        url: `https://blog.karyani-house.com/${slug}`,
-    };
-
-    // ✅ واجهة الصفحة النهائية
     return (
         <>
             <Header />
             <BlogBackground title={post.title.rendered} category={category} />
-
-            <script type="application/ld+json">{JSON.stringify(schema)}</script>
 
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             {image && (
-                                <div
-                                    className="image-box"
-                                    style={{ position: "relative", width: "100%", height: "400px" }}
-                                >
+                                <div className="image-box" style={{ position: "relative", width: "100%", height: "400px" }}>
                                     <Image
                                         src={image}
                                         alt={post.title.rendered}
@@ -316,7 +210,6 @@ export default async function VillaConstructionDetail({ params }: Props): Promis
                                     />
                                 </div>
                             )}
-
                             <div className="blog-detail">
                                 <div className="news-block-two">
                                     <div className="inner-box">
@@ -343,7 +236,6 @@ export default async function VillaConstructionDetail({ params }: Props): Promis
                             </div>
                         </div>
 
-                        {/* ✅ السايدبار */}
                         <Sidebar recentPosts={recentPosts} />
                     </div>
                 </div>
