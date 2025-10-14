@@ -1,5 +1,6 @@
 ﻿import React from "react";
 import { Metadata } from 'next';
+import Head from "next/head"; // <--- استيراد Head
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
@@ -155,13 +156,16 @@ export default async function VillaConstructionDetail({ params }: Props) {
         },
     });
 
+    // Canonical URL
+    const canonicalUrl = `https://www.karyani-house.com/en/VillaConstruction/${slug}`;
+
     // Schema JSON-LD
     const schema = {
         "@context": "https://schema.org",
         "@type": "Article",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `https://blog.karyani-house.com/${slug}/`
+            "@id": canonicalUrl
         },
         "headline": post.title.rendered,
         "description": post._embedded?.yoast_head_json?.[0]?.description || "",
@@ -184,6 +188,10 @@ export default async function VillaConstructionDetail({ params }: Props) {
 
     return (
         <>
+            <Head>
+                <link rel="canonical" href={canonicalUrl} />
+            </Head>
+
             <Header />
 
             {/* JSON-LD Schema */}
