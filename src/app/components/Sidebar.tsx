@@ -37,31 +37,54 @@ const Sidebar: React.FC<SidebarProps> = ({ recentPosts }) => {
                 </div>
 
                 {/* Schedule a Site Visit */}
-                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
-                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
-                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black", fontFamily: "system-ui, math" }}>
+                <div
+                    className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
+                    style={{
+                        background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
+                        borderRadius: "23px",
+                        padding: "28px",
+                        marginBottom: "55px",
+                    }}
+                >
+                    <h3
+                        className="text-lg md:text-xl font-bold mb-2 leading-snug"
+                        style={{ color: "black", fontFamily: "system-ui, math" }}
+                    >
                         <strong>Schedule a Site Visit</strong>
                     </h3>
-                    {["/video/final2.mp4", "/video/final.mp4"].map((src, index) => (
-                        <video
-                            key={`video-${index}`}
-                            controls
+
+                    {[
+                        "https://www.youtube.com/embed/00_cHMGz5aE",
+                        "https://www.youtube.com/embed/8HBZdEbywE4",
+                        "https://www.youtube.com/embed/ngxg4FNq2Sg",
+                    ].map((embedUrl, idx) => (
+                        <div
+                            key={`yt-video-${idx}`}
                             style={{
                                 marginTop: "30px",
                                 borderRadius: "23px",
-                                maxWidth: "100%",
+                                overflow: "hidden",
                                 boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
                                 border: "2px solid #db2777",
-                                background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
+                                background:
+                                    "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
                                 padding: "10px",
                             }}
-                            src={src}
-                            typeof="video/mp4"
                         >
-                            Your browser does not support the video tag.
-                        </video>
+                            <iframe
+                                width="100%"
+                                height="auto"
+                                style={{ aspectRatio: "16/9", borderRadius: "23px" }}
+                                src={embedUrl}
+                                title={`YouTube video player ${idx}`}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
                     ))}
                 </div>
+
 
                 {/* Best Construction Company */}
                 <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
