@@ -135,7 +135,7 @@ export default function NewsSection() {
                                         />
                                     </figure>
                                     <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(0,0,0,0.5)", opacity: 0, transition: "opacity 0.3s ease", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                        <a href={`/blog/${post.slug}`} style={{ color: "#fff", fontSize: "24px" }}>
+                                        <a href={`/en/VillaConstruction//${post.slug}`} style={{ color: "#fff", fontSize: "24px" }}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "scale(1.2)" }}>
                                                 <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
                                                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
