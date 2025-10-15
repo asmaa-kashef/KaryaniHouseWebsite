@@ -16,7 +16,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="ar">
+        <html lang="en">
             <head>
                 {/* ---------------------------------------------------- */}
                 {/* 1. GOOGLE TAG MANAGER (GTM) - الجزء الأول في الـ <HEAD> */}
