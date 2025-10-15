@@ -236,7 +236,7 @@ export default function VillaConstructionDetail() {
 
 
     return (
-        <>
+        <div className="rtl">
             <Header />
             {/* Page Title */}
             <section
@@ -445,6 +445,6 @@ export default function VillaConstructionDetail() {
                 </div>
             </div>
             <Footer />
-        </>
+        </div>
     );
 }

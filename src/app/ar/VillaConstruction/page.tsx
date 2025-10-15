@@ -34,7 +34,7 @@ export default async function BlogPage() {
     const posts = await getPosts();
 
     return (
-        <>
+        <div className="rtl">
             <Header />
             <section
                 className="page-title"
@@ -130,6 +130,6 @@ export default async function BlogPage() {
                 </div>
             </section>
             <Footer />
-        </>
+        </div>
     );
 }
