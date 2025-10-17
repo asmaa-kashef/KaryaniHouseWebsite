@@ -21,7 +21,14 @@ type Post = {
 const WORDPRESS_API_URL =
     "https://blog.karyani-house.com/wp-json/wp/v2/posts?_embed";
 
-// تعريف الدالة هنا
+// ✅ Define SEO Metadata
+export const metadata = {
+    title: "Karyani House News & Updates | Luxury Villa Construction Insights",
+    description:
+        "Explore the latest articles, updates, and insights from Karyani House about luxury villa construction, modern architecture, and design trends in Riyadh and the UAE.",
+};
+
+// ✅ Fetch posts function
 const getPosts = async (): Promise<Post[]> => {
     const res = await fetch(WORDPRESS_API_URL, { next: { revalidate: 60 } });
     if (!res.ok) {
@@ -30,6 +37,7 @@ const getPosts = async (): Promise<Post[]> => {
     return res.json();
 };
 
+// ✅ Page Component
 export default async function BlogPage() {
     const posts = await getPosts();
 
@@ -107,7 +115,9 @@ export default async function BlogPage() {
                                                 <h3>
                                                     <Link href={`/en/VillaConstruction/${post.slug}`}>
                                                         <span
-                                                            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: post.title.rendered,
+                                                            }}
                                                         />
                                                     </Link>
                                                 </h3>
