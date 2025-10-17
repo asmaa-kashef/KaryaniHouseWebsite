@@ -1,6 +1,7 @@
 ﻿import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    // This is your existing images configuration, leave it as is.
     images: {
         remotePatterns: [
             {
@@ -16,6 +17,14 @@ const nextConfig: NextConfig = {
                 pathname: "/**",
             },
         ],
+    },
+
+    // This is the new part you need to add for languages.
+    i18n: {
+        // A list of all supported languages
+        locales: ["en", "ar"],
+        // The default language to use when no language is specified in the URL
+        defaultLocale: "en",
     },
 };
 
