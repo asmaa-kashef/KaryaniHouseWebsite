@@ -205,7 +205,6 @@ export default function HomePage() {
                 <section id="offer-form" className="offer-form-section">
                     <OfferForm />
                 </section>
-
                 <TextContentcontact />
                 <ClientsSection />
                 <ProjectsSection />
