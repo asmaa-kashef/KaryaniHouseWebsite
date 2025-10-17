@@ -78,10 +78,7 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
-
 export default function VillaConstructionDetail() {
-
-
     const params = useParams();
     const slug = params?.slug as string;
 
@@ -92,11 +89,13 @@ export default function VillaConstructionDetail() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const postRes = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`);
+                // جلب المقال بالعربي
+                const postRes = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed&lang=ar`);
                 const postData: Post[] = await postRes.json();
                 setPost(postData[0] || null);
 
-                const recentRes = await fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`);
+                // جلب أحدث 3 مقالات بالعربي
+                const recentRes = await fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed&lang=ar`);
                 const recentData: Post[] = await recentRes.json();
                 setRecentPosts(recentData || []);
             } catch (error) {
@@ -109,22 +108,21 @@ export default function VillaConstructionDetail() {
         if (slug) fetchData();
     }, [slug]);
 
-    if (loading) return <p>Loading...</p>;
-    if (!post) return <p>Post not found</p>;
+    if (loading) return <p>جاري التحميل...</p>;
+    if (!post) return <p>المقال غير موجود</p>;
 
     const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
-    const author = post._embedded?.author?.[0]?.name || "Unknown author";
+    const author = post._embedded?.author?.[0]?.name || "كاتب غير معروف";
     const date = new Date(post.date).toLocaleDateString("ar-EG");
-    const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "General";
+    const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "عام";
 
     const headings = extractHeadings(post.content.rendered);
 
-    // Parse content and apply styles
     function removeFaqSection(html: string): string {
         const wrapper = document.createElement("div");
         wrapper.innerHTML = html;
 
-        // حذف كل العناصر اللي ليها علاقة بالـ FAQ
+        // حذف عناصر FAQ
         const faqElements = wrapper.querySelectorAll('[class*="uagb-faq"]');
         faqElements.forEach((el) => el.remove());
 
@@ -138,7 +136,6 @@ export default function VillaConstructionDetail() {
             if (domNode.type === "tag") {
                 const element = domNode as Element;
 
-                // العناوين H1-H6
                 if (/^h[1-6]$/.test(element.name)) {
                     element.attribs = {
                         ...element.attribs,
@@ -147,7 +144,6 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // الجداول
                 if (element.name === "table") {
                     element.attribs = {
                         ...element.attribs,
@@ -156,23 +152,14 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // رأس الجدول
                 if (element.name === "thead") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "background-color: #eaeaea;",
-                    };
+                    element.attribs = { ...element.attribs, style: "background-color: #eaeaea;" };
                 }
 
-                // صفوف الجدول
                 if (element.name === "tr") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "border-bottom: 1px solid #ddd;",
-                    };
+                    element.attribs = { ...element.attribs, style: "border-bottom: 1px solid #ddd;" };
                 }
 
-                // خلايا رأس الجدول
                 if (element.name === "th") {
                     element.attribs = {
                         ...element.attribs,
@@ -181,15 +168,10 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // خلايا جسم الجدول
                 if (element.name === "td") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "padding: 12px; border: 1px solid #ddd; color: black;",
-                    };
+                    element.attribs = { ...element.attribs, style: "padding: 12px; border: 1px solid #ddd; color: black;" };
                 }
 
-                // القوائم UL و OL
                 if (element.name === "ul" || element.name === "ol") {
                     element.attribs = {
                         ...element.attribs,
@@ -198,15 +180,10 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // عناصر القائمة LI
                 if (element.name === "li") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "margin-bottom: 0.8em; list-style-type: disc;",
-                    };
+                    element.attribs = { ...element.attribs, style: "margin-bottom: 0.8em; list-style-type: disc;" };
                 }
 
-                // الصور
                 if (element.name === "img") {
                     element.attribs = {
                         ...element.attribs,
@@ -214,15 +191,10 @@ export default function VillaConstructionDetail() {
                     };
                 }
 
-                // الفقرات
                 if (element.name === "p") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "margin-bottom: 1em; color: black;",
-                    };
+                    element.attribs = { ...element.attribs, style: "margin-bottom: 1em; color: black;" };
                 }
 
-                // blockquote
                 if (element.name === "blockquote") {
                     element.attribs = {
                         ...element.attribs,
@@ -234,11 +206,9 @@ export default function VillaConstructionDetail() {
         },
     });
 
-
     return (
         <div className="rtl">
             <Header />
-            {/* Page Title */}
             <section
                 className="page-title"
                 style={{ backgroundImage: "url(/images/background/construction.webp)" }}
@@ -246,15 +216,12 @@ export default function VillaConstructionDetail() {
                 <div className="auto-container">
                     <div className="inner-container clearfix">
                         <div className="title-box">
-                            <h1
-                                dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                                style={{ fontFamily: "system-ui, math", color: "black" }}
-                            />
+                            <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} style={{ fontFamily: "system-ui, math", color: "black" }} />
                             <span className="title">{category}</span>
                         </div>
                         <ul className="bread-crumb clearfix">
-                            <li><Link href="/">Home</Link></li>
-                            <li>Blog Detail</li>
+                            <li><Link href="/">الرئيسية</Link></li>
+                            <li>تفاصيل المقال</li>
                         </ul>
                     </div>
                 </div>
@@ -264,7 +231,6 @@ export default function VillaConstructionDetail() {
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
-
                         {/* Main Content */}
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             {image && (
@@ -284,19 +250,14 @@ export default function VillaConstructionDetail() {
                                     <div className="inner-box">
                                         <div className="caption-box">
                                             <div className="inner">
-                                                <h3
-                                                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                                                    style={{ fontFamily: "system-ui, math", color: "black" }}
-                                                />
+                                                <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered }} style={{ fontFamily: "system-ui, math", color: "black" }} />
                                                 <ul className="info">
                                                     <li>{date}</li>
                                                     <li>{author}</li>
                                                     <li>{category}</li>
                                                 </ul>
 
-                                                {/* Table of Contents */}
                                                 <TableOfContents headings={headings} />
-
                                                 <div className="entry-content">{parsedContent}</div>
                                                 <FAQAccordion htmlContent={post.content.rendered} />
                                             </div>
@@ -309,12 +270,11 @@ export default function VillaConstructionDetail() {
                         {/* Sidebar */}
                         <div className="sidebar-side col-lg-4 col-md-12 col-sm-12">
                             <aside className="sidebar default-sidebar">
-
                                 {/* Search Box */}
                                 <div className="sidebar-widget search-box">
                                     <form method="post" action="#">
                                         <div className="form-group">
-                                            <input type="search" name="search-field" placeholder="Search....." required />
+                                            <input type="search" name="search-field" placeholder="بحث..." required />
                                             <button type="submit"><span className="icon fa fa-search"></span></button>
                                         </div>
                                     </form>
@@ -324,7 +284,7 @@ export default function VillaConstructionDetail() {
                                 <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
                                     style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
                                     <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black", fontFamily: "system-ui, math" }}>
-                                        <strong>Schedule a Site Visit</strong>
+                                        <strong>جدولة زيارة الموقع</strong>
                                     </h3>
                                     {["/video/final2.mp4", "/video/final.mp4"].map((src, index) => (
                                         <video
@@ -342,69 +302,21 @@ export default function VillaConstructionDetail() {
                                             src={src}
                                             typeof="video/mp4"
                                         >
-                                            Your browser does not support the video tag.
+                                            متصفحك لا يدعم عرض الفيديو.
                                         </video>
                                     ))}
-                                </div>
-
-                                {/* Best Construction Company */}
-                                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
-                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
-                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black", fontFamily: "system-ui, math" }}>
-                                        <strong>Do You Need the Best <br /> Construction Company in Abu Dhabi?</strong>
-                                    </h3>
-                                    <p className="text-sm text-black-700 mb-2" style={{ color: "black" }}>
-                                        <strong>Karyani House</strong> is the leading construction company in Abu Dhabi.
-                                    </p>
-                                    <p className="text-sm text-gray-700 mb-4" style={{ color: "black" }}>
-                                        From villa construction to finishing works – your place is with us.
-                                    </p>
-                                    <p className="text-sm text-gray-800 font-medium mb-4 flex items-center justify-center gap-1" style={{ color: "black" }}>
-                                        <span className="text-pink-600 text-lg">📞</span> Call us today: 050 660 7159
-                                    </p>
-                                    <Link href="/contact"
-                                        className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
-                                        style={{ backgroundColor: "#545454" }}
-                                    >
-                                        <span className="text-yellow-400">⚒️</span> Request a Consultation
-                                    </Link>
-                                </div>
-
-                                {/* Categories */}
-                                <div className="sidebar-widget categories">
-                                    <div className="sidebar-title">
-                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>Our Company Service</h3>
-                                    </div>
-                                    <ul className="cat-list">
-                                        {["Villa Construction", "Structure Repair", "Cladding", "Interior Works", "Alumnium and Glass"].map((cat, index) => (
-                                            <li key={`cat-${index}`} className={cat === "Cladding" ? "active" : ""}>
-                                                <Link href="#">{cat}</Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-
-                                {/* Get a Free Quote */}
-                                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
-                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "12px", marginBottom: "55px" }}>
-                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black", fontFamily: "system-ui, math" }}>
-                                        <strong>Get a Free Quote</strong>
-                                    </h3>
-                                    <a href="tel:+9710506607159" style={{ color: "black", fontWeight: "bold", fontSize: "1.1rem", textDecoration: "underline", cursor: "pointer", display: "inline-block", marginTop: "8px" }}>
-                                        +971 050 660 7159
-                                    </a>
                                 </div>
 
                                 {/* Recent Posts */}
                                 <div className="sidebar-widget latest-news">
                                     <div className="sidebar-title">
-                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>Recent Post</h3>
+                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>أحدث المقالات</h3>
                                     </div>
                                     <div className="widget-content">
-                                        {recentPosts.length === 0 && <p>No recent posts found.</p>}
+                                        {recentPosts.length === 0 && <p>لا توجد مقالات حديثة.</p>}
                                         {recentPosts.map((recent) => {
                                             const recentImage = recent._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-news.jpg";
-                                            const recentAuthor = recent._embedded?.author?.[0]?.name || "Unknown author";
+                                            const recentAuthor = recent._embedded?.author?.[0]?.name || "كاتب غير معروف";
                                             return (
                                                 <article className="post" key={`recent-${recent.id}`}>
                                                     <div className="post-thumb" style={{ position: "relative", width: "100%", height: "80px" }}>
@@ -417,30 +329,15 @@ export default function VillaConstructionDetail() {
                                                             <span dangerouslySetInnerHTML={{ __html: recent.title.rendered }} />
                                                         </Link>
                                                     </h3>
-                                                    <div className="post-info">by {recentAuthor}</div>
+                                                    <div className="post-info">بواسطة {recentAuthor}</div>
                                                 </article>
                                             );
                                         })}
                                     </div>
                                 </div>
 
-                                {/* Tags */}
-                                <div className="sidebar-widget tags" style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
-                                    <div className="sidebar-title">
-                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>Our Construction Services</h3>
-                                    </div>
-                                    <ul className="tag-list clearfix" style={{ color: "black" }}>
-                                        {["Landing Mining", "Building Staff", "Material Supply", "Consultancy", "Architecture", "Crane Services"].map((tag, index) => (
-                                            <li key={`tag-${index}`}>
-                                                <Link href="#" style={{ color: "black", border: "1px solid black", padding: "4px 8px", borderRadius: "6px", display: "inline-block" }}>{tag}</Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-
                             </aside>
                         </div>
-
                     </div>
                 </div>
             </div>
