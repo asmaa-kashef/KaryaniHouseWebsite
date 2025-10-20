@@ -18,17 +18,39 @@ export default function HomeHeader() {
 
     const toggleLangDropdown = () => setLangOpen(!langOpen);
 
+    // دالة تغيير اللغة مع دعم المقالات فقط
     const changeLanguage = (newLang: string) => {
+        console.log("=== changeLanguage triggered ===");
+        console.log("Current pathname:", pathname);
+        debugger; // توقف هنا في VS Code / DevTools
+
         let newPath = pathname;
 
+        // إزالة البادئة الحالية للغة
         if (newPath.startsWith("/ar")) newPath = newPath.slice(3);
         else if (newPath.startsWith("/en")) newPath = newPath.slice(3);
 
+        console.log("Path after removing lang prefix:", newPath);
+
+        // إضافة -2 للمقالات فقط
+        if (newPath.includes("/VillaConstruction/")) {
+            const segments = newPath.split("/").filter(Boolean);
+            // segments[1] هو slug المقال
+            if (segments[1] && !segments[1].endsWith("-2")) {
+                segments[1] = segments[1] + "-2";
+                newPath = "/" + segments.join("/");
+                console.log("Path after adding -2 for blog:", newPath);
+            }
+        }
+
+        // إضافة بادئة اللغة الجديدة
         if (newLang === "ar") newPath = "/ar" + (newPath || "");
         else if (newLang === "en") {
             newPath = newPath || "/";
             if (newPath !== "/") newPath = "/en" + newPath;
         }
+
+        console.log("Final newPath to navigate:", newPath);
 
         router.push(newPath);
         setLangOpen(false);
@@ -42,8 +64,6 @@ export default function HomeHeader() {
                     <div className="inner-container clearfix">
                         <div className="top-left">
                             <ul className="contact-list clearfix">
-                                {/* Language Dropdown */}
-                                
                                 <li>
                                     <MdEmail className="inline-block mr-1" />
                                     <a href="mailto:info@karyani-house.com">info@karyani-house.com</a>
@@ -102,22 +122,14 @@ export default function HomeHeader() {
                                         )}
                                     </ul>
                                 </li>
-                         
                             </ul>
                         </div>
 
                         <div className="top-right">
                             <ul className="social-icon-four clearfix flex items-center gap-3">
-                                <li>
-                                    <a href="#"><FaWhatsapp /></a>
-                                </li>
-                                <li>
-                                    <a href="#"><FaFacebookF /></a>
-                                </li>
-                                <li>
-                                    <a href="#"><FaInstagram /></a>
-                                </li>
-
+                                <li><a href="#"><FaWhatsapp /></a></li>
+                                <li><a href="#"><FaFacebookF /></a></li>
+                                <li><a href="#"><FaInstagram /></a></li>
                             </ul>
                         </div>
                     </div>
@@ -131,12 +143,7 @@ export default function HomeHeader() {
                         <div className="logo-box pull-left">
                             <div className="logo">
                                 <Link href="/">
-                                    <Image
-                                        src="/images/logo.png"
-                                        alt="Logo"
-                                        width={160}
-                                        height={160}
-                                    />
+                                    <Image src="/images/logo.png" alt="Logo" width={160} height={160} />
                                 </Link>
                             </div>
                         </div>
@@ -157,27 +164,13 @@ export default function HomeHeader() {
                                     </button>
                                 </div>
 
-                                <div
-                                    className="collapse navbar-collapse clearfix"
-                                    id="navbarSupportedContent"
-                                >
+                                <div className="collapse navbar-collapse clearfix" id="navbarSupportedContent">
                                     <ul className="navigation clearfix">
                                         <li>
                                             <Link href={isArabic ? "/ar" : "/"}>{isArabic ? "الرئيسية" : "Home"}</Link>
                                         </li>
                                         <li>
                                             <Link href={`/${lang}/about`}>{isArabic ? "من نحن" : "About"}</Link>
-                                            <ul>
-                                                <li>
-                                                    <Link href={`/${lang}/about`}>{isArabic ? "من نحن" : "About Us"}</Link>
-                                                </li>
-                                                <li>
-                                                    <Link href={`/${lang}/team`}>{isArabic ? "فريقنا" : "Our Team"}</Link>
-                                                </li>
-                                                <li>
-                                                    <Link href={`/${lang}/coming-soon`}>{isArabic ? "قريباً" : "Coming Soon"}</Link>
-                                                </li>
-                                            </ul>
                                         </li>
                                         <li>
                                             <Link href={`/${lang}/Services`}>{isArabic ? "خدماتنا" : "Services"}</Link>

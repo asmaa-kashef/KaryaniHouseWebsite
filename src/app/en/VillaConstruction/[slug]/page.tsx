@@ -179,7 +179,7 @@ export default async function VillaConstructionDetail({ params }: Props) {
             "name": "Karyani House",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://blog.karyani-house.com/path-to-logo.png"
+                "url": "https://blog.karyani-house.com/logo.png"
             }
         },
         "datePublished": post.date,

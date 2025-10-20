@@ -12,29 +12,32 @@ type Post = {
     date: string;
     author: number;
     _embedded?: {
-        "wp:featuredmedia"?: {
-            source_url: string;
-        }[];
+        "wp:featuredmedia"?: { source_url: string }[];
     };
 };
 
+// ✅ Fetch Arabic posts only
 const WORDPRESS_API_URL =
-    "https://blog.karyani-house.com/wp-json/wp/v2/posts?_embed";
+    "https://blog.karyani-house.com/wp-json/wp/v2/posts?_embed&lang=ar&fields=id,slug,title,excerpt,date,author,_embedded";
 
-// ✅ Define SEO Metadata
+// ✅ SEO Metadata
 export const metadata = {
-    title: "Karyani House News & Updates | Luxury Villa Construction Insights",
+    title: "أخبار كارياني هاوس | تحديثات وإنجازات بناء الفلل الفاخرة",
     description:
-        "Explore the latest articles, updates, and insights from Karyani House about luxury villa construction, modern architecture, and design trends in Riyadh and the UAE.",
+        "استعرض أحدث المقالات والتحديثات من كارياني هاوس حول بناء الفلل الفاخرة، العمارة الحديثة، واتجاهات التصميم في الرياض والإمارات.",
 };
 
-// ✅ Fetch posts function
+// ✅ Fetch posts
 const getPosts = async (): Promise<Post[]> => {
     const res = await fetch(WORDPRESS_API_URL, { next: { revalidate: 60 } });
-    if (!res.ok) {
-        throw new Error("Failed to fetch posts");
-    }
-    return res.json();
+    if (!res.ok) throw new Error("فشل في جلب المقالات");
+
+    const posts: Post[] = await res.json();
+
+    // ✅ فلتر للتأكد أن العنوان عربي فقط
+    const arabicPosts = posts.filter(post => /[\u0600-\u06FF]/.test(post.title.rendered));
+
+    return arabicPosts;
 };
 
 // ✅ Page Component
@@ -44,6 +47,7 @@ export default async function BlogPage() {
     return (
         <div className="rtl">
             <Header />
+
             <section
                 className="page-title"
                 style={{ backgroundImage: "url(/images/background/construction.webp)" }}
@@ -51,14 +55,12 @@ export default async function BlogPage() {
                 <div className="auto-container">
                     <div className="inner-container clearfix">
                         <div className="title-box">
-                            <h1>News Detail</h1>
-                            <span className="title">The Interior speak for themselves</span>
+                            <h1>تفاصيل الأخبار</h1>
+                            <span className="title">آخر المقالات من كارياني هاوس</span>
                         </div>
                         <ul className="bread-crumb clearfix">
-                            <li>
-                                <Link href="/">Home</Link>
-                            </li>
-                            <li>Blog Detail</li>
+                            <li><Link href="/">الرئيسية</Link></li>
+                            <li>الأخبار</li>
                         </ul>
                     </div>
                 </div>
@@ -113,7 +115,8 @@ export default async function BlogPage() {
                                         >
                                             <div className="inner">
                                                 <h3>
-                                                    <Link href={`/en/VillaConstruction/${post.slug}`}>
+                                                    {/* رابط عربي فقط */}
+                                                    <Link href={`/ar/VillaConstruction/${post.slug}`}>
                                                         <span
                                                             dangerouslySetInnerHTML={{
                                                                 __html: post.title.rendered,
@@ -122,12 +125,12 @@ export default async function BlogPage() {
                                                     </Link>
                                                 </h3>
                                                 <ul className="info" style={{ marginTop: "10px" }}>
-                                                    <li>{new Date(post.date).toLocaleDateString()}</li>
+                                                    <li>{new Date(post.date).toLocaleDateString("ar-EG")}</li>
                                                     <li>
-                                                        <a href="#">Author #{post.author}</a>
+                                                        <a href="#">الكاتب #{post.author}</a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">Comments</a>
+                                                        <a href="#">التعليقات</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -139,6 +142,7 @@ export default async function BlogPage() {
                     </div>
                 </div>
             </section>
+
             <Footer />
         </div>
     );

@@ -51,6 +51,7 @@ export const metadata: Metadata = {
 type Post = {
     id: number;
     slug: string;
+    lang?: string;
     title: { rendered: string };
     excerpt: { rendered: string };
     date: string;
@@ -65,13 +66,17 @@ type Post = {
 const WORDPRESS_API_URL =
     "https://blog.karyani-house.com/wp-json/wp/v2/posts?_embed";
 
-// ✅ Fetch posts function
+// ✅ Fetch posts function with English filter
 const getPosts = async (): Promise<Post[]> => {
     const res = await fetch(WORDPRESS_API_URL, { next: { revalidate: 60 } });
     if (!res.ok) {
         throw new Error("Failed to fetch posts");
     }
-    return res.json();
+    const posts: Post[] = await res.json();
+
+    // ✅ Filter English posts only
+    const englishPosts = posts.filter((p) => p.lang === "en");
+    return englishPosts;
 };
 
 export default async function BlogPage() {

@@ -1,25 +1,18 @@
-﻿"use client";
-import React, { useEffect, useState } from "react";
+﻿import React from "react";
+import { Metadata } from 'next';
+import Head from "next/head"; // <--- استيراد Head
 import Header from "../../../components/HomeHeader";
 import Footer from "../../../components/HomeFooter";
 import FAQAccordion from "../../../components/FAQAccordion";
 import TableOfContents from "../../../components/TableOfContents";
+import BlogBackground from "../../../components/BlogBackground";
+import Sidebar from "../../../components/Sidebar";
 import parse, { Element, DOMNode, HTMLReactParserOptions, Text } from "html-react-parser";
-import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import * as cheerio from "cheerio";
+import axios from "axios";
 
 // Types
-interface WPEmbeddedMedia {
-    source_url: string;
-}
-interface WPAuthor {
-    name: string;
-}
-interface WPTerm {
-    name: string;
-}
-
 type Post = {
     id: number;
     slug: string;
@@ -27,11 +20,15 @@ type Post = {
     content: { rendered: string };
     date: string;
     author: number;
-    _embedded?: {
-        "wp:featuredmedia"?: WPEmbeddedMedia[];
-        author?: WPAuthor[];
-        "wp:term"?: WPTerm[][];
+    _embedded: {
+        "wp:featuredmedia"?: { source_url: string }[];
+        author?: { name: string }[];
+        yoast_head_json?: {
+            title?: string;
+            description?: string;
+        }[];
     };
+    meta_description?: string;
 };
 
 type HeadingItem = {
@@ -40,8 +37,38 @@ type HeadingItem = {
     level: number;
 };
 
+type Props = {
+    params: Promise<{ slug: string }>;
+};
+
 const WORDPRESS_API_BASE = "https://blog.karyani-house.com/wp-json/wp/v2";
 
+// Generate Metadata
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { slug } = await params;
+
+    try {
+        const externalUrl = `https://blog.karyani-house.com/${slug}/`;
+        const { data: rawHtml } = await axios.get(externalUrl);
+        const $ = cheerio.load(rawHtml);
+
+        const metaTitle = $("title").text();
+        const metaDescription = $('meta[name="description"]').attr("content") || "";
+
+        return {
+            title: metaTitle,
+            description: metaDescription,
+        };
+    } catch (error) {
+        console.error("Failed to generate metadata:", error);
+        return {
+            title: "Blog Post",
+            description: "Failed to load description.",
+        };
+    }
+}
+
+// Helper functions
 function getTextFromChildren(children: DOMNode[]): string {
     return children
         .map((child) => {
@@ -78,171 +105,108 @@ function extractHeadings(html: string): HeadingItem[] {
     return headings;
 }
 
-export default function VillaConstructionDetail() {
-    const params = useParams();
-    const slug = params?.slug as string;
+function removeFaqSection(html: string): string {
+    return html.replace(/<div[^>]*class="[^"]*uagb-faq[^"]*"[^>]*>[\s\S]*?<\/div>/gi, "");
+}
 
-    const [post, setPost] = useState<Post | null>(null);
-    const [recentPosts, setRecentPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(true);
+// Main Component
+export default async function VillaConstructionDetail({ params }: Props) {
+    const { slug } = await params;
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                // جلب المقال بالعربي
-                const postRes = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed&lang=ar`);
-                const postData: Post[] = await postRes.json();
-                setPost(postData[0] || null);
+    // Fetch post and recent posts
+    const [postRes, recentRes] = await Promise.all([
+        fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`, { cache: "no-store" }),
+        fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed`, { cache: "no-store" }),
+    ]);
 
-                // جلب أحدث 3 مقالات بالعربي
-                const recentRes = await fetch(`${WORDPRESS_API_BASE}/posts?per_page=3&_embed&lang=ar`);
-                const recentData: Post[] = await recentRes.json();
-                setRecentPosts(recentData || []);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        }
+    if (!postRes.ok || !recentRes.ok) throw new Error("Failed to fetch data from WordPress API.");
 
-        if (slug) fetchData();
-    }, [slug]);
+    const postData: Post[] = await postRes.json();
+    const recentData: Post[] = await recentRes.json();
+    const post = postData[0];
+    if (!post) return <p>Post not found</p>;
 
-    if (loading) return <p>جاري التحميل...</p>;
-    if (!post) return <p>المقال غير موجود</p>;
+    post._embedded = post._embedded || {};
+    const recentPosts: Post[] = (recentData || []).map((p) => ({ ...p, _embedded: p._embedded || {} }));
 
-    const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
-    const author = post._embedded?.author?.[0]?.name || "كاتب غير معروف";
+    const image = post._embedded["wp:featuredmedia"]?.[0]?.source_url || "";
+    const author = post._embedded.author?.[0]?.name || "Unknown author";
     const date = new Date(post.date).toLocaleDateString("ar-EG");
-    const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "عام";
+    const category = "General";
 
     const headings = extractHeadings(post.content.rendered);
-
-    function removeFaqSection(html: string): string {
-        const wrapper = document.createElement("div");
-        wrapper.innerHTML = html;
-
-        // حذف عناصر FAQ
-        const faqElements = wrapper.querySelectorAll('[class*="uagb-faq"]');
-        faqElements.forEach((el) => el.remove());
-
-        return wrapper.innerHTML;
-    }
-
-    const cleanedContent = post?.content?.rendered ? removeFaqSection(post.content.rendered) : "";
+    const cleanedContent = removeFaqSection(post.content.rendered);
 
     const parsedContent = parse(cleanedContent, {
         replace: (domNode) => {
             if (domNode.type === "tag") {
                 const element = domNode as Element;
-
-                if (/^h[1-6]$/.test(element.name)) {
-                    element.attribs = {
-                        ...element.attribs,
-                        style:
-                            "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;",
-                    };
-                }
-
-                if (element.name === "table") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style:
-                            "width: 100%; border-collapse: collapse; margin: 1em 0; border: 1px solid #ddd; background-color: #f9f9f9;",
-                    };
-                }
-
-                if (element.name === "thead") {
-                    element.attribs = { ...element.attribs, style: "background-color: #eaeaea;" };
-                }
-
-                if (element.name === "tr") {
-                    element.attribs = { ...element.attribs, style: "border-bottom: 1px solid #ddd;" };
-                }
-
-                if (element.name === "th") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style:
-                            "padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: bold; color: black;",
-                    };
-                }
-
-                if (element.name === "td") {
-                    element.attribs = { ...element.attribs, style: "padding: 12px; border: 1px solid #ddd; color: black;" };
-                }
-
-                if (element.name === "ul" || element.name === "ol") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style:
-                            "margin: 1em 0; padding-left: 1.8em; color: black; direction: ltr; list-style-position: outside; list-style-type: disc;",
-                    };
-                }
-
-                if (element.name === "li") {
-                    element.attribs = { ...element.attribs, style: "margin-bottom: 0.8em; list-style-type: disc;" };
-                }
-
-                if (element.name === "img") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style: "max-width: 100%; height: auto; margin: 1em 0; border-radius: 8px;",
-                    };
-                }
-
-                if (element.name === "p") {
-                    element.attribs = { ...element.attribs, style: "margin-bottom: 1em; color: black;" };
-                }
-
-                if (element.name === "blockquote") {
-                    element.attribs = {
-                        ...element.attribs,
-                        style:
-                            "border-left: 4px solid #db2777; padding-left: 1em; color: black; font-style: italic; margin: 1em 0;",
-                    };
-                }
+                if (/^h[1-6]$/.test(element.name)) element.attribs = { ...element.attribs, style: "font-family: system-ui, math; color: black; margin-top: 1em; margin-bottom: 0.5em;" };
+                if (element.name === "table") element.attribs = { ...element.attribs, style: "width:100%; border-collapse:collapse; margin:1em 0; border:1px solid #ddd; background-color:#f9f9f9;" };
+                if (element.name === "thead") element.attribs = { ...element.attribs, style: "background-color: #eaeaea;" };
+                if (element.name === "tr") element.attribs = { ...element.attribs, style: "border-bottom:1px solid #ddd;" };
+                if (element.name === "th") element.attribs = { ...element.attribs, style: "padding:12px; text-align:left; border:1px solid #ddd; font-weight:bold; color:black;" };
+                if (element.name === "td") element.attribs = { ...element.attribs, style: "padding:12px; border:1px solid #ddd; color:black;" };
+                if (element.name === "ul" || element.name === "ol") element.attribs = { ...element.attribs, style: "margin:1em 0; padding-left:1.8em; color:black; direction:ltr; list-style-position:outside; list-style-type:disc;" };
+                if (element.name === "li") element.attribs = { ...element.attribs, style: "margin-bottom:0.8em; list-style-type:disc;" };
+                if (element.name === "img") element.attribs = { ...element.attribs, style: "max-width:100%; height:auto; margin:1em 0; border-radius:8px;" };
+                if (element.name === "p") element.attribs = { ...element.attribs, style: "margin-bottom:1em; color:black;" };
+                if (element.name === "blockquote") element.attribs = { ...element.attribs, style: "border-left:4px solid #db2777; padding-left:1em; color:black; font-style:italic; margin:1em 0;" };
             }
         },
     });
 
+    // Canonical URL
+    const canonicalUrl = `https://www.karyani-house.com/en/VillaConstruction/${slug}`;
+
+    // Schema JSON-LD
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": canonicalUrl
+        },
+        "headline": post.title.rendered,
+        "description": post._embedded?.yoast_head_json?.[0]?.description || "",
+        "image": image ? [image] : [],
+        "author": {
+            "@type": "Person",
+            "name": author
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Karyani House",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://blog.karyani-house.com/logo.png"
+            }
+        },
+        "datePublished": post.date,
+        "dateModified": post.date
+    };
+
+
     return (
         <div className="rtl">
-            <Header />
-            <section
-                className="page-title"
-                style={{ backgroundImage: "url(/images/background/construction.webp)" }}
-            >
-                <div className="auto-container">
-                    <div className="inner-container clearfix">
-                        <div className="title-box">
-                            <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} style={{ fontFamily: "system-ui, math", color: "black" }} />
-                            <span className="title">{category}</span>
-                        </div>
-                        <ul className="bread-crumb clearfix">
-                            <li><Link href="/">الرئيسية</Link></li>
-                            <li>تفاصيل المقال</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+            <Head>
+                <link rel="canonical" href={canonicalUrl} />
+            </Head>
 
-            {/* Main Content + Sidebar */}
+            <Header />
+
+            {/* JSON-LD Schema */}
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+
+            <BlogBackground title={post.title.rendered} category={category} />
+
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
-                        {/* Main Content */}
                         <div className="content-side col-lg-8 col-md-12 col-sm-12">
                             {image && (
                                 <div className="image-box" style={{ position: "relative", width: "100%", height: "400px" }}>
-                                    <Image
-                                        src={image}
-                                        alt={post.title.rendered}
-                                        fill
-                                        style={{ objectFit: "cover", borderRadius: "8px" }}
-                                        sizes="(max-width: 768px) 100vw, 800px"
-                                        priority
-                                    />
+                                    <Image src={image} alt={post.title.rendered} fill style={{ objectFit: "cover", borderRadius: "8px" }} sizes="(max-width:768px) 100vw,800px" priority />
                                 </div>
                             )}
                             <div className="blog-detail">
@@ -251,6 +215,7 @@ export default function VillaConstructionDetail() {
                                         <div className="caption-box">
                                             <div className="inner">
                                                 <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered }} style={{ fontFamily: "system-ui, math", color: "black" }} />
+
                                                 <ul className="info">
                                                     <li>{date}</li>
                                                     <li>{author}</li>
@@ -266,78 +231,7 @@ export default function VillaConstructionDetail() {
                                 </div>
                             </div>
                         </div>
-
-                        {/* Sidebar */}
-                        <div className="sidebar-side col-lg-4 col-md-12 col-sm-12">
-                            <aside className="sidebar default-sidebar">
-                                {/* Search Box */}
-                                <div className="sidebar-widget search-box">
-                                    <form method="post" action="#">
-                                        <div className="form-group">
-                                            <input type="search" name="search-field" placeholder="بحث..." required />
-                                            <button type="submit"><span className="icon fa fa-search"></span></button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                {/* Schedule a Site Visit */}
-                                <div className="p-6 text-center shadow-md max-w-md mx-auto mb-6 border-2 border-pink-500"
-                                    style={{ background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)", borderRadius: "23px", padding: "28px", marginBottom: "55px" }}>
-                                    <h3 className="text-lg md:text-xl font-bold mb-2 leading-snug" style={{ color: "black", fontFamily: "system-ui, math" }}>
-                                        <strong>جدولة زيارة الموقع</strong>
-                                    </h3>
-                                    {["/video/final2.mp4", "/video/final.mp4"].map((src, index) => (
-                                        <video
-                                            key={`video-${index}`}
-                                            controls
-                                            style={{
-                                                marginTop: "30px",
-                                                borderRadius: "23px",
-                                                maxWidth: "100%",
-                                                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-                                                border: "2px solid #db2777",
-                                                background: "linear-gradient(to bottom right, #ffe9b5, #f9b7b7)",
-                                                padding: "10px",
-                                            }}
-                                            src={src}
-                                            typeof="video/mp4"
-                                        >
-                                            متصفحك لا يدعم عرض الفيديو.
-                                        </video>
-                                    ))}
-                                </div>
-
-                                {/* Recent Posts */}
-                                <div className="sidebar-widget latest-news">
-                                    <div className="sidebar-title">
-                                        <h3 style={{ fontFamily: "system-ui, math", color: "black" }}>أحدث المقالات</h3>
-                                    </div>
-                                    <div className="widget-content">
-                                        {recentPosts.length === 0 && <p>لا توجد مقالات حديثة.</p>}
-                                        {recentPosts.map((recent) => {
-                                            const recentImage = recent._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-news.jpg";
-                                            const recentAuthor = recent._embedded?.author?.[0]?.name || "كاتب غير معروف";
-                                            return (
-                                                <article className="post" key={`recent-${recent.id}`}>
-                                                    <div className="post-thumb" style={{ position: "relative", width: "100%", height: "80px" }}>
-                                                        <Link href={`/VillaConstruction/${recent.slug}`}>
-                                                            <Image src={recentImage} alt={recent.title.rendered} fill style={{ objectFit: "cover", borderRadius: "5px" }} />
-                                                        </Link>
-                                                    </div>
-                                                    <h3>
-                                                        <Link href={`/VillaConstruction/${recent.slug}`} className="post-title-link" style={{ fontFamily: "system-ui, math", color: "black" }}>
-                                                            <span dangerouslySetInnerHTML={{ __html: recent.title.rendered }} />
-                                                        </Link>
-                                                    </h3>
-                                                    <div className="post-info">بواسطة {recentAuthor}</div>
-                                                </article>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-
-                            </aside>
-                        </div>
+                        <Sidebar recentPosts={recentPosts} />
                     </div>
                 </div>
             </div>
