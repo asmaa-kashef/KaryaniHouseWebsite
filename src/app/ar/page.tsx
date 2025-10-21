@@ -17,7 +17,6 @@ import TextContent from "../components/TextContent";
 import TextContentcontact from "../components/TextContentcontact";
 import TextContentvilla from "../components/TextContentvilla";
 
-
 export const metadata: Metadata = {
     title: "شركات مقاولات في ابوظبي | كرياني هاوس – بناء فلل وصيانة",
     description: "!كرياني هاوس – شركات مقاولات في ابوظبي. نقدم خدمات بناء الفلل، صيانة المباني، إصلاح التشققات، وتجديد الواجهات. تواصل معنا الآن لاختيار شركتك الأمثل",
@@ -39,6 +38,9 @@ export const metadata: Metadata = {
         description: "!كرياني هاوس – شركات مقاولات في ابوظبي. نقدم خدمات بناء الفلل، صيانة المباني، إصلاح التشققات، وتجديد الواجهات. تواصل معنا الآن لاختيار شركتك الأمثل",
         images: ["https://www.karyanihouse.com/images/main-slider/construction.webp"],
     },
+    alternates: {
+        canonical: "https://www.karyanihouse.com/ar"
+    }
 };
 
 export default function HomePage() {
@@ -46,7 +48,7 @@ export default function HomePage() {
         <div className="rtl">
             <Header />
             <main>
-                {/* قسم البانر */}
+                {/* LocalBusiness Schema */}
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -94,64 +96,64 @@ export default function HomePage() {
                             {
                                 "@context": "https://schema.org",
                                 "@type": "Service",
-                                "name": "Villa Construction",
-                                "description": "Expert villa construction services across Abu Dhabi and the UAE.",
+                                "name": "بناء الفلل",
+                                "description": "خدمات بناء الفلل الاحترافية في أبوظبي والإمارات.",
                                 "provider": {
                                     "@type": "Organization",
-                                    "name": "Karyani House",
+                                    "name": "كرياني هاوس",
                                     "url": "https://www.karyanihouse.com"
                                 },
                                 "areaServed": {
                                     "@type": "Place",
-                                    "name": "Abu Dhabi, UAE"
+                                    "name": "أبوظبي، الإمارات"
                                 },
                                 "url": "https://www.karyanihouse.com/#villa-construction"
                             },
                             {
                                 "@context": "https://schema.org",
                                 "@type": "Service",
-                                "name": "Structural Strengthening",
-                                "description": "Professional structural strengthening and building reinforcement services.",
+                                "name": "تقوية الهياكل",
+                                "description": "خدمات تعزيز وتقوية المباني بشكل احترافي.",
                                 "provider": {
                                     "@type": "Organization",
-                                    "name": "Karyani House",
+                                    "name": "كرياني هاوس",
                                     "url": "https://www.karyanihouse.com"
                                 },
                                 "areaServed": {
                                     "@type": "Place",
-                                    "name": "Abu Dhabi, UAE"
+                                    "name": "أبوظبي، الإمارات"
                                 },
                                 "url": "https://www.karyanihouse.com/#structural-strengthening"
                             },
                             {
                                 "@context": "https://schema.org",
                                 "@type": "Service",
-                                "name": "Facade Renovation",
-                                "description": "High-quality facade renovation and building exterior improvement.",
+                                "name": "تجديد الواجهات",
+                                "description": "خدمات عالية الجودة لتجديد وتحسين واجهات المباني.",
                                 "provider": {
                                     "@type": "Organization",
-                                    "name": "Karyani House",
+                                    "name": "كرياني هاوس",
                                     "url": "https://www.karyanihouse.com"
                                 },
                                 "areaServed": {
                                     "@type": "Place",
-                                    "name": "Abu Dhabi, UAE"
+                                    "name": "أبوظبي، الإمارات"
                                 },
                                 "url": "https://www.karyanihouse.com/#facade-renovation"
                             },
                             {
                                 "@context": "https://schema.org",
                                 "@type": "Service",
-                                "name": "Crack Repair",
-                                "description": "Safe and reliable crack repair solutions for residential and commercial buildings.",
+                                "name": "إصلاح التشققات",
+                                "description": "حلول آمنة وموثوقة لإصلاح التشققات في المباني السكنية والتجارية.",
                                 "provider": {
                                     "@type": "Organization",
-                                    "name": "Karyani House",
+                                    "name": "كرياني هاوس",
                                     "url": "https://www.karyanihouse.com"
                                 },
                                 "areaServed": {
                                     "@type": "Place",
-                                    "name": "Abu Dhabi, UAE"
+                                    "name": "أبوظبي، الإمارات"
                                 },
                                 "url": "https://www.karyanihouse.com/#crack-repair"
                             }
@@ -159,32 +161,26 @@ export default function HomePage() {
                     }}
                 />
 
+                {/* قسم البانر */}
                 <BannerSection />
 
-
-
                 {/* قسم التخصص */}
-                <SpecilizationSection/>
+                <SpecilizationSection />
 
-           
-
+                {/* المشاريع والإحصاءات */}
                 <ProjectsInsightChart />
                 <ProjectsCategories />
                 <TextContentvilla />
+
                 <section id="offer-form" className="offer-form-section">
-
                     <OfferForm />
-
                 </section>
+
                 <TextContentcontact />
                 <ClientsSection />
                 <ProjectsSection />
-                <TextContent/>
-               
-
+                <TextContent />
                 <NewsSection />
-                {/* قسم عنا */}
-               
             </main>
             <Footer />
         </div>
