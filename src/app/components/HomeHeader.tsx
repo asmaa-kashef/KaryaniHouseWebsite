@@ -4,50 +4,60 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 
+// React-icons
+import { FaWhatsapp, FaFacebookF, FaInstagram } from "react-icons/fa";
+import { MdEmail, MdPhone } from "react-icons/md";
+
 export default function HomeHeader() {
     const [langOpen, setLangOpen] = useState(false);
-    const pathname = usePathname();
     const router = useRouter();
+    const pathname = usePathname();
 
     const lang = pathname.startsWith("/ar") ? "ar" : "en";
     const isArabic = lang === "ar";
 
     const toggleLangDropdown = () => setLangOpen(!langOpen);
 
-    // ✅ تغيير اللغة فقط داخل المقالات
+    // دالة تغيير اللغة مع دعم المقالات
     const changeLanguage = (newLang: string) => {
-        const segments = pathname.split("/").filter(Boolean);
+        let newPath = pathname;
 
-        // مثال المسار: /en/VillaConstruction/some-article
-        const isArticlePage =
-            segments.length >= 3 &&
-            (segments[1] === "VillaConstruction" ||
-                segments[1] === "villaConstruction");
+        // إزالة البادئة الحالية للغة
+        if (newPath.startsWith("/ar")) newPath = newPath.slice(3);
+        else if (newPath.startsWith("/en")) newPath = newPath.slice(3);
 
-        if (isArticlePage) {
-            segments[0] = newLang;
-            const newPath = "/" + segments.join("/");
-            router.push(newPath);
-        } else {
-            // باقي الصفحات لا يتم تغيير المسار
-            setLangOpen(false);
-            return;
+        // التعامل مع المقالات فقط
+        if (newPath.includes("/VillaConstruction/")) {
+            const segments = newPath.split("/").filter(Boolean);
+            if (segments[1]) {
+                if (newLang === "ar") {
+                    // أي لغة → عربي: ضيف -2 إذا مش موجود
+                    if (!segments[1].endsWith("-2")) {
+                        segments[1] = segments[1] + "-2";
+                    }
+                } else {
+                    // أي لغة → إنجليزي: شيل -2 إذا موجود
+                    if (segments[1].endsWith("-2")) {
+                        segments[1] = segments[1].slice(0, -2);
+                    }
+                }
+                newPath = "/" + segments.join("/");
+            }
         }
 
+        // إضافة بادئة اللغة الجديدة
+        if (newLang === "ar") newPath = "/ar" + (newPath || "");
+        else if (newLang === "en") {
+            newPath = newPath || "/";
+            if (newPath !== "/") newPath = "/en" + newPath;
+        }
+
+        router.push(newPath);
         setLangOpen(false);
     };
 
-    // التنقل بين الروابط
-    const navigateTo = (url: string) => {
-        if (url === "/" || url === "/ar") {
-            window.location.href = url;
-        } else {
-            router.push(url);
-        }
-    };
-
     return (
-        <header className={`main-header header-style-two ${isArabic ? "rtl" : ""}`}>
+        <header className="main-header header-style-two">
             {/* Header Top */}
             <div className="header-top">
                 <div className="auto-container">
@@ -55,38 +65,14 @@ export default function HomeHeader() {
                         <div className="top-left">
                             <ul className="contact-list clearfix">
                                 <li>
-                                    <i className="fa fa-envelope"></i>
-                                    <a href="mailto:info@karyani-house.com">
-                                        info@karyani-house.com
-                                    </a>
+                                    <MdEmail className="inline-block mr-1" />
+                                    <a href="mailto:info@karyani-house.com">info@karyani-house.com</a>
                                 </li>
                                 <li>
-                                    <i className="fa fa-phone"></i>
+                                    <MdPhone className="inline-block mr-1" />
                                     <a href="tel:+9710506607159">+971-050-6607159</a>
                                 </li>
-                            </ul>
-                        </div>
-
-                        <div className="top-right">
-                            <ul className="social-icon-four clearfix">
-                                <li>
-                                    <a href="#"><i className="fa fa-whatsapp"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="fa fa-facebook-f"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="fa fa-instagram"></i></a>
-                                </li>
-
-                                {/* ✅ Dropdown اللغة */}
-                                <li
-                                    style={{
-                                        position: "relative",
-                                        display: "inline-block",
-                                        marginLeft: "15px",
-                                    }}
-                                >
+                                <li style={{ position: "relative" }}>
                                     <button
                                         onClick={toggleLangDropdown}
                                         style={{
@@ -100,7 +86,6 @@ export default function HomeHeader() {
                                     >
                                         {isArabic ? "عربي ▼" : "English ▼"}
                                     </button>
-
                                     <ul
                                         style={{
                                             position: "absolute",
@@ -117,29 +102,19 @@ export default function HomeHeader() {
                                             transition: "all 0.3s ease",
                                             opacity: langOpen ? 1 : 0,
                                             visibility: langOpen ? "visible" : "hidden",
-                                            transform: langOpen
-                                                ? "translateY(0)"
-                                                : "translateY(-10px)",
+                                            transform: langOpen ? "translateY(0)" : "translateY(-10px)",
                                         }}
                                     >
                                         {isArabic ? (
                                             <li
-                                                style={{
-                                                    padding: "8px 12px",
-                                                    cursor: "pointer",
-                                                    color: "#333",
-                                                }}
+                                                style={{ padding: "8px 12px", cursor: "pointer", color: "#333" }}
                                                 onClick={() => changeLanguage("en")}
                                             >
                                                 English
                                             </li>
                                         ) : (
                                             <li
-                                                style={{
-                                                    padding: "8px 12px",
-                                                    cursor: "pointer",
-                                                    color: "#333",
-                                                }}
+                                                style={{ padding: "8px 12px", cursor: "pointer", color: "#333" }}
                                                 onClick={() => changeLanguage("ar")}
                                             >
                                                 عربي
@@ -147,6 +122,14 @@ export default function HomeHeader() {
                                         )}
                                     </ul>
                                 </li>
+                            </ul>
+                        </div>
+
+                        <div className="top-right">
+                            <ul className="social-icon-four clearfix flex items-center gap-3">
+                                <li><a href="#"><FaWhatsapp /></a></li>
+                                <li><a href="#"><FaFacebookF /></a></li>
+                                <li><a href="#"><FaInstagram /></a></li>
                             </ul>
                         </div>
                     </div>
@@ -159,19 +142,8 @@ export default function HomeHeader() {
                     <div className="main-box clearfix">
                         <div className="logo-box pull-left">
                             <div className="logo">
-                                <Link
-                                    href="/"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        navigateTo(isArabic ? "/ar" : "/");
-                                    }}
-                                >
-                                    <Image
-                                        src="/images/logo.png"
-                                        alt="Logo"
-                                        width={160}
-                                        height={160}
-                                    />
+                                <Link href="/">
+                                    <Image src="/images/logo.png" alt="Logo" width={160} height={160} />
                                 </Link>
                             </div>
                         </div>
@@ -192,40 +164,25 @@ export default function HomeHeader() {
                                     </button>
                                 </div>
 
-                                <div
-                                    className="collapse navbar-collapse clearfix"
-                                    id="navbarSupportedContent"
-                                >
+                                <div className="collapse navbar-collapse clearfix" id="navbarSupportedContent">
                                     <ul className="navigation clearfix">
                                         <li>
-                                            <a onClick={() => navigateTo(isArabic ? "/ar" : "/")}>
-                                                {isArabic ? "الرئيسية" : "Home"}
-                                            </a>
+                                            <Link href={isArabic ? "/ar" : "/"}>{isArabic ? "الرئيسية" : "Home"}</Link>
                                         </li>
                                         <li>
-                                            <Link href={`/${lang}/about`}>
-                                                {isArabic ? "من نحن" : "About"}
-                                            </Link>
+                                            <Link href={`/${lang}/about`}>{isArabic ? "من نحن" : "About"}</Link>
                                         </li>
                                         <li>
-                                            <Link href={`/${lang}/Services`}>
-                                                {isArabic ? "خدماتنا" : "Services"}
-                                            </Link>
+                                            <Link href={`/${lang}/Services`}>{isArabic ? "خدماتنا" : "Services"}</Link>
                                         </li>
                                         <li>
-                                            <Link href={`/${lang}/projects`}>
-                                                {isArabic ? "مشاريعنا" : "Projects"}
-                                            </Link>
+                                            <Link href={`/${lang}/projects`}>{isArabic ? "مشاريعنا" : "Projects"}</Link>
                                         </li>
                                         <li>
-                                            <Link href={`/${lang}/VillaConstruction`}>
-                                                {isArabic ? "المدونة" : "Blog"}
-                                            </Link>
+                                            <Link href={`/${lang}/VillaConstruction`}>{isArabic ? "المدونة" : "Blog"}</Link>
                                         </li>
                                         <li>
-                                            <Link href={`/${lang}/contact`}>
-                                                {isArabic ? "اتصل بنا" : "Contact"}
-                                            </Link>
+                                            <Link href={`/${lang}/contact`}>{isArabic ? "اتصل بنا" : "Contact"}</Link>
                                         </li>
                                     </ul>
                                 </div>
