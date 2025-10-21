@@ -147,11 +147,17 @@ export default async function VillaConstructionDetail({ params }: Props) {
                 if (element.name === "tr") element.attribs = { ...element.attribs, style: "border-bottom:1px solid #ddd;" };
                 if (element.name === "th") element.attribs = { ...element.attribs, style: "padding:12px; text-align:left; border:1px solid #ddd; font-weight:bold; color:black;" };
                 if (element.name === "td") element.attribs = { ...element.attribs, style: "padding:12px; border:1px solid #ddd; color:black;" };
-                if (element.name === "ul" || element.name === "ol") element.attribs = { ...element.attribs, style: "margin:1em 0; padding-left:1.8em; color:black; direction:ltr; list-style-position:outside; list-style-type:disc;" };
+                if (element.name === "ul" || element.name === "ol") element.attribs = {
+                    ...element.attribs,
+                    style: "margin:1em 0; padding-right:1.8em; padding-left:0; color:black; direction:rtl; list-style-position:outside; list-style-type:disc;"
+                };
                 if (element.name === "li") element.attribs = { ...element.attribs, style: "margin-bottom:0.8em; list-style-type:disc;" };
                 if (element.name === "img") element.attribs = { ...element.attribs, style: "max-width:100%; height:auto; margin:1em 0; border-radius:8px;" };
                 if (element.name === "p") element.attribs = { ...element.attribs, style: "margin-bottom:1em; color:black;" };
-                if (element.name === "blockquote") element.attribs = { ...element.attribs, style: "border-left:4px solid #db2777; padding-left:1em; color:black; font-style:italic; margin:1em 0;" };
+                if (element.name === "blockquote") element.attribs = {
+                    ...element.attribs,
+                    style: "border-right:4px solid #db2777; padding-right:1em; color:black; font-style:italic; margin:1em 0; text-align:right;"
+                };
             }
         },
     });
@@ -185,7 +191,6 @@ export default async function VillaConstructionDetail({ params }: Props) {
         "datePublished": post.date,
         "dateModified": post.date
     };
-
 
     return (
         <div className="rtl">
