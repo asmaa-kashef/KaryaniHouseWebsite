@@ -18,28 +18,30 @@ export default function HomeHeader() {
 
     const toggleLangDropdown = () => setLangOpen(!langOpen);
 
-    // دالة تغيير اللغة مع دعم المقالات فقط
+    // دالة تغيير اللغة مع دعم المقالات
     const changeLanguage = (newLang: string) => {
-        console.log("=== changeLanguage triggered ===");
-        console.log("Current pathname:", pathname);
-        debugger; // توقف هنا في VS Code / DevTools
-
         let newPath = pathname;
 
         // إزالة البادئة الحالية للغة
         if (newPath.startsWith("/ar")) newPath = newPath.slice(3);
         else if (newPath.startsWith("/en")) newPath = newPath.slice(3);
 
-        console.log("Path after removing lang prefix:", newPath);
-
-        // إضافة -2 للمقالات فقط
+        // التعامل مع المقالات فقط
         if (newPath.includes("/VillaConstruction/")) {
             const segments = newPath.split("/").filter(Boolean);
-            // segments[1] هو slug المقال
-            if (segments[1] && !segments[1].endsWith("-2")) {
-                segments[1] = segments[1] + "-2";
+            if (segments[1]) {
+                if (newLang === "ar") {
+                    // أي لغة → عربي: ضيف -2 إذا مش موجود
+                    if (!segments[1].endsWith("-2")) {
+                        segments[1] = segments[1] + "-2";
+                    }
+                } else {
+                    // أي لغة → إنجليزي: شيل -2 إذا موجود
+                    if (segments[1].endsWith("-2")) {
+                        segments[1] = segments[1].slice(0, -2);
+                    }
+                }
                 newPath = "/" + segments.join("/");
-                console.log("Path after adding -2 for blog:", newPath);
             }
         }
 
@@ -49,8 +51,6 @@ export default function HomeHeader() {
             newPath = newPath || "/";
             if (newPath !== "/") newPath = "/en" + newPath;
         }
-
-        console.log("Final newPath to navigate:", newPath);
 
         router.push(newPath);
         setLangOpen(false);
