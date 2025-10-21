@@ -1,5 +1,5 @@
-﻿import React from "react";
-import Head from "next/head";
+﻿// src/app/page.tsx
+import React from "react";
 import Header from "./components/HomeHeader";
 import Footer from "./components/HomeFooter";
 import ProjectsSection from "./components/ProjectsSection";
@@ -38,16 +38,14 @@ export const metadata: Metadata = {
         description: "Karyani House, a top construction company in Abu Dhabi, offers villa construction, maintenance, crack repair, structural strengthening, and facade renovation",
         images: ["https://www.karyanihouse.com/images/main-slider/construction.webp"],
     },
+    alternates: {
+        canonical: "https://www.karyanihouse.com/"
+    }
 };
 
 export default function HomePage() {
     return (
         <>
-            <Head>
-                {/* Canonical URL */}
-                <link rel="canonical" href="https://www.karyanihouse.com/" />
-            </Head>
-
             <Header />
             <main>
                 {/* LocalBusiness Schema */}
@@ -202,13 +200,15 @@ export default function HomePage() {
                 <ProjectsInsightChart />
                 <ProjectsCategories />
                 <TextContentvilla />
+
                 <section id="offer-form" className="offer-form-section">
                     <OfferForm />
                 </section>
+
                 <TextContentcontact />
                 <ClientsSection />
                 <ProjectsSection />
-                <TextContent/>
+                <TextContent />
                 <NewsSection />
             </main>
             <Footer />
