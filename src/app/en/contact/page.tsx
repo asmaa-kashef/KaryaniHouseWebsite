@@ -97,7 +97,7 @@ export default function ContactPage() {
 
     return (
         <div>
-            <Header />
+            <Header/>
 
             {/* ✅ Page Title with alt text for background */}
             <section

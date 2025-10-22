@@ -1,21 +1,21 @@
 ﻿// src/app/page.tsx
 import React from "react";
-import Header from "./components/HomeHeader";
-import Footer from "./components/HomeFooter";
-import ProjectsSection from "./components/ProjectsSection";
-import ProjectsCategories from "./components/ProjectsCategories";
-import OfferForm from "./components/OfferForm";
-import ClientsSection from "./components/ClientsSection";
-import NewsSection from "./components/NewsSection";
+import Header from "../components/HomeHeader";
+import Footer from "../components/HomeFooter";
+import ProjectsSection from "../components/ProjectsSection";
+import ProjectsCategories from "../components/ProjectsCategories";
+import OfferForm from "../components/OfferForm";
+import ClientsSection from "../components/ClientsSection";
+import NewsSection from "../components/NewsSection";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ProjectsInsightChart from "./components/ProjectsInsightChart";
+import ProjectsInsightChart from "../components/ProjectsInsightChart";
 import { Metadata } from "next";
-import SpecilizationSection from "./components/SpecilizationSection";
-import BannerSection from "./components/BannerSection";
-import TextContentcontact from "./components/TextContentcontact";
-import TextContent from "./components/TextContent";
-import TextContentvilla from "./components/TextContentvilla";
+import SpecilizationSection from "../components/SpecilizationSection";
+import BannerSection from "../components/BannerSection";
+import TextContentcontact from "../components/TextContentcontact";
+import TextContent from "../components/TextContent";
+import TextContentvilla from "../components/TextContentvilla";
 
 export const metadata: Metadata = {
     title: "Karyani House Top Villa construction companies in abu dhabi",
