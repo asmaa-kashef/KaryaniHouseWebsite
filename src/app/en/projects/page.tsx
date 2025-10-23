@@ -52,7 +52,7 @@ export async function generateMetadata({
             ? `${baseDescription} - Page ${currentPage}`
             : baseDescription;
 
-    const baseUrl = "https://karyani-house.com/projects";
+    const baseUrl = "https://karyani-house.com/en/projects";
     const currentUrl = `${baseUrl}?filter=${filter}&page=${currentPage}`;
 
     return {
