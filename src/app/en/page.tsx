@@ -39,7 +39,7 @@ export const metadata: Metadata = {
         images: ["https://www.karyanihouse.com/images/main-slider/construction.webp"],
     },
     alternates: {
-        canonical: "https://www.karyanihouse.com/"
+        canonical: "https://www.karyani-house.com/en"
     }
 };
 
