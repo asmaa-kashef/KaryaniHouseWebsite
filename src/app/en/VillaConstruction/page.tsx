@@ -44,7 +44,7 @@ export const metadata: Metadata = {
         creator: "@KaryaniHouse",
     },
     alternates: {
-        canonical: "https://www.karyani-house.com/blog",
+        canonical: "https://www.karyani-house.com/en/VillaConstruction",
     },
 };
 
