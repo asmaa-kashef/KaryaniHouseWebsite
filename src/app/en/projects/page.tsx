@@ -53,8 +53,7 @@ export async function generateMetadata({
             : baseDescription;
 
     const baseUrl = "https://karyani-house.com/en/projects";
-    // canonical URL بدون تحويل الـ & إلى &amp;
-    const canonicalUrl = `${baseUrl}?filter=${filter}&page=${currentPage}`;
+    const currentUrl = `${baseUrl}?filter=${filter}&page=${currentPage}`;
 
     return {
         title,
@@ -62,7 +61,7 @@ export async function generateMetadata({
         openGraph: {
             title,
             description,
-            url: canonicalUrl,
+            url: currentUrl,
             type: "website",
             images: [
                 {
@@ -78,7 +77,7 @@ export async function generateMetadata({
             images: ["https://karyani-house.com/images/project-banner.jpg"],
         },
         alternates: {
-            canonical: canonicalUrl, // هنا أصبح & عادي
+            canonical: currentUrl,
             prev:
                 currentPage > 1
                     ? `${baseUrl}?filter=${filter}&page=${currentPage - 1}`
