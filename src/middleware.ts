@@ -30,6 +30,14 @@ export function middleware(request: NextRequest) {
         });
     }
 
+    if (pathname.startsWith('/comment.php')) {
+        console.log(`[410] Blocked: ${fullPath}`);
+        return new NextResponse('<h1>410 Gone</h1><p>This page no longer exists.</p>', {
+            status: 410,
+            headers: { 'Content-Type': 'text/html' },
+        });
+    }
+
     // -----------------------------
     // 3) روابط 410 المسبقة
     // -----------------------------
