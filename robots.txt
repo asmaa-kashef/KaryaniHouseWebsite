@@ -1,4 +1,6 @@
 User-agent: *
-Disallow:
+Disallow: /karyaniconstruction/
+Disallow: /blog/
+Disallow: /odoo/
 
 Sitemap: https://www.karyani-house.com/sitemap.xml
