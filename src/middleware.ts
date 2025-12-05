@@ -18,12 +18,12 @@ export function middleware(request: NextRequest) {
     }
 
     // -----------------------------
-    // 2) أي URL يحتوي "karyaniconstruction" يرجع 410
+    // 2) أي URL يحتوي "karyaniconstruction.karyani-house.com" يرجع 410
     // -----------------------------
-    const full = request.nextUrl.href;
+    const fullUrl = request.nextUrl.href;
 
-    if (full.includes('karyaniconstruction')) {
-        console.log(`[410] Blocked: ${full}`);
+    if (fullUrl.includes('karyaniconstruction.karyani-house.com')) {
+        console.log(`[410] Blocked: ${fullUrl}`);
         return new NextResponse('<h1>410 Gone</h1><p>This page no longer exists.</p>', {
             status: 410,
             headers: { 'Content-Type': 'text/html' },
@@ -92,4 +92,3 @@ export function middleware(request: NextRequest) {
 export const config = {
     matcher: ['/((?!_next|api|static|.*\\..*).*)'],
 };
-// temporary test change
