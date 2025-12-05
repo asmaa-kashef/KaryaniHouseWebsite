@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import axios from 'axios';
 
 const API_KEY = process.env.GOOGLE_PLACES_API_KEY;
