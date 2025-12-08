@@ -4,6 +4,7 @@ import "../../../public/css/bootstrap.css";
 import "../../../public/css/style.css";
 import "../../../public/css/responsive.css";
 
+
 // تعريف نظام الخطوط القياسي
 const systemFontStack = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif';
 

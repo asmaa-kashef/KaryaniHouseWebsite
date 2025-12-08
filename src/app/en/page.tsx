@@ -7,8 +7,7 @@ import ProjectsCategories from "../components/ProjectsCategories";
 import OfferForm from "../components/OfferForm";
 import ClientsSection from "../components/ClientsSection";
 import NewsSection from "../components/NewsSection";
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+
 import ProjectsInsightChart from "../components/ProjectsInsightChart";
 import { Metadata } from "next";
 import SpecilizationSection from "../components/SpecilizationSection";
