@@ -1,6 +1,6 @@
 ﻿// src/app/layout.tsx
-import Script from "next/script";
 import { BenchNine } from "next/font/google";
+import Script from "next/script";
 
 const benchNine = BenchNine({
     weight: ["300", "400", "700"],
@@ -13,25 +13,51 @@ const systemFontStack =
 
 const GTM_ID = "GTM-WWD2X2H4";
 
+// Critical CSS inline للـ hero/header فقط
+const criticalCSS = `
+body { margin:0; padding:0; font-family: ${systemFontStack}; }
+header, nav, .hero { display:block; width:100%; }
+`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <head>
-                {/* CSS الأساسي */}
+                {/* Critical CSS inline */}
+                <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
+
+                {/* CSS الأساسية التي يجب تحميلها فورًا */}
+                <link rel="preload" href="/css/bootstrap.css" as="style" />
+                <link rel="preload" href="/css/style.css" as="style" />
                 <link rel="stylesheet" href="/css/bootstrap.css" />
                 <link rel="stylesheet" href="/css/style.css" />
-                <link rel="stylesheet" href="/css/responsive.css" />
 
-                {/* Google Fonts محسنة */}
+                {/* CSS الثانوية - lazy load لتحسين الأداء */}
+                <Script id="responsive-css" strategy="afterInteractive">
+                    {`
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '/css/responsive.css';
+            link.media = 'all';
+            document.head.appendChild(link);
+          `}
+                </Script>
+
+                {/* Google Fonts preload */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+                <link
+                    rel="preload"
+                    as="style"
+                    href="https://fonts.googleapis.com/css?family=BenchNine:300,400,700&display=swap"
+                />
                 <link
                     href="https://fonts.googleapis.com/css?family=BenchNine:300,400,700&display=swap"
                     rel="stylesheet"
                 />
 
-                {/* GTM */}
-                <Script id="google-tag-manager" strategy="afterInteractive">
+                {/* Google Tag Manager */}
+                <Script id="gtm" strategy="afterInteractive">
                     {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -58,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </Script>
             </head>
 
-            <body className={benchNine.className} style={{ fontFamily: systemFontStack }}>
+            <body className={benchNine.className}>
                 {/* GTM NoScript */}
                 <noscript>
                     <iframe
@@ -71,7 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
                 <main>{children}</main>
 
-                {/* JavaScript */}
+                {/* JavaScript - تحميل lazy للأشياء غير ضرورية في البداية */}
                 <Script src="/js/jquery.js" strategy="afterInteractive" />
                 <Script src="/js/popper.min.js" strategy="afterInteractive" />
                 <Script src="/js/bootstrap.min.js" strategy="lazyOnload" />
