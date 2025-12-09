@@ -17,20 +17,70 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <head>
-                {/* CSS الأساسي */}
+                {/* ================= Critical CSS ================= */}
                 <link rel="stylesheet" href="/css/bootstrap.css" />
                 <link rel="stylesheet" href="/css/style.css" />
                 <link rel="stylesheet" href="/css/responsive.css" />
 
-                {/* Google Fonts محسنة */}
+                {/* ================= Non-critical CSS (preload + async) ================= */}
+                <link
+                    rel="preload"
+                    href="/css/jquery.fancybox.min.css"
+                    as="style"
+                    onLoad="this.onload=null;this.rel='stylesheet'"
+                />
+                <link
+                    rel="preload"
+                    href="/css/jquery-ui.css"
+                    as="style"
+                    onLoad="this.onload=null;this.rel='stylesheet'"
+                />
+                <link
+                    rel="preload"
+                    href="/css/animate.css"
+                    as="style"
+                    onLoad="this.onload=null;this.rel='stylesheet'"
+                />
+                <link
+                    rel="preload"
+                    href="/css/owl.css"
+                    as="style"
+                    onLoad="this.onload=null;this.rel='stylesheet'"
+                />
+                <link
+                    rel="preload"
+                    href="/css/font-awesome.css"
+                    as="style"
+                    onLoad="this.onload=null;this.rel='stylesheet'"
+                />
+                <link
+                    rel="preload"
+                    href="/css/jquery.mCustomScrollbar.min.css"
+                    as="style"
+                    onLoad="this.onload=null;this.rel='stylesheet'"
+                />
+                <link
+                    rel="preload"
+                    href="/css/jquery.bootstrap-touchspin.css"
+                    as="style"
+                    onLoad="this.onload=null;this.rel='stylesheet'"
+                />
+                <link
+                    rel="preload"
+                    href="/css/flaticon.css"
+                    as="style"
+                    onLoad="this.onload=null;this.rel='stylesheet'"
+                />
+
+                {/* ================= Google Fonts ================= */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
                 <link
-                    href="https://fonts.googleapis.com/css?family=BenchNine:300,400,700&display=swap"
+                    href="https://fonts.googleapis.com/css2?family=BenchNine:wght@300;400;700&display=swap"
                     rel="stylesheet"
                 />
 
-                {/* GTM */}
+                {/* ================= Google Tag Manager ================= */}
                 <Script id="google-tag-manager" strategy="afterInteractive">
                     {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -41,7 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
                 </Script>
 
-                {/* Meta Pixel */}
+                {/* ================= Meta Pixel ================= */}
                 <Script id="meta-pixel" strategy="afterInteractive">
                     {`
             !function(f,b,e,v,n,t,s)
@@ -71,7 +121,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
                 <main>{children}</main>
 
-                {/* JavaScript */}
+                {/* ================= JavaScript ================= */}
                 <Script src="/js/jquery.js" strategy="afterInteractive" />
                 <Script src="/js/popper.min.js" strategy="afterInteractive" />
                 <Script src="/js/bootstrap.min.js" strategy="lazyOnload" />
