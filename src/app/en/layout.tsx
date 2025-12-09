@@ -13,16 +13,31 @@ const systemFontStack =
 
 const GTM_ID = "GTM-WWD2X2H4";
 
+// Critical CSS فقط للـ hero/header
+const criticalCSS = `
+/* مثال: CSS أساسي للصفحة */
+body { margin:0; padding:0; font-family: ${systemFontStack}; }
+header, nav, .hero { display:block; width:100%; }
+`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <head>
-                {/* CSS الأساسي */}
+                {/* Critical CSS inline */}
+                <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
+
+                {/* CSS الأساسية */}
                 <link rel="stylesheet" href="/css/bootstrap.css" />
                 <link rel="stylesheet" href="/css/style.css" />
-                <link rel="stylesheet" href="/css/responsive.css" />
 
-                {/* Google Fonts محسنة */}
+                {/* CSS الثانوية - lazy loading */}
+                <link rel="stylesheet" href="/css/responsive.css" media="print" onLoad="this.media='all'" />
+                <noscript>
+                    <link rel="stylesheet" href="/css/responsive.css" />
+                </noscript>
+
+                {/* Google Fonts */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
                 <link
@@ -58,7 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </Script>
             </head>
 
-            <body className={benchNine.className} style={{ fontFamily: systemFontStack }}>
+            <body className={benchNine.className}>
                 {/* GTM NoScript */}
                 <noscript>
                     <iframe
