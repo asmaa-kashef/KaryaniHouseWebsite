@@ -15,7 +15,6 @@ const GTM_ID = "GTM-WWD2X2H4";
 
 // Critical CSS فقط للـ hero/header
 const criticalCSS = `
-/* مثال: CSS أساسي للصفحة */
 body { margin:0; padding:0; font-family: ${systemFontStack}; }
 header, nav, .hero { display:block; width:100%; }
 `;
@@ -31,11 +30,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <link rel="stylesheet" href="/css/bootstrap.css" />
                 <link rel="stylesheet" href="/css/style.css" />
 
-                {/* CSS الثانوية - lazy loading */}
-                <link rel="stylesheet" href="/css/responsive.css" media="print" onLoad="this.media='all'" />
-                <noscript>
-                    <link rel="stylesheet" href="/css/responsive.css" />
-                </noscript>
+                {/* CSS الثانوية - lazy load باستخدام next/script */}
+                <Script id="responsive-css" strategy="afterInteractive">
+                    {`
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '/css/responsive.css';
+            document.head.appendChild(link);
+          `}
+                </Script>
 
                 {/* Google Fonts */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
