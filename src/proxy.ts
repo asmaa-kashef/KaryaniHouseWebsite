@@ -1,8 +1,8 @@
-﻿// src/middleware.ts
+﻿// src/proxy.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const url = request.nextUrl;
     const pathname = url.pathname;
     const fullPath = pathname + url.search;
@@ -97,6 +97,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
 }
 
+// -----------------------------
+// Matcher القديم يتحول للصيغة الجديدة
+// -----------------------------
 export const config = {
     matcher: ['/((?!_next|api|static|.*\\..*).*)'],
 };

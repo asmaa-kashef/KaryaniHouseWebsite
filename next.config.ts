@@ -1,6 +1,4 @@
-﻿import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+﻿const nextConfig = {
     images: {
         remotePatterns: [
             {
@@ -17,6 +15,12 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+
+    // تعطيل sourcemaps بدون Webpack
+    productionBrowserSourceMaps: false,
+
+    // منع الخطأ الخاص بتوربو باك
+    turbopack: {},
 };
 
 export default nextConfig;

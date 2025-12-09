@@ -7,9 +7,8 @@ import ProjectsCategories from "../components/ProjectsCategories";
 import OfferForm from "../components/OfferForm";
 import ClientsSection from "../components/ClientsSection";
 import NewsSection from "../components/NewsSection";
-
 import ProjectsInsightChart from "../components/ProjectsInsightChart";
-import { Metadata } from "next";
+import  {Metadata}  from "next";
 import SpecilizationSection from "../components/SpecilizationSection";
 import BannerSection from "../components/BannerSection";
 import TextContentcontact from "../components/TextContentcontact";
