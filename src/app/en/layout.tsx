@@ -1,6 +1,7 @@
 ﻿// src/app/layout.tsx
 import Script from "next/script";
 import { BenchNine } from "next/font/google";
+import AsyncCSS from "../components/AsyncCSS";
 
 const benchNine = BenchNine({
     weight: ["300", "400", "700"],
@@ -14,63 +15,42 @@ const systemFontStack =
 const GTM_ID = "GTM-WWD2X2H4";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+    const nonCriticalCSS = [
+        "jquery.fancybox.min.css",
+        "jquery-ui.css",
+        "animate.css",
+        "owl.css",
+        "font-awesome.css",
+        "jquery.mCustomScrollbar.min.css",
+        "jquery.bootstrap-touchspin.css",
+        "flaticon.css",
+    ];
+
+    const jsAfterInteractive = ["jquery.js", "popper.min.js"];
+    const jsLazy = [
+        "bootstrap.min.js",
+        "jquery.fancybox.js",
+        "owl.js",
+        "jquery.mCustomScrollbar.concat.min.js",
+        "wow.js",
+        "appear.js",
+        "mixitup.js",
+        "script.js",
+        "color-settings.js",
+    ];
+
     return (
         <html lang="en">
             <head>
                 {/* ================= Critical CSS ================= */}
-                <link rel="stylesheet" href="/css/bootstrap.css" />
-                <link rel="stylesheet" href="/css/style.css" />
-                <link rel="stylesheet" href="/css/responsive.css" />
+                <link rel="stylesheet" href="/css/bootstrap.css" media="all" />
+                <link rel="stylesheet" href="/css/style.css" media="all" />
+                <link rel="stylesheet" href="/css/responsive.css" media="all" />
 
-                {/* ================= Non-critical CSS (preload + async) ================= */}
-                <link
-                    rel="preload"
-                    href="/css/jquery.fancybox.min.css"
-                    as="style"
-                    onLoad="this.onload=null;this.rel='stylesheet'"
-                />
-                <link
-                    rel="preload"
-                    href="/css/jquery-ui.css"
-                    as="style"
-                    onLoad="this.onload=null;this.rel='stylesheet'"
-                />
-                <link
-                    rel="preload"
-                    href="/css/animate.css"
-                    as="style"
-                    onLoad="this.onload=null;this.rel='stylesheet'"
-                />
-                <link
-                    rel="preload"
-                    href="/css/owl.css"
-                    as="style"
-                    onLoad="this.onload=null;this.rel='stylesheet'"
-                />
-                <link
-                    rel="preload"
-                    href="/css/font-awesome.css"
-                    as="style"
-                    onLoad="this.onload=null;this.rel='stylesheet'"
-                />
-                <link
-                    rel="preload"
-                    href="/css/jquery.mCustomScrollbar.min.css"
-                    as="style"
-                    onLoad="this.onload=null;this.rel='stylesheet'"
-                />
-                <link
-                    rel="preload"
-                    href="/css/jquery.bootstrap-touchspin.css"
-                    as="style"
-                    onLoad="this.onload=null;this.rel='stylesheet'"
-                />
-                <link
-                    rel="preload"
-                    href="/css/flaticon.css"
-                    as="style"
-                    onLoad="this.onload=null;this.rel='stylesheet'"
-                />
+                {/* ================= Non-critical CSS ================= */}
+                {nonCriticalCSS.map((file) => (
+                    <AsyncCSS key={file} href={`/css/${file}`} />
+                ))}
 
                 {/* ================= Google Fonts ================= */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -98,10 +78,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
             n.callMethod.apply(n,arguments):n.queue.push(arguments)};
             if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
+            n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+            s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
+            }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '1254073446082094');
             fbq('track', 'PageView');
           `}
@@ -122,17 +101,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <main>{children}</main>
 
                 {/* ================= JavaScript ================= */}
-                <Script src="/js/jquery.js" strategy="afterInteractive" />
-                <Script src="/js/popper.min.js" strategy="afterInteractive" />
-                <Script src="/js/bootstrap.min.js" strategy="lazyOnload" />
-                <Script src="/js/jquery.fancybox.js" strategy="lazyOnload" />
-                <Script src="/js/owl.js" strategy="lazyOnload" />
-                <Script src="/js/jquery.mCustomScrollbar.concat.min.js" strategy="lazyOnload" />
-                <Script src="/js/wow.js" strategy="lazyOnload" />
-                <Script src="/js/appear.js" strategy="lazyOnload" />
-                <Script src="/js/mixitup.js" strategy="lazyOnload" />
-                <Script src="/js/script.js" strategy="lazyOnload" />
-                <Script src="/js/color-settings.js" strategy="lazyOnload" />
+                {jsAfterInteractive.map((file) => (
+                    <Script key={file} src={`/js/${file}`} strategy="afterInteractive" />
+                ))}
+
+                {jsLazy.map((file) => (
+                    <Script key={file} src={`/js/${file}`} strategy="lazyOnload" />
+                ))}
             </body>
         </html>
     );
