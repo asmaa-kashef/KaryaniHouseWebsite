@@ -36,7 +36,7 @@ export default function ProjectsComponent() {
     const content = componentContent[currentLang];
 
     const [activeIndex, setActiveIndex] = useState(0);
-    const sliderInterval = useRef<NodeJS.Timer | null>(null);
+    const sliderInterval = useRef<number | null>(null);
 
     const projects: Project[] = [
         {
@@ -59,26 +59,29 @@ export default function ProjectsComponent() {
         },
     ];
 
-    // ===== Slider Interval Function =====
+    // ===== Slider Interval Functions =====
     useEffect(() => {
         startSlider();
         return () => stopSlider();
     }, [projects.length]);
 
     const startSlider = () => {
-        stopSlider(); // clear existing
-        sliderInterval.current = setInterval(() => {
+        stopSlider();
+        sliderInterval.current = window.setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % projects.length);
         }, 4000);
     };
 
     const stopSlider = () => {
-        if (sliderInterval.current) clearInterval(sliderInterval.current);
+        if (sliderInterval.current !== null) {
+            clearInterval(sliderInterval.current);
+            sliderInterval.current = null;
+        }
     };
 
     const goToSlide = (index: number) => {
         setActiveIndex(index);
-        startSlider(); // reset interval after user interaction
+        startSlider(); // إعادة تشغيل interval بعد تفاعل المستخدم
     };
 
     return (
