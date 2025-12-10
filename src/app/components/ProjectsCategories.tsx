@@ -1,11 +1,13 @@
 ﻿"use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
+import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 
 interface Project {
-    video: string;
+    videoId: string;
     name: string;
     title: string;
     text: string;
@@ -13,181 +15,225 @@ interface Project {
 
 const componentContent = {
     en: {
-        heading: 'Our Best Work',
-        subheading: 'Project',
-        allProjectsLink: 'All Projects',
-        viewProjectLink: 'View Project',
-        quoteLink: 'Get a Quote',
-        watchYoutube: 'Watch on YouTube',
+        heading: "Our Best Work",
+        subheading: "Project",
+        allProjectsLink: "All Projects",
+        viewProjectLink: "View Project",
+        quoteLink: "Get a Quote",
     },
     ar: {
-        heading: 'أفضل أعمالنا',
-        subheading: 'المشاريع',
-        allProjectsLink: 'جميع المشاريع',
-        viewProjectLink: 'عرض المشروع',
-        quoteLink: 'اطلب عرض سعر',
-        watchYoutube: 'شاهد على يوتيوب',
+        heading: "أفضل أعمالنا",
+        subheading: "المشاريع",
+        allProjectsLink: "جميع المشاريع",
+        viewProjectLink: "عرض المشروع",
+        quoteLink: "اطلب عرض سعر",
     },
 };
 
 export default function ProjectsComponent() {
     const pathname = usePathname();
-    const currentLang = pathname.startsWith('/ar') ? 'ar' : 'en';
+    const currentLang = pathname.startsWith("/ar") ? "ar" : "en";
     const content = componentContent[currentLang];
+
     const [activeIndex, setActiveIndex] = useState(0);
 
     const projects: Project[] = [
         {
-            video: 'https://www.youtube.com/embed/00_cHMGz5aE',
-            name: currentLang === 'ar' ? 'بناء فيلا' : 'Villa Construction',
-            title: currentLang === 'ar' ? 'إنشاء' : 'Construction',
+            videoId: "00_cHMGz5aE",
+            name: currentLang === "ar" ? "بناء فيلا" : "Villa Construction",
+            title: currentLang === "ar" ? "إنشاء" : "Construction",
             text:
-                currentLang === 'ar'
-                    ? 'مشروع بناء فيلا بتصميم حديث وعالي الجودة'
-                    : 'Luxury villa construction project with modern design',
+                currentLang === "ar"
+                    ? "مشروع بناء فيلا بتصميم حديث وعالي الجودة"
+                    : "Luxury villa construction project with modern design",
         },
         {
-            video: 'https://www.youtube.com/embed/Y6ciIuGM06c',
-            name: currentLang === 'ar' ? 'ترميم الهياكل' : 'Structure Repair',
-            title: currentLang === 'ar' ? 'ترميم' : 'Repair',
+            videoId: "Y6ciIuGM06c",
+            name: currentLang === "ar" ? "ترميم الهياكل" : "Structure Repair",
+            title: currentLang === "ar" ? "ترميم" : "Repair",
             text:
-                currentLang === 'ar'
-                    ? 'مشروع ترميم وإصلاح الهياكل للمباني والفيلات'
-                    : 'Structural repair and renovation of villas',
+                currentLang === "ar"
+                    ? "مشروع ترميم وإصلاح الهياكل للمباني والفيلات"
+                    : "Structural repair and renovation of villas",
         },
     ];
 
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % projects.length);
-        }, 4000); // Autoplay every 4 seconds
+        }, 4000);
         return () => clearInterval(interval);
     }, [projects.length]);
 
-    const titleStyle: React.CSSProperties = {
-        fontSize: '14px',
-        fontWeight: 'bold',
-        color: '#ff914d',
-        display: 'block',
-        marginBottom: '8px',
-    };
-
-    const h3Style: React.CSSProperties = {
-        fontSize: '20px',
-        margin: '5px 0',
-        color: '#222',
-    };
-
-    const textStyle: React.CSSProperties = {
-        marginTop: '10px',
-        fontSize: '14px',
-        color: '#555',
-        lineHeight: 1.5,
-    };
-
     return (
-        <section dir={currentLang === 'ar' ? 'rtl' : 'ltr'} style={{ padding: '80px 0', position: 'relative' }}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 15px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', flexWrap: 'wrap' }}>
-                    <div style={{ marginBottom: '10px', textAlign: 'left' }}>
-                        <span style={{ fontSize: '64px', color: 'rgba(0,0,0,0.05)', fontWeight: 'bold', position: 'relative', zIndex: 0, whiteSpace: 'nowrap', display: 'block' }}>{content.subheading}</span>
-                        <h2 style={{ fontSize: '2.5rem', fontWeight: '800', color: '#222', position: 'relative', zIndex: 1, marginTop: '-40px' }}>{content.heading}</h2>
-                    </div>
-                    <div style={{ display: 'flex', gap: '15px' }}>
-                        <Link
-                            href={`/${currentLang}/projects`}
+        <section
+            dir={currentLang === "ar" ? "rtl" : "ltr"}
+            style={{ padding: "80px 0", position: "relative" }}
+        >
+            <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 15px" }}>
+                {/* Header */}
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "40px",
+                        flexWrap: "wrap",
+                    }}
+                >
+                    <div style={{ marginBottom: "10px", textAlign: "left" }}>
+                        <span
                             style={{
-                                padding: '10px 18px',
-                                borderRadius: '6px',
-                                fontSize: '14px',
-                                fontWeight: 600,
-                                background: '#ff914d',
-                                color: '#fff',
-                                textDecoration: 'none',
-                                boxShadow: '0 5px 10px rgba(0,0,0,0.2)',
-                                transition: 'transform 0.3s',
+                                fontSize: "64px",
+                                color: "rgba(0,0,0,0.05)",
+                                fontWeight: "bold",
+                                display: "block",
                             }}
-                            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                         >
-                            {content.allProjectsLink}
-                            <span style={{ marginLeft: '8px', verticalAlign: 'middle' }}>→</span>
-                        </Link>
+                            {content.subheading}
+                        </span>
+                        <h2
+                            style={{
+                                fontSize: "2.5rem",
+                                fontWeight: "800",
+                                color: "#222",
+                                marginTop: "-40px",
+                            }}
+                        >
+                            {content.heading}
+                        </h2>
                     </div>
+
+                    <Link
+                        href={`/${currentLang}/projects`}
+                        style={{
+                            padding: "10px 18px",
+                            borderRadius: "6px",
+                            fontSize: "14px",
+                            fontWeight: 600,
+                            background: "#ff914d",
+                            color: "#fff",
+                            textDecoration: "none",
+                            boxShadow: "0 5px 10px rgba(0,0,0,0.2)",
+                        }}
+                    >
+                        {content.allProjectsLink} →
+                    </Link>
                 </div>
 
-                <div style={{ position: 'relative', overflow: 'hidden' }}>
+                {/* Slider */}
+                <div style={{ position: "relative", overflow: "hidden" }}>
                     {projects.map((project, idx) => (
                         <div
                             key={idx}
                             style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                gap: '40px',
-                                transition: 'opacity 0.5s ease-in-out',
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                gap: "40px",
+                                transition: "opacity 0.5s ease-in-out",
                                 opacity: idx === activeIndex ? 1 : 0,
-                                position: idx === activeIndex ? 'relative' : 'absolute',
+                                position: idx === activeIndex ? "relative" : "absolute",
                                 top: 0,
                                 left: 0,
-                                width: '100%',
+                                width: "100%",
                             }}
                         >
-                            <div style={{ flex: '1 1 50%', position: 'relative', paddingTop: '56.25%', maxWidth: '800px', width: '100%', borderRadius: '12px', overflow: 'hidden', border: '3px solid #ff914d', boxShadow: '0 6px 15px rgba(0,0,0,0.2)' }}>
-                                <iframe
-                                    src={project.video}
-                                    title={project.name}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
+                            {/* Lite YouTube Video */}
+                            <div
+                                style={{
+                                    position: "relative",
+                                    paddingTop: "56.25%",
+                                    width: "100%",
+                                    maxWidth: "800px",
+                                    borderRadius: "12px",
+                                    overflow: "hidden",
+                                    border: "3px solid #ff914d",
+                                    boxShadow: "0 6px 15px rgba(0,0,0,0.2)",
+                                }}
+                            >
+                                <LiteYouTubeEmbed
+                                    id={project.videoId}
+                                    title={project.title}
                                     style={{
-                                        position: 'absolute',
+                                        position: "absolute",
                                         top: 0,
                                         left: 0,
-                                        width: '100%',
-                                        height: '100%',
+                                        width: "100%",
+                                        height: "100%",
                                     }}
                                 />
                             </div>
 
-                            <div style={{ flex: '1 1 50%', textAlign: 'center' }}>
-                                <span style={titleStyle}>{project.title}</span>
-                                <h3 style={h3Style}>{project.name}</h3>
-                                <div style={textStyle}>{project.text}</div>
-                                <div style={{ marginTop: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                            {/* Text */}
+                            <div style={{ textAlign: "center" }}>
+                                <span
+                                    style={{
+                                        fontSize: "14px",
+                                        fontWeight: "bold",
+                                        color: "#ff914d",
+                                        display: "block",
+                                        marginBottom: "8px",
+                                    }}
+                                >
+                                    {project.title}
+                                </span>
+                                <h3
+                                    style={{
+                                        fontSize: "20px",
+                                        margin: "5px 0",
+                                        color: "#222",
+                                    }}
+                                >
+                                    {project.name}
+                                </h3>
+                                <div
+                                    style={{
+                                        marginTop: "10px",
+                                        fontSize: "14px",
+                                        color: "#555",
+                                        lineHeight: 1.5,
+                                    }}
+                                >
+                                    {project.text}
+                                </div>
+
+                                <div
+                                    style={{
+                                        marginTop: "20px",
+                                        display: "flex",
+                                        gap: "10px",
+                                        flexWrap: "wrap",
+                                        justifyContent: "center",
+                                    }}
+                                >
                                     <Link
                                         href={`/${currentLang}/projects`}
                                         style={{
-                                            padding: '10px 18px',
-                                            borderRadius: '6px',
-                                            fontSize: '14px',
+                                            padding: "10px 18px",
+                                            borderRadius: "6px",
+                                            fontSize: "14px",
                                             fontWeight: 600,
-                                            background: '#ff914d',
-                                            color: '#fff',
-                                            textDecoration: 'none',
-                                            boxShadow: '0 5px 10px rgba(0,0,0,0.2)',
-                                            transition: 'transform 0.3s',
+                                            background: "#ff914d",
+                                            color: "#fff",
+                                            textDecoration: "none",
                                         }}
-                                        onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                                        onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                                     >
                                         {content.viewProjectLink}
                                     </Link>
+
                                     <a
                                         href="#offer-form"
                                         style={{
-                                            padding: '10px 18px',
-                                            borderRadius: '6px',
-                                            fontSize: '14px',
+                                            padding: "10px 18px",
+                                            borderRadius: "6px",
+                                            fontSize: "14px",
                                             fontWeight: 600,
-                                            border: '2px solid #ff914d',
-                                            color: '#ff914d',
-                                            background: 'white',
-                                            textDecoration: 'none',
-                                            transition: 'transform 0.3s',
+                                            border: "2px solid #ff914d",
+                                            color: "#ff914d",
+                                            background: "white",
+                                            textDecoration: "none",
                                         }}
-                                        onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                                        onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                                     >
                                         {content.quoteLink}
                                     </a>
@@ -195,19 +241,27 @@ export default function ProjectsComponent() {
                             </div>
                         </div>
                     ))}
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+
+                    {/* Dots */}
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "30px",
+                        }}
+                    >
                         {projects.map((_, idx) => (
                             <div
                                 key={idx}
                                 onClick={() => setActiveIndex(idx)}
                                 style={{
-                                    width: '12px',
-                                    height: '12px',
-                                    borderRadius: '50%',
-                                    background: idx === activeIndex ? '#ff914d' : '#ccc',
-                                    margin: '0 5px',
-                                    cursor: 'pointer',
-                                    transition: 'background 0.3s',
+                                    width: "12px",
+                                    height: "12px",
+                                    borderRadius: "50%",
+                                    background: idx === activeIndex ? "#ff914d" : "#ccc",
+                                    margin: "0 5px",
+                                    cursor: "pointer",
+                                    transition: "background 0.3s",
                                 }}
                             />
                         ))}
