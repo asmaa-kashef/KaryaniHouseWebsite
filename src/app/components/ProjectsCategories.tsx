@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
@@ -36,6 +36,7 @@ export default function ProjectsComponent() {
     const content = componentContent[currentLang];
 
     const [activeIndex, setActiveIndex] = useState(0);
+    const sliderInterval = useRef<NodeJS.Timer | null>(null);
 
     const projects: Project[] = [
         {
@@ -58,12 +59,27 @@ export default function ProjectsComponent() {
         },
     ];
 
+    // ===== Slider Interval Function =====
     useEffect(() => {
-        const interval = setInterval(() => {
+        startSlider();
+        return () => stopSlider();
+    }, [projects.length]);
+
+    const startSlider = () => {
+        stopSlider(); // clear existing
+        sliderInterval.current = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % projects.length);
         }, 4000);
-        return () => clearInterval(interval);
-    }, [projects.length]);
+    };
+
+    const stopSlider = () => {
+        if (sliderInterval.current) clearInterval(sliderInterval.current);
+    };
+
+    const goToSlide = (index: number) => {
+        setActiveIndex(index);
+        startSlider(); // reset interval after user interaction
+    };
 
     return (
         <section
@@ -139,7 +155,7 @@ export default function ProjectsComponent() {
                                 width: "100%",
                             }}
                         >
-                            {/* Lite YouTube Video */}
+                            {/* Lite YouTube Video with lazy-load */}
                             <div
                                 style={{
                                     position: "relative",
@@ -155,6 +171,9 @@ export default function ProjectsComponent() {
                                 <LiteYouTubeEmbed
                                     id={project.videoId}
                                     title={project.title}
+                                    poster="hqdefault"
+                                    webp
+                                    noCookie
                                     style={{
                                         position: "absolute",
                                         top: 0,
@@ -253,7 +272,7 @@ export default function ProjectsComponent() {
                         {projects.map((_, idx) => (
                             <div
                                 key={idx}
-                                onClick={() => setActiveIndex(idx)}
+                                onClick={() => goToSlide(idx)}
                                 style={{
                                     width: "12px",
                                     height: "12px",
