@@ -8,65 +8,46 @@ const benchNine = BenchNine({
     display: "swap",
 });
 
-const systemFontStack =
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif';
-
 const GTM_ID = "GTM-WWD2X2H4";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <head>
-                {/* CSS الأساسي */}
+                {/* CSS */}
                 <link rel="stylesheet" href="/css/bootstrap.css" />
                 <link rel="stylesheet" href="/css/style.css" />
                 <link rel="stylesheet" href="/css/responsive.css" />
 
-                {/* Lite YouTube Embed CSS */}
+                {/* Lite YouTube Embed */}
                 <link
                     rel="stylesheet"
                     href="https://cdn.jsdelivr.net/npm/lite-youtube-embed/src/lite-yt-embed.css"
                 />
 
-                {/* Google Fonts محسنة */}
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-                <link
-                    href="https://fonts.googleapis.com/css?family=BenchNine:300,400,700&display=swap"
-                    rel="stylesheet"
-                />
-
-                {/* GTM */}
-                <Script id="google-tag-manager" strategy="afterInteractive">
-                    {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','${GTM_ID}');
-          `}
-                </Script>
-
-                {/* Meta Pixel */}
-                <Script id="meta-pixel" strategy="afterInteractive">
-                    {`
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '1254073446082094');
-            fbq('track', 'PageView');
-          `}
-                </Script>
+                {/* REMOVE Google Fonts – because next/font already loads it efficiently */}
             </head>
 
-            <body className={benchNine.className} style={{ fontFamily: systemFontStack }}>
+            <body className={benchNine.className}>
 
-                {/* GTM NoScript */}
+                {/* ========================================== */}
+                {/* 1) Lazy Load Google Tag Manager            */}
+                {/* ========================================== */}
+                <Script id="gtm-lazy" strategy="lazyOnload">
+                    {`
+                        function loadGTM() {
+                            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                            })(window,document,'script','dataLayer','${GTM_ID}');
+                        }
+                        window.addEventListener("scroll", loadGTM, { once: true });
+                        window.addEventListener("click", loadGTM, { once: true });
+                    `}
+                </Script>
+
+                {/* GTM Fallback */}
                 <noscript>
                     <iframe
                         src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -76,19 +57,47 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     ></iframe>
                 </noscript>
 
-                {/* ========================= */}
-                {/* Lite YouTube Embed Script */}
-                {/* ========================= */}
+                {/* ========================================== */}
+                {/* 2) Lazy Load Facebook Pixel (first click)  */}
+                {/* ========================================== */}
+                <Script id="fb-pixel-lazy" strategy="lazyOnload">
+                    {`
+                        function loadFBPixel(){
+                            !function(f,b,e,v,n,t,s)
+                            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                            n.queue=[];t=b.createElement(e);t.async=!0;
+                            t.src=v;s=b.getElementsByTagName(e)[0];
+                            s.parentNode.insertBefore(t,s)}(window, document,'script',
+                            'https://connect.facebook.net/en_US/fbevents.js');
+
+                            fbq('init', '1254073446082094');
+                            fbq('track', 'PageView');
+                        }
+
+                        window.addEventListener("click", loadFBPixel, { once: true });
+                        window.addEventListener("scroll", loadFBPixel, { once: true });
+                    `}
+                </Script>
+
+                {/* ========================================== */}
+                {/*  Lite YouTube Embed Script  (lazy)         */}
+                {/* ========================================== */}
                 <Script
                     src="https://cdn.jsdelivr.net/npm/lite-youtube-embed/src/lite-yt-embed.js"
-                    strategy="afterInteractive"
+                    strategy="lazyOnload"
                 />
 
                 <main>{children}</main>
 
-                {/* JavaScript */}
-                <Script src="/js/jquery.js" strategy="afterInteractive" />
-                <Script src="/js/popper.min.js" strategy="afterInteractive" />
+                {/* ========================================== */}
+                {/* 3) Local JS – all lazy load                */}
+                {/* ========================================== */}
+
+                {/* Remove jQuery if you don’t need it */}
+                <Script src="/js/jquery.js" strategy="lazyOnload" />
+                <Script src="/js/popper.min.js" strategy="lazyOnload" />
                 <Script src="/js/bootstrap.min.js" strategy="lazyOnload" />
                 <Script src="/js/jquery.fancybox.js" strategy="lazyOnload" />
                 <Script src="/js/owl.js" strategy="lazyOnload" />
