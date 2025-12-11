@@ -188,8 +188,10 @@ export default function HomePage() {
                     }}
                 />
 
-                {/* Banner Section */}
-                <BannerSection />
+            
+                <BannerSection lang="en" />  {/* للصفحة الإنجليزية */}
+                <BannerSection lang="ar" />  {/* للصفحة العربية */}
+
 
                 {/* Specialization Section */}
                 <SpecilizationSection />
