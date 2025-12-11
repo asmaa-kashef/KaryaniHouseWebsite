@@ -1,6 +1,4 @@
-﻿"use client";
-
-import { Swiper, SwiperSlide } from "swiper/react";
+﻿import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +6,22 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 
-export default function BannerSlider({ slides, content }) {
+interface Slide {
+    bg: string;
+    alt: string;
+    video: string;
+}
+
+interface BannerSliderProps {
+    slides: Slide[];
+    content: {
+        buttonText: string;
+        h1Keyword: string;
+        services: string[];
+    };
+}
+
+export default function BannerSlider({ slides, content }: BannerSliderProps) {
     return (
         <Swiper
             modules={[Autoplay, Pagination, EffectFade]}
@@ -20,19 +33,16 @@ export default function BannerSlider({ slides, content }) {
         >
             {slides.map((item, idx) => (
                 <SwiperSlide key={idx} className="relative w-full h-full">
-                    {/* Background Image */}
                     <Image
                         src={item.bg}
                         alt={item.alt}
                         fill
-                        priority={idx === 0} // الأولوية للـ LCP
+                        priority={idx === 0}
                         sizes="100vw"
                         className="object-cover"
                     />
 
-                    {/* Overlay */}
                     <div className="absolute inset-0 bg-black/45 flex flex-col items-center justify-center text-white px-5 text-center">
-                        {/* CTA Button */}
                         <Link
                             href="#offer-form"
                             className="bg-[#ff914d] text-white font-bold rounded-lg mb-5 
@@ -41,22 +51,16 @@ export default function BannerSlider({ slides, content }) {
                             {content.buttonText}
                         </Link>
 
-                        {/* H1 */}
                         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-snug mb-5">
                             {content.h1Keyword}
                         </h1>
 
-                        {/* Services */}
                         {content.services.map((service, i) => (
-                            <div
-                                key={i}
-                                className="text-2xl md:text-4xl lg:text-5xl font-bold leading-snug mb-3"
-                            >
+                            <div key={i} className="text-2xl md:text-4xl lg:text-5xl font-bold leading-snug mb-3">
                                 {service}
                             </div>
                         ))}
 
-                        {/* Video Button */}
                         <div className="mt-8">
                             <a
                                 href={item.video}
@@ -69,7 +73,6 @@ export default function BannerSlider({ slides, content }) {
                         </div>
                     </div>
 
-                    {/* Bottom Wave SVG */}
                     <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
                         <svg
                             viewBox="0 0 500 150"

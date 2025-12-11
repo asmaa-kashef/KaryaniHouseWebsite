@@ -190,7 +190,7 @@ export default function HomePage() {
 
             
                 <BannerSection lang="en" />  {/* للصفحة الإنجليزية */}
-                <BannerSection lang="ar" />  {/* للصفحة العربية */}
+              
 
 
                 {/* Specialization Section */}
