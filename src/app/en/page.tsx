@@ -189,7 +189,7 @@ export default function HomePage() {
                 />
 
             
-                <BannerSection lang="en" />  {/* للصفحة الإنجليزية */}
+                <BannerSection/>  {/* للصفحة الإنجليزية */}
               
 
 
