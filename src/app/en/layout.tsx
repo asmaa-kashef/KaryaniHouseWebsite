@@ -8,46 +8,65 @@ const benchNine = BenchNine({
     display: "swap",
 });
 
+const systemFontStack =
+    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif';
+
 const GTM_ID = "GTM-WWD2X2H4";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <head>
-                {/* CSS */}
+                {/* CSS الأساسي */}
                 <link rel="stylesheet" href="/css/bootstrap.css" />
                 <link rel="stylesheet" href="/css/style.css" />
                 <link rel="stylesheet" href="/css/responsive.css" />
 
-                {/* Lite YouTube Embed */}
+                {/* Lite YouTube Embed CSS */}
                 <link
                     rel="stylesheet"
                     href="https://cdn.jsdelivr.net/npm/lite-youtube-embed/src/lite-yt-embed.css"
                 />
 
-                {/* REMOVE Google Fonts – because next/font already loads it efficiently */}
-            </head>
+                {/* Google Fonts محسنة */}
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+                <link
+                    href="https://fonts.googleapis.com/css?family=BenchNine:300,400,700&display=swap"
+                    rel="stylesheet"
+                />
 
-            <body className={benchNine.className}>
-
-                {/* ========================================== */}
-                {/* 1) Lazy Load Google Tag Manager            */}
-                {/* ========================================== */}
-                <Script id="gtm-lazy" strategy="lazyOnload">
+                {/* GTM */}
+                <Script id="google-tag-manager" strategy="afterInteractive">
                     {`
-                        function loadGTM() {
-                            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                            })(window,document,'script','dataLayer','${GTM_ID}');
-                        }
-                        window.addEventListener("scroll", loadGTM, { once: true });
-                        window.addEventListener("click", loadGTM, { once: true });
-                    `}
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','${GTM_ID}');
+          `}
                 </Script>
 
-                {/* GTM Fallback */}
+                {/* Meta Pixel */}
+                <Script id="meta-pixel" strategy="afterInteractive">
+                    {`
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '1254073446082094');
+            fbq('track', 'PageView');
+          `}
+                </Script>
+            </head>
+
+            <body className={benchNine.className} style={{ fontFamily: systemFontStack }}>
+
+                {/* GTM NoScript */}
                 <noscript>
                     <iframe
                         src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -57,47 +76,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     ></iframe>
                 </noscript>
 
-                {/* ========================================== */}
-                {/* 2) Lazy Load Facebook Pixel (first click)  */}
-                {/* ========================================== */}
-                <Script id="fb-pixel-lazy" strategy="lazyOnload">
-                    {`
-                        function loadFBPixel(){
-                            !function(f,b,e,v,n,t,s)
-                            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                            n.queue=[];t=b.createElement(e);t.async=!0;
-                            t.src=v;s=b.getElementsByTagName(e)[0];
-                            s.parentNode.insertBefore(t,s)}(window, document,'script',
-                            'https://connect.facebook.net/en_US/fbevents.js');
-
-                            fbq('init', '1254073446082094');
-                            fbq('track', 'PageView');
-                        }
-
-                        window.addEventListener("click", loadFBPixel, { once: true });
-                        window.addEventListener("scroll", loadFBPixel, { once: true });
-                    `}
-                </Script>
-
-                {/* ========================================== */}
-                {/*  Lite YouTube Embed Script  (lazy)         */}
-                {/* ========================================== */}
+                {/* ========================= */}
+                {/* Lite YouTube Embed Script */}
+                {/* ========================= */}
                 <Script
                     src="https://cdn.jsdelivr.net/npm/lite-youtube-embed/src/lite-yt-embed.js"
-                    strategy="lazyOnload"
+                    strategy="afterInteractive"
                 />
 
                 <main>{children}</main>
 
-                {/* ========================================== */}
-                {/* 3) Local JS – all lazy load                */}
-                {/* ========================================== */}
-
-                {/* Remove jQuery if you don’t need it */}
-                <Script src="/js/jquery.js" strategy="lazyOnload" />
-                <Script src="/js/popper.min.js" strategy="lazyOnload" />
+                {/* JavaScript */}
+                <Script src="/js/jquery.js" strategy="afterInteractive" />
+                <Script src="/js/popper.min.js" strategy="afterInteractive" />
                 <Script src="/js/bootstrap.min.js" strategy="lazyOnload" />
                 <Script src="/js/jquery.fancybox.js" strategy="lazyOnload" />
                 <Script src="/js/owl.js" strategy="lazyOnload" />
