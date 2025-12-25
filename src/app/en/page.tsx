@@ -14,7 +14,7 @@ import BannerSection from "../components/BannerSection";
 import TextContentcontact from "../components/TextContentcontact";
 import TextContent from "../components/TextContent";
 import TextContentvilla from "../components/TextContentvilla";
-import Head from "next/head";
+
 
 
 export const metadata: Metadata = {
@@ -46,9 +46,8 @@ export const metadata: Metadata = {
 export default function HomePage() {
     return (
         <>
-            <Head>
-                <link rel="stylesheet" href="/css/HomeEn.css" />
-            </Head>
+        
+       
             <Header />
             <main>
                 {/* LocalBusiness Schema */}

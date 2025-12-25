@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-// A single object containing all text in both languages
+// ترجمة النصوص
 const translations = {
     en: {
         title: "Book your free consultation now",
@@ -38,12 +38,11 @@ const translations = {
         dropdownOptions: ["بناء الفلل", "ترميم الهياكل", "التكسية"],
         submitButton: "أرسل الآن",
         sending: "جارٍ الإرسال...",
-        success: "تم إرسال الرسالة بنجاح!",
         error: "فشل في إرسال الرسالة. حاول مرة أخرى!"
     }
 };
 
-// Custom Dropdown Component
+// Dropdown Component
 function CustomSelect({ value, onChange, options }: { value: string, onChange: (v: string) => void, options: string[] }) {
     const [open, setOpen] = useState(false);
 
@@ -140,7 +139,17 @@ export default function OfferForm() {
 
             if (res.ok && result.result === "success") {
                 setStatus("success");
-                // إعادة التوجيه بعد الإرسال
+
+                // 👇 Data Layer Push لـ GTM
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: "form_submission_success",
+                    formLang: currentLang,
+                    formSubject: formData.Subject,
+                    formName: `${formData.FirstName} ${formData.lastname}`
+                });
+
+                // إعادة التوجيه
                 router.push(currentLang === "ar" ? "/ar/thank-you" : "/en/thank-you");
             } else {
                 setStatus("error");
