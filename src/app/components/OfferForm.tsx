@@ -130,9 +130,7 @@ export default function OfferForm() {
             const res = await fetch(sheetURL, {
                 method: "POST",
                 body: new URLSearchParams(formData as Record<string, string>).toString(),
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
             });
 
             const result = await res.json();
@@ -143,7 +141,7 @@ export default function OfferForm() {
                 // 👇 Data Layer Push لـ GTM
                 (window as any).dataLayer = (window as any).dataLayer || [];
                 (window as any).dataLayer.push({
-                    event: "form_submission_success",
+                    event: "form_submission_success", // اسم الحدث
                     formLang: currentLang,
                     formSubject: formData.Subject,
                     formName: `${formData.FirstName} ${formData.lastname}`
