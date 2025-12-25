@@ -1,4 +1,6 @@
-﻿import Head from 'next/head';
+﻿'use client';
+
+import Head from 'next/head';
 import Header from "../../components/HomeHeader";
 import Footer from "../../components/HomeFooter";
 
@@ -7,20 +9,31 @@ export default function ThankYouPage() {
         <>
             <Head>
                 <title>شكرًا لك | شركة كارياني هاوس للبناء</title>
-                <meta name="description" content="تم استلام طلبك بنجاح. سنتواصل معك قريبًا لتقديم أفضل خدمات البناء والترميم. لمزيد من المعلومات، اتصل بشركة كارياني هاوس للبناء." />
+                <meta
+                    name="description"
+                    content="تم استلام طلبك بنجاح. سنتواصل معك قريبًا لتقديم أفضل خدمات البناء والترميم. لمزيد من المعلومات، اتصل بشركة كارياني هاوس للبناء."
+                />
             </Head>
             <Header />
-            <main style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "80vh",
-                flexDirection: "column",
-                textAlign: "center",
-                direction: "rtl",
-                padding: "0 20px",
-            }}>
-                <h1 style={{ fontSize: "3rem", fontWeight: "bold", marginBottom: "20px" }}>شكراً!</h1>
+            <main
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "80vh",
+                    flexDirection: "column",
+                    textAlign: "center",
+                    direction: "rtl",
+                    padding: "0 20px",
+                }}
+            >
+                {/* 👇 نفس الـ ID المستخدم في الإنجليزية لتتبع العنصر في GTM */}
+                <h1
+                    id="thank-you-message"
+                    style={{ fontSize: "3rem", fontWeight: "bold", marginBottom: "20px" }}
+                >
+                    شكراً!
+                </h1>
                 <p style={{ fontSize: "1.5rem", maxWidth: "600px", marginBottom: "20px" }}>
                     لقد تم استلام طلبك وسنتواصل معك قريباً.
                 </p>
