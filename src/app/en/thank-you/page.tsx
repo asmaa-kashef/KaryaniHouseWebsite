@@ -9,19 +9,30 @@ export default function ThankYouPage() {
         <>
             <Head>
                 <title>Thank You | Karyani House Construction</title>
-                <meta name="description" content="Your request has been successfully received. We will contact you soon to provide the best construction and repair services. For more information, contact Karyani House Construction." />
+                <meta
+                    name="description"
+                    content="Your request has been successfully received. We will contact you soon to provide the best construction and repair services. For more information, contact Karyani House Construction."
+                />
             </Head>
             <Header />
-            <main style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "80vh",
-                flexDirection: "column",
-                textAlign: "center",
-                padding: "0 20px",
-            }}>
-                <h1 style={{ fontSize: "3rem", fontWeight: "bold", marginBottom: "20px" }}>Thank you!</h1>
+            <main
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "80vh",
+                    flexDirection: "column",
+                    textAlign: "center",
+                    padding: "0 20px",
+                }}
+            >
+                {/* 👇 إضافة ID لالتقاط DOM Variable في GTM */}
+                <h1
+                    id="thank-you-message"
+                    style={{ fontSize: "3rem", fontWeight: "bold", marginBottom: "20px" }}
+                >
+                    Thank you!
+                </h1>
                 <p style={{ fontSize: "1.5rem", maxWidth: "600px", marginBottom: "20px" }}>
                     We received your request and will contact you soon.
                 </p>

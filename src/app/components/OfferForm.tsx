@@ -140,7 +140,7 @@ export default function OfferForm() {
             if (res.ok && result.result === "success") {
                 setStatus("success");
 
-                // 👇 Data Layer Push لـ GTM مع TypeScript-friendly
+                // 👇 Data Layer Push لـ GTM
                 (window as any).dataLayer = (window as any).dataLayer || [];
                 (window as any).dataLayer.push({
                     event: "form_submission_success",
