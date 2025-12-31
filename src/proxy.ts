@@ -8,7 +8,7 @@ export function proxy(request: NextRequest) {
     const fullPath = pathname + url.search;
 
     // -----------------------------
-    // 1) تحويل / → /en
+    // 1) تحويل الصفحة الرئيسية / → /en
     // -----------------------------
     if (pathname === '/') {
         const newUrl = url.clone();
@@ -18,30 +18,10 @@ export function proxy(request: NextRequest) {
     }
 
     // -----------------------------
-    // 2) أي URL يحتوي "karyaniconstruction.karyani-house.com" يرجع 410
-    // -----------------------------
-    const fullUrl = request.nextUrl.href;
-
-    if (fullUrl.includes('karyaniconstruction.karyani-house.com')) {
-        console.log(`[410] Blocked: ${fullUrl}`);
-        return new NextResponse('<h1>410 Gone</h1><p>This page no longer exists.</p>', {
-            status: 410,
-            headers: { 'Content-Type': 'text/html' },
-        });
-    }
-
-    if (pathname.startsWith('/comment.php')) {
-        console.log(`[410] Blocked: ${fullPath}`);
-        return new NextResponse('<h1>410 Gone</h1><p>This page no longer exists.</p>', {
-            status: 410,
-            headers: { 'Content-Type': 'text/html' },
-        });
-    }
-
-    // -----------------------------
-    // 3) روابط 410 المسبقة
+    // 2) قائمة الروابط التي ترجع 410 Gone
     // -----------------------------
     const paths410 = [
+        // القائمة السابقة
         "/Cladding/cladding-services/2",
         "/ConstructionService/MaterialSupply",
         "/Structure-Repair/structural-repair-abu-dhabi/2",
@@ -80,26 +60,36 @@ export function proxy(request: NextRequest) {
         "/projects?filter=all&page=1",
         "/projects?filter=Cladding&page=1",
         "/projects?filter=Villa&page=1",
+
+        // الروابط الجديدة المضافة
+        "/blog/modern-villa-construction-in-abu-dhabi",
+        "/AluminumAndGlassAricle?page=1",
+        "/villa-construction/madinat-al-riyad/7",
+        "/AluminumAndGlassAricle?page=0",
+        "/AluminumAndGlassAricle",
+        "/villa-construction/guard-room-electrical-room-outer-fence/5",
+        "/ConstructionService/Consultancy",
+        "/ConstructionService/Architecture"
     ];
 
-    if (paths410.includes(fullPath)) {
-        console.log(`[410] ${fullPath} → 410 Gone`);
-        return new NextResponse('<h1>410 Gone</h1><p>This page no longer exists.</p>', {
-            status: 410,
-            headers: { 'Content-Type': 'text/html' },
-        });
+    // فحص المسار بالكامل (مع الـ query) أو المسار فقط
+    if (paths410.includes(fullPath) || paths410.includes(pathname)) {
+        console.log(`[410] Blocked: ${fullPath}`);
+        return new NextResponse(
+            '<html><body><h1>410 Gone</h1><p>This page no longer exists.</p></body></html>',
+            {
+                status: 410,
+                headers: { 'Content-Type': 'text/html' },
+            }
+        );
     }
 
     // -----------------------------
-    // 4) باقي الموقع
+    // 3) السماح لباقي الطلبات بالمرور
     // -----------------------------
-    console.log(`[200] ${fullPath} → OK`);
     return NextResponse.next();
 }
 
-// -----------------------------
-// Matcher القديم يتحول للصيغة الجديدة
-// -----------------------------
 export const config = {
     matcher: ['/((?!_next|api|static|.*\\..*).*)'],
 };
