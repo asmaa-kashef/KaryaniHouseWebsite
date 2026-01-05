@@ -89,7 +89,7 @@ const Footer = () => {
                                         <div className="widget-content">
                                             <ul className="list">
                                                 <li><Link href={`/${currentLang}/about`}>{content.links.about}</Link></li>
-                                                <li><Link href={`/${currentLang}/services`}>{content.links.services}</Link></li>
+                                                <li><Link href={`/${currentLang}/Services`}>{content.links.services}</Link></li>
                                                 <li><Link href={`/${currentLang}/projects`}>{content.links.projects}</Link></li>
                                                 <li><Link href={`/${currentLang}/news`}>{content.links.news}</Link></li>
                                                 <li><Link href={`/${currentLang}/contact`}>{content.links.contact}</Link></li>
