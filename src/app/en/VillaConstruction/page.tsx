@@ -179,11 +179,7 @@ export default async function BlogPage() {
                                                 sizes="(max-width: 768px) 100vw, 600px"
                                             />
                                         </div>
-                                        <div className="overlay-box">
-                                            <Link href={`/blog/${post.slug}`}>
-                                                <i className="fa fa-link"></i>
-                                            </Link>
-                                        </div>
+                                    
                                         <div
                                             className="caption-box"
                                             style={{
