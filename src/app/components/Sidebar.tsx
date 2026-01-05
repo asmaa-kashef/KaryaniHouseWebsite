@@ -101,7 +101,7 @@ const Sidebar: React.FC<SidebarProps> = ({ recentPosts }) => {
                     <p className="text-sm text-gray-800 font-medium mb-4 flex items-center justify-center gap-1" style={{ color: "black" }}>
                         <span className="text-pink-600 text-lg">📞</span> Call us today: 050 660 7159
                     </p>
-                    <Link href="/contact"
+                    <Link href="en/contact"
                         className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
                         style={{ backgroundColor: "#545454" }}
                     >
@@ -186,7 +186,7 @@ const Sidebar: React.FC<SidebarProps> = ({ recentPosts }) => {
                     <p className="text-sm text-gray-800 mb-4" style={{ color: "#1f2937" }}>
                         Our experts are ready to help you plan your next project.
                     </p>
-                    <Link href="/consultation"
+                    <Link href="/#offer-form"
                         className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
                         style={{ backgroundColor: "#2563eb" }}
                     >
@@ -203,7 +203,7 @@ const Sidebar: React.FC<SidebarProps> = ({ recentPosts }) => {
                     <p className="text-sm text-gray-800 mb-4" style={{ color: "#1f2937" }}>
                         We welcome collaborations with architects, suppliers, and contractors.
                     </p>
-                    <Link href="/partnership"
+                    <Link href="/#offer-form"
                         className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
                         style={{ backgroundColor: "#059669" }}
                     >
@@ -220,7 +220,7 @@ const Sidebar: React.FC<SidebarProps> = ({ recentPosts }) => {
                     <p className="text-sm text-gray-800 mb-4" style={{ color: "#1f2937" }}>
                         Get a tailored estimate that fits your budget and needs.
                     </p>
-                    <Link href="/quote"
+                    <Link href="/#offer-form"
                         className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
                         style={{ backgroundColor: "#b91c1c" }}
                     >
