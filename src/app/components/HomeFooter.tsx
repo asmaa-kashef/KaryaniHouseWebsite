@@ -91,7 +91,7 @@ const Footer = () => {
                                                 <li><Link href={`/${currentLang}/about`}>{content.links.about}</Link></li>
                                                 <li><Link href={`/${currentLang}/Services`}>{content.links.services}</Link></li>
                                                 <li><Link href={`/${currentLang}/projects`}>{content.links.projects}</Link></li>
-                                                <li><Link href={`/${currentLang}/news`}>{content.links.news}</Link></li>
+                                                <li><Link href={`/${currentLang}/VillaConstruction`}>{content.links.news}</Link></li>
                                                 <li><Link href={`/${currentLang}/contact`}>{content.links.contact}</Link></li>
                                             </ul>
                                         </div>
