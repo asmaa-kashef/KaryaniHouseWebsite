@@ -101,7 +101,7 @@ const Sidebar: React.FC<SidebarProps> = ({ recentPosts }) => {
                     <p className="text-sm text-gray-800 font-medium mb-4 flex items-center justify-center gap-1" style={{ color: "black" }}>
                         <span className="text-pink-600 text-lg">📞</span> Call us today: 050 660 7159
                     </p>
-                    <Link href="en/contact"
+                    <Link href="/en/contact"
                         className="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-md shadow transition hover:brightness-90"
                         style={{ backgroundColor: "#545454" }}
                     >
